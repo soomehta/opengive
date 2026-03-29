@@ -1,0 +1,184 @@
+{
+  "nav": {
+    "commandCenter": "Command Center",
+    "explore": "Explore",
+    "flows": "Flows",
+    "investigate": "Investigate",
+    "alerts": "Alerts",
+    "settings": "Settings",
+    "toggleSidebar": "Toggle sidebar",
+    "collapseMenu": "Collapse menu"
+  },
+  "header": {
+    "logoAlt": "OpenGive",
+    "searchPlaceholder": "Search organizations…",
+    "searchTrigger": "Search",
+    "searchShortcut": "⌘K",
+    "toggleTheme": "Toggle theme",
+    "userMenu": "User menu",
+    "signIn": "Sign in",
+    "signOut": "Sign out"
+  },
+  "landing": {
+    "headline": "Follow the money.",
+    "headlineAccent": "Demand transparency.",
+    "subtitle": "Open-source charity accountability dashboard. Track donations, detect anomalies, and visualize money flows across 30+ national registries.",
+    "searchPlaceholder": "Search charities, foundations, or NGOs…",
+    "searchAriaLabel": "Search organizations",
+    "exploreDashboard": "Explore Dashboard",
+    "getApiAccess": "Get API Access",
+    "stats": {
+      "orgs": "2M+ organizations tracked",
+      "countries": "30+ countries",
+      "flows": "$500B+ in flows",
+      "analysis": "AI-powered analysis"
+    },
+    "features": {
+      "search": {
+        "title": "Search Transparency",
+        "description": "Instantly search across 2M+ charity organizations from 30+ national registries. Filter by country, sector, and financial health."
+      },
+      "anomaly": {
+        "title": "Detect Anomalies",
+        "description": "AI-powered forensic analysis flags unusual patterns in financial filings. Benford's Law checks, ratio analysis, and peer comparison."
+      },
+      "flows": {
+        "title": "Track Flows",
+        "description": "Visualize how money moves through the charitable sector. Follow grants from donors to recipients across borders and entities."
+      }
+    },
+    "footer": {
+      "copyright": "© 2026 OpenGive. Apache 2.0 licensed.",
+      "github": "GitHub",
+      "docs": "Documentation",
+      "api": "API",
+      "privacy": "Privacy"
+    }
+  },
+  "explore": {
+    "title": "Explore Organizations",
+    "searchPlaceholder": "Search by name, EIN, or registration ID…",
+    "searchAriaLabel": "Search organizations",
+    "filters": {
+      "country": "Country",
+      "sector": "Sector",
+      "status": "Status",
+      "allCountries": "All countries",
+      "allSectors": "All sectors",
+      "allStatuses": "All statuses"
+    },
+    "views": {
+      "card": "Card view",
+      "table": "Table view"
+    },
+    "results": {
+      "revenue": "Revenue",
+      "alerts": "alerts",
+      "noResults": "No organizations found. Try adjusting your filters.",
+      "loading": "Loading organizations…"
+    },
+    "pagination": {
+      "loadMore": "Load more",
+      "loading": "Loading…"
+    },
+    "table": {
+      "name": "Name",
+      "country": "Country",
+      "sector": "Sector",
+      "revenue": "Revenue",
+      "alerts": "Alerts",
+      "status": "Status"
+    }
+  },
+  "orgDetail": {
+    "backToExplore": "Back to Explore",
+    "investigate": "Investigate",
+    "sections": {
+      "overview": "Overview",
+      "officers": "Officers & Directors",
+      "filings": "Financial Filings",
+      "grants": "Grants",
+      "alerts": "Anomaly Alerts"
+    },
+    "stats": {
+      "revenue": "Total Revenue",
+      "expenses": "Total Expenses",
+      "netAssets": "Net Assets",
+      "programRatio": "Program Expense Ratio"
+    },
+    "officers": {
+      "name": "Name",
+      "title": "Title",
+      "compensation": "Compensation",
+      "hoursPerWeek": "Hours/Week"
+    },
+    "filings": {
+      "fiscalYear": "Fiscal Year",
+      "revenue": "Revenue",
+      "expenses": "Expenses",
+      "netAssets": "Net Assets",
+      "form": "Form"
+    },
+    "grants": {
+      "recipient": "Recipient",
+      "purpose": "Purpose",
+      "amount": "Amount",
+      "year": "Year"
+    },
+    "alerts": {
+      "severity": "Severity",
+      "description": "Description",
+      "flaggedValue": "Flagged Value",
+      "detected": "Detected"
+    },
+    "status": {
+      "active": "Active",
+      "inactive": "Inactive",
+      "revoked": "Revoked",
+      "pending": "Pending"
+    },
+    "loading": "Loading organization details…",
+    "notFound": "Organization not found"
+  },
+  "commandPalette": {
+    "trigger": "Search everything",
+    "placeholder": "Search organizations, filings, or reports…",
+    "noResults": "No results for",
+    "hint": "Type to search across all organizations",
+    "ariaLabel": "Command palette",
+    "categories": {
+      "organizations": "Organizations",
+      "recent": "Recent"
+    }
+  },
+  "auth": {
+    "login": {
+      "title": "Sign in to OpenGive",
+      "subtitle": "Enter your email to receive a magic link",
+      "emailLabel": "Email address",
+      "emailPlaceholder": "you@example.com",
+      "submitButton": "Send magic link",
+      "submitting": "Sending…",
+      "successTitle": "Check your email",
+      "successMessage": "We sent a magic link to {email}. Click it to sign in.",
+      "errorTitle": "Something went wrong",
+      "backToHome": "Back to home",
+      "termsNotice": "By signing in, you agree to our terms of service and privacy policy."
+    }
+  },
+  "common": {
+    "loading": "Loading…",
+    "error": "Something went wrong",
+    "retry": "Try again",
+    "close": "Close",
+    "cancel": "Cancel",
+    "save": "Save",
+    "delete": "Delete",
+    "edit": "Edit",
+    "view": "View",
+    "back": "Back",
+    "next": "Next",
+    "previous": "Previous",
+    "openGive": "OpenGive"
+  }
+}

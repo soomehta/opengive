@@ -1,0 +1,445 @@
+###############################################################################
+# OpenGive — Local Development Stack
+# docker-compose.yml
+#
+# QUICK START
+#   1. cp .env.docker .env.local          # copy dev env template
+#   2. docker compose up                  # start core stack (DB + Supabase services)
+#   3. pnpm turbo dev --filter=web        # start Next.js dev server separately
+#
+# PROFILES
+#   (default)               db, kong, auth, rest, storage, meta, studio, redis
+#   --profile ml            + ml-api (FastAPI) + pipeline (Dagster)
+#
+# SERVICE PORTS
+#   54321  Kong API gateway   → use as SUPABASE_URL in local .env
+#   54322  PostgreSQL direct  → use as DATABASE_URL host
+#   54323  Supabase Studio    → http://localhost:54323 (DB GUI)
+#   54324  GoTrue (Auth)      → internal; accessed via Kong /auth/v1/
+#   54325  PostgREST (REST)   → internal; accessed via Kong /rest/v1/
+#   54326  Storage API        → internal; accessed via Kong /storage/v1/
+#   54327  PG Meta            → internal; consumed by Studio
+#   6379   Redis              → REDIS_URL=redis://localhost:6379
+#   8000   ML API (FastAPI)   → ML_API_URL=http://localhost:8000   [--profile ml]
+#   3010   Dagster UI         → http://localhost:3010              [--profile ml]
+#
+# EXTENSIONS
+#   The supabase/postgres image ships with pgvector, PostGIS, pg_trgm, and
+#   pg_cron pre-installed. The standard postgres:15 image does NOT include
+#   these — do not swap the image.
+#
+# MIGRATION BOOTSTRAP
+#   SQL files in packages/db/supabase/migrations/ are mounted into
+#   /docker-entrypoint-initdb.d/ and run in lexicographic order on first
+#   container creation (when db_data volume does not yet exist).
+#   To reset and re-run migrations: docker compose down -v && docker compose up
+#
+# ENV VARS
+#   docker compose reads .env by default. Copy .env.docker to .env.local and
+#   symlink or pass --env-file .env.local if you prefer to keep secrets
+#   separate from the .env.docker template:
+#     docker compose --env-file .env.local up
+###############################################################################
+
+version: "3.8"
+
+###############################################################################
+# NETWORKS
+###############################################################################
+networks:
+  supabase_network:
+    driver: bridge
+
+###############################################################################
+# VOLUMES
+###############################################################################
+volumes:
+  db_data:
+    driver: local
+  storage_data:
+    driver: local
+  redis_data:
+    driver: local
+  dagster_home:
+    driver: local
+
+###############################################################################
+# SERVICES
+###############################################################################
+services:
+
+  # ---------------------------------------------------------------------------
+  # PostgreSQL 15 — Supabase-flavoured image
+  #
+  # Includes: pgvector (semantic/vector search), PostGIS (geospatial),
+  #           pg_trgm (fuzzy text search), pg_cron (scheduled SQL jobs).
+  #
+  # The standard postgres:15 image does NOT ship these extensions.
+  # Always use supabase/postgres for this project.
+  #
+  # Migrations in packages/db/supabase/migrations/ are auto-applied on
+  # first boot via the initdb mount. They are idempotent (IF NOT EXISTS),
+  # so re-running is safe — but initdb only fires on an empty data volume.
+  # ---------------------------------------------------------------------------
+  db:
+    image: supabase/postgres:15.6.1.143
+    restart: unless-stopped
+    ports:
+      - "54322:5432"
+    environment:
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
+      POSTGRES_DB: ${POSTGRES_DB:-postgres}
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+    volumes:
+      - db_data:/var/lib/postgresql/data
+      # Bootstrap migrations — applied in lexicographic filename order.
+      # Files must be .sql; subdirectories are ignored by initdb.
+      - ./packages/db/supabase/migrations:/docker-entrypoint-initdb.d:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-postgres} -d ${POSTGRES_DB:-postgres}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+      start_period: 20s
+    networks:
+      - supabase_network
+
+  # ---------------------------------------------------------------------------
+  # Kong — API Gateway
+  #
+  # Routes /rest/v1/, /auth/v1/, /storage/v1/ to the appropriate backend
+  # services. All Supabase client calls from Next.js use this gateway so
+  # local behaviour matches Supabase Cloud.
+  #
+  # The declarative config lives in docker/kong.yml — edit that file to add
+  # new routes or adjust CORS origins.
+  # ---------------------------------------------------------------------------
+  kong:
+    image: kong:2.8.1
+    restart: unless-stopped
+    ports:
+      - "54321:8000"
+    environment:
+      KONG_DATABASE: "off"
+      KONG_DECLARATIVE_CONFIG: /home/kong/kong.yml
+      KONG_DNS_ORDER: LAST,A,CNAME
+      KONG_PLUGINS: request-transformer,cors,key-auth
+      KONG_STATUS_LISTEN: 0.0.0.0:8001
+      # Reduce log noise in local dev
+      KONG_LOG_LEVEL: warn
+    volumes:
+      - ./docker/kong.yml:/home/kong/kong.yml:ro
+    depends_on:
+      db:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "kong", "health"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 15s
+    networks:
+      - supabase_network
+
+  # ---------------------------------------------------------------------------
+  # GoTrue — Supabase Auth
+  #
+  # Handles email/password, magic link, and OAuth flows.
+  # GOTRUE_MAILER_AUTOCONFIRM=true skips email confirmation in local dev —
+  # set to false if you need to test the confirmation flow (requires a
+  # real SMTP config via GOTRUE_SMTP_* vars).
+  # ---------------------------------------------------------------------------
+  auth:
+    image: supabase/gotrue:v2.158.1
+    restart: unless-stopped
+    ports:
+      - "54324:9999"
+    environment:
+      GOTRUE_DB_DRIVER: postgres
+      GOTRUE_DB_DATABASE_URL: "postgres://${POSTGRES_USER:-postgres}:${POSTGRES_PASSWORD:-postgres}@db:5432/${POSTGRES_DB:-postgres}?search_path=auth"
+      GOTRUE_SITE_URL: "http://localhost:3000"
+      GOTRUE_URI_ALLOW_LIST: "http://localhost:3000,http://localhost:3001"
+      GOTRUE_JWT_SECRET: "${JWT_SECRET:-super-secret-jwt-token-with-at-least-32-characters-long}"
+      GOTRUE_JWT_EXP: 3600
+      GOTRUE_API_HOST: 0.0.0.0
+      GOTRUE_API_PORT: 9999
+      # Email provider
+      GOTRUE_EXTERNAL_EMAIL_ENABLED: "true"
+      GOTRUE_MAILER_AUTOCONFIRM: "true"
+      # Disable phone for local dev
+      GOTRUE_EXTERNAL_PHONE_ENABLED: "false"
+      GOTRUE_SMS_AUTOCONFIRM: "true"
+      # Log level
+      GOTRUE_LOG_LEVEL: warn
+    depends_on:
+      db:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "wget -qO- http://localhost:9999/health || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 15s
+    networks:
+      - supabase_network
+
+  # ---------------------------------------------------------------------------
+  # PostgREST — Auto-generated REST API
+  #
+  # Exposes the public schema as a REST API, consumed by Kong at /rest/v1/.
+  # PGRST_DB_SCHEMAS includes 'storage' so Storage API can introspect tables.
+  # ---------------------------------------------------------------------------
+  rest:
+    image: postgrest/postgrest:v12.2.3
+    restart: unless-stopped
+    ports:
+      - "54325:3000"
+    environment:
+      PGRST_DB_URI: "postgres://${POSTGRES_USER:-postgres}:${POSTGRES_PASSWORD:-postgres}@db:5432/${POSTGRES_DB:-postgres}"
+      PGRST_DB_SCHEMAS: "public,storage,graphql_public"
+      PGRST_DB_ANON_ROLE: anon
+      PGRST_DB_USE_LEGACY_GUCS: "false"
+      PGRST_JWT_SECRET: "${JWT_SECRET:-super-secret-jwt-token-with-at-least-32-characters-long}"
+      PGRST_APP_SETTINGS_JWT_SECRET: "${JWT_SECRET:-super-secret-jwt-token-with-at-least-32-characters-long}"
+      PGRST_APP_SETTINGS_JWT_EXP: 3600
+      # Suppress startup logs
+      PGRST_LOG_LEVEL: warn
+    depends_on:
+      db:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "wget -qO- http://localhost:3000/ || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 15s
+    networks:
+      - supabase_network
+
+  # ---------------------------------------------------------------------------
+  # Supabase Storage API
+  #
+  # Manages file uploads (raw filings, parsed data, org logos).
+  # Buckets used by OpenGive: raw-filings, parsed-data, org-logos.
+  # In local dev, files are written to the storage_data volume.
+  # ---------------------------------------------------------------------------
+  storage:
+    image: supabase/storage-api:v1.0.6
+    restart: unless-stopped
+    ports:
+      - "54326:5000"
+    environment:
+      ANON_KEY: "${ANON_KEY:-eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYW5vbiIsImlhdCI6MTYxMzUzMTk4NSwiZXhwIjo0NzY5MjA1OTg1fQ.JkZQD9gP8O4Cj5z1lxQONDJKXRHJf4X5GkFuRkZ9K3I}"
+      SERVICE_KEY: "${SERVICE_ROLE_KEY:-eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoic2VydmljZV9yb2xlIiwiaWF0IjoxNjEzNTMxOTg1LCJleHAiOjQ3NjkyMDU5ODV9.MkJgekzDxFgv6KfDDK3v6BpGXpTL-M2jNiPBFoL7MNY}"
+      POSTGREST_URL: http://rest:3000
+      PGRST_JWT_SECRET: "${JWT_SECRET:-super-secret-jwt-token-with-at-least-32-characters-long}"
+      DATABASE_URL: "postgres://${POSTGRES_USER:-postgres}:${POSTGRES_PASSWORD:-postgres}@db:5432/${POSTGRES_DB:-postgres}"
+      STORAGE_BACKEND: file
+      FILE_STORAGE_BACKEND_PATH: /var/lib/storage
+      TENANT_ID: stub
+      REGION: local
+      GLOBAL_S3_BUCKET: stub
+      ENABLE_IMAGE_TRANSFORMATION: "false"
+      LOG_LEVEL: warn
+    volumes:
+      - storage_data:/var/lib/storage
+    depends_on:
+      db:
+        condition: service_healthy
+      rest:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "wget -qO- http://localhost:5000/status || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 15s
+    networks:
+      - supabase_network
+
+  # ---------------------------------------------------------------------------
+  # PG Meta — PostgreSQL metadata service
+  #
+  # Internal service consumed by Supabase Studio for schema introspection,
+  # table browsing, and SQL editor. Not used directly by application code.
+  # ---------------------------------------------------------------------------
+  meta:
+    image: supabase/postgres-meta:v0.83.2
+    restart: unless-stopped
+    ports:
+      - "54327:8080"
+    environment:
+      PG_META_PORT: 8080
+      PG_META_DB_HOST: db
+      PG_META_DB_PORT: 5432
+      PG_META_DB_NAME: "${POSTGRES_DB:-postgres}"
+      PG_META_DB_USER: "${POSTGRES_USER:-postgres}"
+      PG_META_DB_PASSWORD: "${POSTGRES_PASSWORD:-postgres}"
+    depends_on:
+      db:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "wget -qO- http://localhost:8080/ || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 15s
+    networks:
+      - supabase_network
+
+  # ---------------------------------------------------------------------------
+  # Supabase Studio
+  #
+  # Web-based database GUI. Open http://localhost:54323 in your browser.
+  # Useful for: browsing tables, running SQL queries, managing Auth users,
+  # inspecting Storage buckets, and viewing API docs.
+  #
+  # This is an optional convenience service — the app does not depend on it.
+  # ---------------------------------------------------------------------------
+  studio:
+    image: supabase/studio:20240422-5cf8f30
+    restart: unless-stopped
+    ports:
+      - "54323:3000"
+    environment:
+      STUDIO_DEFAULT_ORGANIZATION: OpenGive
+      STUDIO_DEFAULT_PROJECT: opengive-local
+      SUPABASE_URL: http://kong:8000
+      SUPABASE_REST_URL: http://kong:8000/rest/v1/
+      SUPABASE_ANON_KEY: "${ANON_KEY:-eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYW5vbiIsImlhdCI6MTYxMzUzMTk4NSwiZXhwIjo0NzY5MjA1OTg1fQ.JkZQD9gP8O4Cj5z1lxQONDJKXRHJf4X5GkFuRkZ9K3I}"
+      SUPABASE_SERVICE_KEY: "${SERVICE_ROLE_KEY:-eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoic2VydmljZV9yb2xlIiwiaWF0IjoxNjEzNTMxOTg1LCJleHAiOjQ3NjkyMDU5ODV9.MkJgekzDxFgv6KfDDK3v6BpGXpTL-M2jNiPBFoL7MNY}"
+      STUDIO_PG_META_URL: http://meta:8080
+      # Disable Studio's built-in auth for local dev
+      SUPABASE_PUBLIC_URL: http://localhost:54321
+    depends_on:
+      kong:
+        condition: service_healthy
+      meta:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "wget -qO- http://localhost:3000/api/profile || exit 1"]
+      interval: 15s
+      timeout: 10s
+      retries: 5
+      start_period: 30s
+    networks:
+      - supabase_network
+
+  # ---------------------------------------------------------------------------
+  # Redis
+  #
+  # Used by the Hono API layer for rate limiting and response caching.
+  # Configured in packages/config/src/env.ts as REDIS_URL.
+  #
+  # Alpine variant keeps the image small. Persistence is enabled via
+  # appendonly so the rate-limit state survives container restarts.
+  # ---------------------------------------------------------------------------
+  redis:
+    image: redis:7.2-alpine
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    command: redis-server --appendonly yes --loglevel warning
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+      start_period: 5s
+    networks:
+      - supabase_network
+
+  # ---------------------------------------------------------------------------
+  # FastAPI ML Service                                    [--profile ml]
+  #
+  # Provides anomaly detection, embedding generation, entity resolution,
+  # and LangGraph AI agent endpoints consumed by the Next.js backend.
+  #
+  # Only starts when the 'ml' profile is active:
+  #   docker compose --profile ml up
+  #
+  # A Dockerfile is expected at services/ml-api/Dockerfile.
+  # Until that file exists, comment out this service or run without --profile ml.
+  #
+  # Health endpoint: GET /health  →  {"status": "ok"}
+  # ---------------------------------------------------------------------------
+  ml-api:
+    profiles: [ml]
+    build:
+      context: ./services/ml-api
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+    environment:
+      DATABASE_URL: "postgresql://${POSTGRES_USER:-postgres}:${POSTGRES_PASSWORD:-postgres}@db:5432/${POSTGRES_DB:-postgres}"
+      SUPABASE_URL: http://kong:8000
+      SUPABASE_SERVICE_ROLE_KEY: "${SERVICE_ROLE_KEY:-eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoic2VydmljZV9yb2xlIiwiaWF0IjoxNjEzNTMxOTg1LCJleHAiOjQ3NjkyMDU5ODV9.MkJgekzDxFgv6KfDDK3v6BpGXpTL-M2jNiPBFoL7MNY}"
+      ML_API_SECRET: "${ML_API_SECRET:-dev-ml-secret-change-in-production}"
+      ANTHROPIC_API_KEY: "${ANTHROPIC_API_KEY:-}"
+      OPENAI_API_KEY: "${OPENAI_API_KEY:-}"
+      # Bind to all interfaces inside the container
+      HOST: 0.0.0.0
+      PORT: 8000
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "wget -qO- http://localhost:8000/health || exit 1"]
+      interval: 15s
+      timeout: 10s
+      retries: 5
+      start_period: 30s
+    networks:
+      - supabase_network
+
+  # ---------------------------------------------------------------------------
+  # Dagster Pipeline                                      [--profile ml]
+  #
+  # Orchestrates data ingestion: IRS 990, UK Charity Commission, Canada CRA,
+  # Australia ACNC, IATI, OCHA FTS, OECD DAC via Scrapy/Playwright scrapers.
+  #
+  # Only starts when the 'ml' profile is active:
+  #   docker compose --profile ml up
+  #
+  # A Dockerfile is expected at services/pipeline/Dockerfile.
+  # Until that file exists, comment out this service or run without --profile ml.
+  #
+  # Dagster UI: http://localhost:3010
+  # ---------------------------------------------------------------------------
+  pipeline:
+    profiles: [ml]
+    build:
+      context: ./services/pipeline
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    ports:
+      - "3010:3010"
+    environment:
+      DATABASE_URL: "postgresql://${POSTGRES_USER:-postgres}:${POSTGRES_PASSWORD:-postgres}@db:5432/${POSTGRES_DB:-postgres}"
+      SUPABASE_URL: http://kong:8000
+      SUPABASE_SERVICE_ROLE_KEY: "${SERVICE_ROLE_KEY:-eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoic2VydmljZV9yb2xlIiwiaWF0IjoxNjEzNTMxOTg1LCJleHAiOjQ3NjkyMDU5ODV9.MkJgekzDxFgv6KfDDK3v6BpGXpTL-M2jNiPBFoL7MNY}"
+      DAGSTER_HOME: /opt/dagster/dagster_home
+      ML_API_URL: "http://ml-api:8000"
+      ML_API_SECRET: "${ML_API_SECRET:-dev-ml-secret-change-in-production}"
+      UK_CHARITY_COMMISSION_API_KEY: "${UK_CHARITY_COMMISSION_API_KEY:-}"
+      ANTHROPIC_API_KEY: "${ANTHROPIC_API_KEY:-}"
+    volumes:
+      - dagster_home:/opt/dagster/dagster_home
+    depends_on:
+      db:
+        condition: service_healthy
+      ml-api:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "wget -qO- http://localhost:3010/health || exit 1"]
+      interval: 15s
+      timeout: 10s
+      retries: 5
+      start_period: 60s
+    networks:
+      - supabase_network

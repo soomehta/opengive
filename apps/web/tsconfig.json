@@ -1,0 +1,56 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
+    "jsx": "preserve",
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    "noEmit": true,
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ],
+    "paths": {
+      "@/*": [
+        "./src/*"
+      ],
+      "@opengive/types": [
+        "../../packages/types/src"
+      ],
+      "@opengive/ui": [
+        "../../packages/ui/src"
+      ],
+      "@opengive/config": [
+        "../../packages/config/src"
+      ],
+      "@opengive/db": [
+        "../../packages/db/src/index.ts"
+      ],
+      "@opengive/db/client": [
+        "../../packages/db/src/client.ts"
+      ],
+      "@opengive/db/schema": [
+        "../../packages/db/src/schema.ts"
+      ],
+      "@opengive/db/queries": [
+        "../../packages/db/src/queries/index.ts"
+      ]
+    },
+    "allowJs": true,
+    "incremental": true
+  },
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    ".next/types/**/*.ts"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
+}

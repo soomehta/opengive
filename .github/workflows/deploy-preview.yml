@@ -1,0 +1,131 @@
+name: Deploy Preview
+
+on:
+  pull_request:
+    branches:
+      - main
+    paths:
+      - 'apps/web/**'
+      - 'apps/api/**'
+      - 'packages/**'
+      - '.github/workflows/deploy-preview.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  test:
+    name: Test
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 9
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Run linter
+        run: pnpm turbo lint
+
+      - name: Run tests
+        run: pnpm turbo test
+
+  deploy:
+    name: Deploy to Vercel (Preview)
+    runs-on: ubuntu-latest
+    needs: test
+    timeout-minutes: 15
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 9
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build
+        run: pnpm turbo build --filter=web
+
+      - name: Deploy to Vercel (Preview)
+        uses: vercel/action@v5
+        with:
+          token: ${{ secrets.VERCEL_TOKEN }}
+          projectId: ${{ secrets.VERCEL_PROJECT_ID }}
+          orgId: ${{ secrets.VERCEL_ORG_ID }}
+          args: --prebuilt
+          scope: ${{ secrets.VERCEL_ORG_ID }}
+
+      - name: Comment Preview URL
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ github.token }}
+          script: |
+            const fs = require('fs');
+            const data = JSON.parse(fs.readFileSync('.vercel/output.json', 'utf8'));
+            const previewUrl = data.preview;
+
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: `## Preview Deployment\n\nYour changes have been deployed to Vercel!\n\n[View Preview](${previewUrl})`
+            });
+
+  docs:
+    name: Deploy Docs (Preview)
+    runs-on: ubuntu-latest
+    needs: test
+    timeout-minutes: 15
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 9
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build docs
+        run: pnpm --filter=@opengive/docs build
+
+      - name: Deploy docs preview
+        uses: vercel/action@v5
+        with:
+          token: ${{ secrets.VERCEL_TOKEN }}
+          projectId: ${{ secrets.VERCEL_DOCS_PROJECT_ID }}
+          orgId: ${{ secrets.VERCEL_ORG_ID }}
+          args: apps/docs --prebuilt
+          scope: ${{ secrets.VERCEL_ORG_ID }}

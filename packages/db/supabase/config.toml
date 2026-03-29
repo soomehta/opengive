@@ -1,0 +1,8 @@
+[project]
+id = "opengive"
+
+[db]
+major_version = 15
+
+[db.pooler]
+enabled = true

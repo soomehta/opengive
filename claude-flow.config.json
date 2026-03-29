@@ -1,0 +1,94 @@
+{
+  "project": {
+    "name": "opengive",
+    "description": "Global Charity Accountability Dashboard",
+    "version": "0.1.0"
+  },
+  "swarm": {
+    "topology": "hierarchical",
+    "consensus": "raft",
+    "maxAgents": 8,
+    "strategy": "specialized",
+    "antiDrift": {
+      "enabled": true,
+      "checkInterval": "5m",
+      "maxDivergence": 3,
+      "realignStrategy": "coordinator-review"
+    }
+  },
+  "agents": {
+    "coordinator": {
+      "type": "coordinator",
+      "role": "scrum-master",
+      "description": "Orchestrates all agents, runs ceremonies, enforces gates, resolves conflicts",
+      "priority": "critical",
+      "alwaysActive": true
+    },
+    "foundation": {
+      "type": "core-architect",
+      "role": "infra-db-lead",
+      "scope": ["packages/db/", "packages/config/", "packages/types/", "scripts/", "docker-compose.yml", "turbo.json", "package.json", "pnpm-workspace.yaml", ".github/"],
+      "secondaryType": "coder"
+    },
+    "atlas": {
+      "type": "architect",
+      "role": "frontend-lead",
+      "scope": ["apps/web/", "packages/ui/"],
+      "secondaryType": "coder",
+      "dependsOn": ["foundation"]
+    },
+    "conduit": {
+      "type": "architect",
+      "role": "api-lead",
+      "scope": ["apps/api/", "apps/web/app/api/", "apps/web/server/"],
+      "secondaryType": "coder",
+      "dependsOn": ["foundation"]
+    },
+    "sentinel": {
+      "type": "researcher",
+      "role": "ml-lead",
+      "scope": ["services/ml-api/", "packages/analytics/"],
+      "secondaryType": "coder",
+      "dependsOn": ["foundation"]
+    },
+    "harvester": {
+      "type": "researcher",
+      "role": "pipeline-lead",
+      "scope": ["services/pipeline/"],
+      "secondaryType": "coder",
+      "dependsOn": ["foundation"]
+    },
+    "tester": {
+      "type": "tester",
+      "role": "quality-assurance",
+      "scope": ["**/*.test.ts", "**/*.test.tsx", "**/*.spec.ts", "**/test_*.py"]
+    },
+    "reviewer": {
+      "type": "reviewer",
+      "role": "code-quality",
+      "scope": ["**/*"],
+      "activeSprints": "gate-only"
+    }
+  },
+  "memory": {
+    "namespaces": [
+      "architecture-decisions",
+      "resolved-conflicts",
+      "learned-patterns",
+      "sprint-retrospectives",
+      "quality-gate-results",
+      "dependency-map",
+      "api-contracts"
+    ],
+    "persistence": true,
+    "crossSprintContext": true
+  },
+  "tasks": {
+    "blockingBehavior": "strict",
+    "qualityGates": {
+      "codeReview": { "agent": "reviewer", "required": true },
+      "securityAudit": { "agent": "security-auditor", "required": true, "frequency": "per-sprint" },
+      "testCoverage": { "agent": "tester", "minCoverage": { "ui": 80, "api": 75, "analytics": 85 } }
+    }
+  }
+}
