@@ -1,8 +1,13 @@
-[project]
-id = "opengive"
+[api]
+enabled = true
+port = 54321
+schemas = ["public", "storage"]
 
 [db]
-major_version = 15
+port = 54322
+major_version = 17
 
 [db.pooler]
 enabled = true
+port = 6543
+pool_mode = "transaction"

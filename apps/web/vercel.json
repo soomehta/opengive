@@ -1,6 +1,4 @@
 {
-  "buildCommand": "cd ../.. && pnpm turbo build --filter=@opengive/web",
-  "installCommand": "cd ../.. && pnpm install",
   "framework": "nextjs",
   "regions": ["iad1"]
 }
