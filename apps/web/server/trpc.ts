@@ -63,11 +63,18 @@ export async function createContext(opts: CreateContextOptions = {}) {
         const { data } = await supabase.auth.getUser();
         if (data.user) {
           userId = data.user.id;
-          // Role is stored on the user_metadata by the app's auth flow.
-          // Fall back to 'viewer' when not present.
-          const meta = data.user.user_metadata as Record<string, unknown>;
-          userRole =
-            typeof meta['role'] === 'string' ? meta['role'] : 'viewer';
+          // Look up role from user_profiles table (not user_metadata which
+          // users can modify themselves — privilege escalation risk).
+          try {
+            const { data: profile } = await supabase
+              .from('user_profiles')
+              .select('role')
+              .eq('id', data.user.id)
+              .single();
+            userRole = profile?.role ?? 'viewer';
+          } catch {
+            userRole = 'viewer';
+          }
         }
       }
     } catch {

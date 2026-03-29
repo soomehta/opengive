@@ -38,16 +38,19 @@ export async function middleware(request: NextRequest) {
 
   const { pathname } = request.nextUrl;
 
-  // Dashboard routes require authentication.
-  const isDashboardRoute =
-    pathname.startsWith('/explore') ||
-    pathname.startsWith('/flows') ||
-    pathname.startsWith('/investigate') ||
-    pathname.startsWith('/alerts') ||
-    pathname.startsWith('/settings') ||
-    pathname.startsWith('/command-center');
+  // Deny-by-default: only these routes are publicly accessible.
+  // Everything else requires authentication.
+  const isPublicRoute =
+    pathname === '/' ||
+    pathname === '/login' ||
+    pathname.startsWith('/about') ||
+    pathname.startsWith('/org/') ||
+    pathname.startsWith('/api-docs') ||
+    pathname.startsWith('/privacy') ||
+    pathname.startsWith('/docs') ||
+    pathname.startsWith('/api/');
 
-  if (isDashboardRoute && !user) {
+  if (!isPublicRoute && !user) {
     const loginUrl = request.nextUrl.clone();
     loginUrl.pathname = '/login';
     loginUrl.searchParams.set('redirectTo', pathname);

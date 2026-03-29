@@ -99,6 +99,9 @@ playwright/.cache/
 .swarm/
 .mcp.json
 
+# Docker env (contains local dev secrets — use .env.docker.example)
+.env.docker
+
 # Misc
 *.pem
 .husky/_/

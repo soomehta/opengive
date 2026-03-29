@@ -159,7 +159,7 @@ services:
       GOTRUE_DB_DATABASE_URL: "postgres://${POSTGRES_USER:-postgres}:${POSTGRES_PASSWORD:-postgres}@db:5432/${POSTGRES_DB:-postgres}?search_path=auth"
       GOTRUE_SITE_URL: "http://localhost:3000"
       GOTRUE_URI_ALLOW_LIST: "http://localhost:3000,http://localhost:3001"
-      GOTRUE_JWT_SECRET: "${JWT_SECRET:-super-secret-jwt-token-with-at-least-32-characters-long}"
+      GOTRUE_JWT_SECRET: "${JWT_SECRET:?JWT_SECRET must be set}"
       GOTRUE_JWT_EXP: 3600
       GOTRUE_API_HOST: 0.0.0.0
       GOTRUE_API_PORT: 9999
@@ -199,8 +199,8 @@ services:
       PGRST_DB_SCHEMAS: "public,storage,graphql_public"
       PGRST_DB_ANON_ROLE: anon
       PGRST_DB_USE_LEGACY_GUCS: "false"
-      PGRST_JWT_SECRET: "${JWT_SECRET:-super-secret-jwt-token-with-at-least-32-characters-long}"
-      PGRST_APP_SETTINGS_JWT_SECRET: "${JWT_SECRET:-super-secret-jwt-token-with-at-least-32-characters-long}"
+      PGRST_JWT_SECRET: "${JWT_SECRET:?JWT_SECRET must be set}"
+      PGRST_APP_SETTINGS_JWT_SECRET: "${JWT_SECRET:?JWT_SECRET must be set}"
       PGRST_APP_SETTINGS_JWT_EXP: 3600
       # Suppress startup logs
       PGRST_LOG_LEVEL: warn
@@ -229,10 +229,10 @@ services:
     ports:
       - "54326:5000"
     environment:
-      ANON_KEY: "${ANON_KEY:-eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYW5vbiIsImlhdCI6MTYxMzUzMTk4NSwiZXhwIjo0NzY5MjA1OTg1fQ.JkZQD9gP8O4Cj5z1lxQONDJKXRHJf4X5GkFuRkZ9K3I}"
-      SERVICE_KEY: "${SERVICE_ROLE_KEY:-eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoic2VydmljZV9yb2xlIiwiaWF0IjoxNjEzNTMxOTg1LCJleHAiOjQ3NjkyMDU5ODV9.MkJgekzDxFgv6KfDDK3v6BpGXpTL-M2jNiPBFoL7MNY}"
+      ANON_KEY: "${ANON_KEY:?ANON_KEY must be set}"
+      SERVICE_KEY: "${SERVICE_ROLE_KEY:?SERVICE_ROLE_KEY must be set}"
       POSTGREST_URL: http://rest:3000
-      PGRST_JWT_SECRET: "${JWT_SECRET:-super-secret-jwt-token-with-at-least-32-characters-long}"
+      PGRST_JWT_SECRET: "${JWT_SECRET:?JWT_SECRET must be set}"
       DATABASE_URL: "postgres://${POSTGRES_USER:-postgres}:${POSTGRES_PASSWORD:-postgres}@db:5432/${POSTGRES_DB:-postgres}"
       STORAGE_BACKEND: file
       FILE_STORAGE_BACKEND_PATH: /var/lib/storage
@@ -306,8 +306,8 @@ services:
       STUDIO_DEFAULT_PROJECT: opengive-local
       SUPABASE_URL: http://kong:8000
       SUPABASE_REST_URL: http://kong:8000/rest/v1/
-      SUPABASE_ANON_KEY: "${ANON_KEY:-eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYW5vbiIsImlhdCI6MTYxMzUzMTk4NSwiZXhwIjo0NzY5MjA1OTg1fQ.JkZQD9gP8O4Cj5z1lxQONDJKXRHJf4X5GkFuRkZ9K3I}"
-      SUPABASE_SERVICE_KEY: "${SERVICE_ROLE_KEY:-eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoic2VydmljZV9yb2xlIiwiaWF0IjoxNjEzNTMxOTg1LCJleHAiOjQ3NjkyMDU5ODV9.MkJgekzDxFgv6KfDDK3v6BpGXpTL-M2jNiPBFoL7MNY}"
+      SUPABASE_ANON_KEY: "${ANON_KEY:?ANON_KEY must be set}"
+      SUPABASE_SERVICE_KEY: "${SERVICE_ROLE_KEY:?SERVICE_ROLE_KEY must be set}"
       STUDIO_PG_META_URL: http://meta:8080
       # Disable Studio's built-in auth for local dev
       SUPABASE_PUBLIC_URL: http://localhost:54321
@@ -376,8 +376,8 @@ services:
     environment:
       DATABASE_URL: "postgresql://${POSTGRES_USER:-postgres}:${POSTGRES_PASSWORD:-postgres}@db:5432/${POSTGRES_DB:-postgres}"
       SUPABASE_URL: http://kong:8000
-      SUPABASE_SERVICE_ROLE_KEY: "${SERVICE_ROLE_KEY:-eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoic2VydmljZV9yb2xlIiwiaWF0IjoxNjEzNTMxOTg1LCJleHAiOjQ3NjkyMDU5ODV9.MkJgekzDxFgv6KfDDK3v6BpGXpTL-M2jNiPBFoL7MNY}"
-      ML_API_SECRET: "${ML_API_SECRET:-dev-ml-secret-change-in-production}"
+      SUPABASE_SERVICE_ROLE_KEY: "${SERVICE_ROLE_KEY:?SERVICE_ROLE_KEY must be set}"
+      ML_API_SECRET: "${ML_API_SECRET:?ML_API_SECRET must be set}"
       ANTHROPIC_API_KEY: "${ANTHROPIC_API_KEY:-}"
       OPENAI_API_KEY: "${OPENAI_API_KEY:-}"
       # Bind to all interfaces inside the container
@@ -422,10 +422,10 @@ services:
     environment:
       DATABASE_URL: "postgresql://${POSTGRES_USER:-postgres}:${POSTGRES_PASSWORD:-postgres}@db:5432/${POSTGRES_DB:-postgres}"
       SUPABASE_URL: http://kong:8000
-      SUPABASE_SERVICE_ROLE_KEY: "${SERVICE_ROLE_KEY:-eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoic2VydmljZV9yb2xlIiwiaWF0IjoxNjEzNTMxOTg1LCJleHAiOjQ3NjkyMDU5ODV9.MkJgekzDxFgv6KfDDK3v6BpGXpTL-M2jNiPBFoL7MNY}"
+      SUPABASE_SERVICE_ROLE_KEY: "${SERVICE_ROLE_KEY:?SERVICE_ROLE_KEY must be set}"
       DAGSTER_HOME: /opt/dagster/dagster_home
       ML_API_URL: "http://ml-api:8000"
-      ML_API_SECRET: "${ML_API_SECRET:-dev-ml-secret-change-in-production}"
+      ML_API_SECRET: "${ML_API_SECRET:?ML_API_SECRET must be set}"
       UK_CHARITY_COMMISSION_API_KEY: "${UK_CHARITY_COMMISSION_API_KEY:-}"
       ANTHROPIC_API_KEY: "${ANTHROPIC_API_KEY:-}"
     volumes:
