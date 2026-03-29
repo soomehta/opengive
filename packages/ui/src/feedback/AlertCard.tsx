@@ -58,9 +58,9 @@ interface SeverityConfig {
 
 const SEVERITY_CONFIG: Record<AlertSeverity, SeverityConfig> = {
   low: {
-    color: '#22C55E',
+    color: '#6BAF7B',
     bgColor: 'var(--signal-healthy-subtle)',
-    borderColor: 'rgba(34,197,94,0.25)',
+    borderColor: 'rgba(107,175,123,0.25)',
     label: 'Low',
     icon: (
       <svg className="h-3.5 w-3.5 shrink-0" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
@@ -69,9 +69,9 @@ const SEVERITY_CONFIG: Record<AlertSeverity, SeverityConfig> = {
     ),
   },
   medium: {
-    color: '#F59E0B',
+    color: '#E8B86D',
     bgColor: 'var(--signal-caution-subtle)',
-    borderColor: 'rgba(245,158,11,0.25)',
+    borderColor: 'rgba(232,184,109,0.25)',
     label: 'Medium',
     icon: (
       <svg className="h-3.5 w-3.5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
@@ -82,9 +82,9 @@ const SEVERITY_CONFIG: Record<AlertSeverity, SeverityConfig> = {
     ),
   },
   high: {
-    color: '#EF4444',
+    color: '#D4736E',
     bgColor: 'var(--signal-danger-subtle)',
-    borderColor: 'rgba(239,68,68,0.25)',
+    borderColor: 'rgba(212,115,110,0.25)',
     label: 'High',
     icon: (
       <svg className="h-3.5 w-3.5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
@@ -95,9 +95,9 @@ const SEVERITY_CONFIG: Record<AlertSeverity, SeverityConfig> = {
     ),
   },
   critical: {
-    color: '#EF4444',
+    color: '#D4736E',
     bgColor: 'var(--signal-danger-subtle)',
-    borderColor: 'rgba(239,68,68,0.4)',
+    borderColor: 'rgba(212,115,110,0.4)',
     label: 'Critical',
     icon: (
       <svg className="h-3.5 w-3.5 shrink-0 animate-pulse" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
@@ -156,7 +156,7 @@ export function AlertCard({ alert, onClick, highlighted = false, className }: Al
   return (
     <article
       className={cn(
-        'relative flex gap-3 rounded-md border p-3.5 transition-colors',
+        'relative flex gap-3 rounded-2xl border p-3.5 transition-colors',
         'hover:border-[var(--border-emphasis)] cursor-pointer',
         highlighted && 'ring-2 ring-[var(--accent-trust)]/40',
         className,

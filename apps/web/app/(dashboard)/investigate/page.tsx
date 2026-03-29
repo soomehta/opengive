@@ -178,11 +178,11 @@ function formatRevenue(amount: number): string {
 
 function timelineEventColor(type: TimelineEvent['type']): string {
   switch (type) {
-    case 'alert': return '#EF4444';
-    case 'filing': return '#3B82F6';
-    case 'director_change': return '#8B5CF6';
-    case 'grant': return '#22C55E';
-    default: return '#6B7280';
+    case 'alert': return '#D4736E';
+    case 'filing': return '#6A7E5A';
+    case 'director_change': return '#A88BC4';
+    case 'grant': return '#6BAF7B';
+    default: return '#9A9A8E';
   }
 }
 
@@ -230,7 +230,7 @@ function DetailPanel({ org, allOrgs }: DetailPanelProps) {
           <p className="text-[10px] text-[var(--text-tertiary)] mb-0.5">Score</p>
           <p
             className="text-sm font-semibold font-mono"
-            style={{ color: org.score >= 70 ? '#22C55E' : org.score >= 40 ? '#F59E0B' : '#EF4444' }}
+            style={{ color: org.score >= 70 ? '#6BAF7B' : org.score >= 40 ? '#E8B86D' : '#D4736E' }}
           >
             {org.score}/100
           </p>
@@ -244,7 +244,7 @@ function DetailPanel({ org, allOrgs }: DetailPanelProps) {
           <div className="flex flex-col gap-1.5">
             {sharedDirectors.map((d) => (
               <div key={d.name} className="text-xs text-[var(--text-tertiary)] flex items-start gap-1.5">
-                <span className="mt-0.5 h-2 w-2 rounded-full bg-[#8B5CF6] shrink-0" aria-hidden="true" />
+                <span className="mt-0.5 h-2 w-2 rounded-full bg-[#A88BC4] shrink-0" aria-hidden="true" />
                 <span>{d.name}</span>
               </div>
             ))}

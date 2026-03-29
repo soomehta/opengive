@@ -40,7 +40,7 @@ function GlobalMapPlaceholder() {
             y1={`${(i + 1) * 12.5}%`}
             x2="100%"
             y2={`${(i + 1) * 12.5}%`}
-            stroke="#3B82F6"
+            stroke="#6A7E5A"
             strokeWidth="0.5"
           />
         ))}
@@ -51,7 +51,7 @@ function GlobalMapPlaceholder() {
             y1="0"
             x2={`${(i + 1) * (100 / 13)}%`}
             y2="100%"
-            stroke="#3B82F6"
+            stroke="#6A7E5A"
             strokeWidth="0.5"
           />
         ))}
@@ -64,7 +64,7 @@ function GlobalMapPlaceholder() {
             cx={`${cx}%`}
             cy={`${cy}%`}
             r="3"
-            fill="#3B82F6"
+            fill="#6A7E5A"
             opacity="0.6"
           />
         ))}
@@ -106,10 +106,10 @@ function SankeyPlaceholder() {
       }}
     >
       <svg width="120" height="60" viewBox="0 0 120 60" aria-hidden="true" style={{ opacity: 0.25 }}>
-        <path d="M10 10 C40 10, 40 30, 70 30" stroke="#3B82F6" strokeWidth="8" fill="none" strokeLinecap="round" />
-        <path d="M10 50 C40 50, 40 30, 70 30" stroke="#F59E0B" strokeWidth="6" fill="none" strokeLinecap="round" />
-        <path d="M70 30 C100 30, 100 15, 115 15" stroke="#22C55E" strokeWidth="8" fill="none" strokeLinecap="round" />
-        <path d="M70 30 C100 30, 100 45, 115 45" stroke="#8B5CF6" strokeWidth="6" fill="none" strokeLinecap="round" />
+        <path d="M10 10 C40 10, 40 30, 70 30" stroke="#6A7E5A" strokeWidth="8" fill="none" strokeLinecap="round" />
+        <path d="M10 50 C40 50, 40 30, 70 30" stroke="#E8B86D" strokeWidth="6" fill="none" strokeLinecap="round" />
+        <path d="M70 30 C100 30, 100 15, 115 15" stroke="#6BAF7B" strokeWidth="8" fill="none" strokeLinecap="round" />
+        <path d="M70 30 C100 30, 100 45, 115 45" stroke="#A88BC4" strokeWidth="6" fill="none" strokeLinecap="round" />
       </svg>
       <span
         style={{

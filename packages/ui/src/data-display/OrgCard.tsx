@@ -57,10 +57,10 @@ function ScoreGauge({ score }: { score: number }) {
 
   const color =
     clampedScore >= 70
-      ? '#22C55E'
+      ? '#6BAF7B'
       : clampedScore >= 40
-        ? '#F59E0B'
-        : '#EF4444';
+        ? '#E8B86D'
+        : '#D4736E';
 
   return (
     <svg
@@ -74,7 +74,7 @@ function ScoreGauge({ score }: { score: number }) {
       <path
         d={`M ${cx - radius} ${cy} A ${radius} ${radius} 0 0 1 ${cx + radius} ${cy}`}
         fill="none"
-        stroke="#2C3240"
+        stroke="#E8E2D9"
         strokeWidth={strokeWidth}
         strokeLinecap="round"
       />
@@ -124,14 +124,14 @@ export function OrgCard({
   const flag = countryFlag ?? (countryCode ? countryCodeToFlag(countryCode) : undefined);
 
   const sectorColors: Record<string, string> = {
-    Health: '#22C55E',
-    Education: '#3B82F6',
-    Environment: '#06B6D4',
-    'Human Services': '#F59E0B',
-    'International Aid': '#8B5CF6',
-    Arts: '#EC4899',
-    Religion: '#F97316',
-    default: '#9BA3B5',
+    Health: '#6BAF7B',
+    Education: '#6A7E5A',
+    Environment: '#7BA5AF',
+    'Human Services': '#E8B86D',
+    'International Aid': '#A88BC4',
+    Arts: '#C4A5D4',
+    Religion: '#B88F6B',
+    default: '#9A9A8E',
   };
   const sectorColor =
     sector ? (sectorColors[sector] ?? sectorColors['default']) : sectorColors['default'];

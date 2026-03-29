@@ -56,34 +56,34 @@ export interface NetworkGraphProps {
 // ---------------------------------------------------------------------------
 
 const COUNTRY_COLORS: Record<string, string> = {
-  'United States': '#3B82F6',
-  'United Kingdom': '#8B5CF6',
-  Switzerland: '#10B981',
-  Germany: '#F59E0B',
-  Kenya: '#EF4444',
-  Canada: '#06B6D4',
-  France: '#EC4899',
-  Australia: '#F97316',
+  'United States': '#6A7E5A',
+  'United Kingdom': '#A88BC4',
+  Switzerland: '#6BAF7B',
+  Germany: '#E8B86D',
+  Kenya: '#D4736E',
+  Canada: '#7BA5AF',
+  France: '#C4A5D4',
+  Australia: '#B88F6B',
 };
-const FALLBACK_COLOR = '#6B7280';
+const FALLBACK_COLOR = '#9A9A8E';
 
 const TYPE_COLORS: Record<NetworkNodeType, string> = {
-  organization: '#3B82F6',
-  person: '#8B5CF6',
-  address: '#10B981',
+  organization: '#6A7E5A',
+  person: '#A88BC4',
+  address: '#6BAF7B',
 };
 
 const EDGE_COLORS: Record<NetworkEdgeType, string> = {
-  shared_director: '#8B5CF6',
-  grant: '#10B981',
-  shared_address: '#F59E0B',
-  related: '#6B7280',
+  shared_director: '#A88BC4',
+  grant: '#6BAF7B',
+  shared_address: '#E8B86D',
+  related: '#9A9A8E',
 };
 
 function scoreColor(score: number): string {
-  if (score >= 70) return '#22C55E';
-  if (score >= 40) return '#F59E0B';
-  return '#EF4444';
+  if (score >= 70) return '#6BAF7B';
+  if (score >= 40) return '#E8B86D';
+  return '#D4736E';
 }
 
 function nodeColor(node: NetworkNode, colorBy: NetworkGraphProps['colorBy']): string {
@@ -326,7 +326,7 @@ export function NetworkGraph({
       .text((d) => truncate(d.label, 20))
       .attr('text-anchor', 'middle')
       .attr('dy', (d) => nodeRadius(d) + 14)
-      .attr('fill', '#9BA3B5')
+      .attr('fill', '#9A9A8E')
       .attr('font-size', 10)
       .attr('font-family', "'IBM Plex Sans', system-ui, sans-serif")
       .style('pointer-events', 'none')

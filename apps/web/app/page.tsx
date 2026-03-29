@@ -134,7 +134,7 @@ export default async function HomePage() {
         <nav aria-label="Site navigation" className="hidden sm:flex items-center gap-1">
           <Link
             href={"/explore" as Route}
-            className="px-3 py-2 text-sm text-[var(--text-secondary)] hover:text-[var(--text-primary)] rounded-md hover:bg-[var(--surface-elevated)] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent-trust)]"
+            className="px-3 py-2 text-sm text-[var(--text-secondary)] hover:text-[var(--text-primary)] rounded-full hover:bg-[var(--surface-elevated)] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent-trust)]"
           >
             Dashboard
           </Link>
@@ -142,7 +142,7 @@ export default async function HomePage() {
             href="https://github.com/opengive/opengive"
             target="_blank"
             rel="noopener noreferrer"
-            className="px-3 py-2 text-sm text-[var(--text-secondary)] hover:text-[var(--text-primary)] rounded-md hover:bg-[var(--surface-elevated)] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent-trust)] inline-flex items-center gap-1.5"
+            className="px-3 py-2 text-sm text-[var(--text-secondary)] hover:text-[var(--text-primary)] rounded-full hover:bg-[var(--surface-elevated)] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent-trust)] inline-flex items-center gap-1.5"
           >
             {t('footer.github')}
             <IconExternalLink />
@@ -167,14 +167,18 @@ export default async function HomePage() {
           className="relative flex flex-col items-center justify-center text-center px-4 pt-20 pb-16 md:pt-32 md:pb-24"
           aria-labelledby="hero-heading"
         >
-          {/* Background glow */}
+          {/* Background glow blobs */}
           <div
             className="absolute inset-0 pointer-events-none overflow-hidden"
             aria-hidden="true"
           >
             <div
-              className="absolute top-0 start-1/2 -translate-x-1/2 w-[600px] h-[400px] rounded-full blur-3xl opacity-20"
-              style={{ backgroundColor: 'var(--accent-trust)' }}
+              className="absolute -top-20 -start-20 w-[500px] h-[400px] bg-[var(--accent-trust)] opacity-15 blur-3xl"
+              style={{ borderRadius: '30% 70% 60% 40% / 50% 60% 40% 50%' }}
+            />
+            <div
+              className="absolute -bottom-20 -end-20 w-[450px] h-[380px] bg-[#D4A574] opacity-10 blur-3xl"
+              style={{ borderRadius: '60% 40% 30% 70% / 40% 50% 60% 50%' }}
             />
           </div>
 
@@ -213,7 +217,7 @@ export default async function HomePage() {
             </p>
 
             {/* Search bar (UI only — wired in Sprint 3) */}
-            <div className="flex w-full max-w-lg mx-auto mb-10">
+            <div className="flex w-full max-w-lg mx-auto mb-10 rounded-full border border-[var(--border-default)] bg-[var(--surface-raised)] overflow-hidden">
               <div className="relative flex-1">
                 <span
                   className="absolute start-3 top-1/2 -translate-y-1/2 text-[var(--text-tertiary)]"
@@ -225,12 +229,12 @@ export default async function HomePage() {
                   type="search"
                   aria-label={t('searchAriaLabel')}
                   placeholder={t('searchPlaceholder')}
-                  className="w-full h-12 ps-11 pe-4 rounded-s-lg text-sm border border-[var(--border-default)] bg-[var(--surface-raised)] text-[var(--text-primary)] placeholder:text-[var(--text-tertiary)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent-trust)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--surface-base)]"
+                  className="w-full h-12 ps-11 pe-4 rounded-s-full text-sm border-0 bg-transparent text-[var(--text-primary)] placeholder:text-[var(--text-tertiary)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent-trust)] focus-visible:ring-inset"
                 />
               </div>
               <Button
                 size="lg"
-                className="rounded-s-none rounded-e-lg shrink-0 h-12"
+                className="rounded-s-none rounded-e-full shrink-0 h-12"
                 aria-label="Search organizations"
               >
                 Search
@@ -306,11 +310,11 @@ export default async function HomePage() {
               {features.map((feature) => (
                 <article
                   key={feature.title}
-                  className="flex flex-col gap-4 p-6 rounded-lg border border-[var(--border-subtle)] bg-[var(--surface-raised)]"
+                  className="flex flex-col gap-4 p-6 rounded-3xl border border-[var(--border-subtle)] bg-[var(--surface-raised)] hover:shadow-[var(--shadow-hover)] hover:-translate-y-1 transition-all duration-300"
                   style={{ boxShadow: 'var(--shadow-sm)' }}
                 >
                   <div
-                    className="flex items-center justify-center h-12 w-12 rounded-lg"
+                    className="flex items-center justify-center h-12 w-12 rounded-2xl"
                     style={{
                       backgroundColor: 'var(--accent-trust-subtle)',
                       color: 'var(--accent-trust)',

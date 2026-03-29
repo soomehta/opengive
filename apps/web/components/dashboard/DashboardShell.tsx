@@ -202,7 +202,7 @@ export function DashboardShell({ children, onOpenSearch }: DashboardShellProps) 
             onClick={() => setCollapsed((c) => !c)}
             aria-label={t('toggleSidebar')}
             className={cn(
-              'flex items-center justify-center h-8 w-8 rounded-md',
+              'flex items-center justify-center h-8 w-8 rounded-full',
               'text-[var(--text-tertiary)] hover:text-[var(--text-primary)]',
               'hover:bg-[var(--surface-elevated)]',
               'transition-colors duration-[var(--transition-fast)]',
@@ -227,7 +227,7 @@ export function DashboardShell({ children, onOpenSearch }: DashboardShellProps) 
                     href={item.href}
                     aria-current={isActive ? 'page' : undefined}
                     className={cn(
-                      'flex items-center gap-3 h-10 rounded-md px-2',
+                      'flex items-center gap-3 h-10 rounded-full px-2',
                       'text-sm font-medium',
                       'transition-colors duration-[var(--transition-fast)]',
                       'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent-trust)]',
@@ -306,7 +306,7 @@ export function DashboardShell({ children, onOpenSearch }: DashboardShellProps) 
               onClick={onOpenSearch}
               aria-label={tHeader('searchTrigger')}
               className={cn(
-                'hidden sm:flex items-center gap-2 h-9 px-3 rounded-md',
+                'hidden sm:flex items-center gap-2 h-9 px-3 rounded-full',
                 'text-sm text-[var(--text-tertiary)]',
                 'border border-[var(--border-default)]',
                 'hover:border-[var(--border-emphasis)] hover:text-[var(--text-primary)]',
@@ -363,7 +363,9 @@ export function DashboardShell({ children, onOpenSearch }: DashboardShellProps) 
         aria-label="Mobile navigation"
         className={cn(
           'fixed bottom-0 inset-x-0 md:hidden z-40',
-          'border-t border-[var(--border-subtle)]',
+          'mx-3 mb-3 rounded-full',
+          'border border-[var(--border-subtle)]',
+          'shadow-[var(--shadow-lg)]',
           'grid grid-cols-5',
         )}
         style={{ backgroundColor: 'var(--surface-base)' }}

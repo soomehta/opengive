@@ -76,15 +76,15 @@ export function ExpenseBreakdown({
 
   const years = data.map((d) => String(d.year));
   const axisLabelStyle = {
-    color: '#636D82',
+    color: '#9A9A8E',
     fontSize: 11,
     fontFamily: "'IBM Plex Mono', 'Fira Code', monospace",
   };
 
   const tooltipTextStyle = {
-    color: '#E8ECF1',
+    color: '#3A3A32',
     fontSize: 12,
-    fontFamily: "'IBM Plex Sans', system-ui, sans-serif",
+    fontFamily: "'Nunito', system-ui, sans-serif",
   };
 
   const option: EChartsOption = {
@@ -92,17 +92,17 @@ export function ExpenseBreakdown({
     tooltip: {
       trigger: 'axis',
       axisPointer: { type: 'shadow' },
-      backgroundColor: '#1A1E27',
-      borderColor: '#2C3240',
+      backgroundColor: '#FDFCF8',
+      borderColor: '#DDD5CA',
       textStyle: tooltipTextStyle,
     },
     legend: {
       data: ['Program', 'Admin', 'Fundraising'],
       bottom: 0,
       textStyle: {
-        color: '#9BA3B5',
+        color: '#6B6B60',
         fontSize: 11,
-        fontFamily: "'IBM Plex Sans', system-ui, sans-serif",
+        fontFamily: "'Nunito', system-ui, sans-serif",
       },
       icon: 'roundRect',
       itemWidth: 12,
@@ -123,12 +123,12 @@ export function ExpenseBreakdown({
         ...axisLabelStyle,
         formatter: (value: number) => formatCurrency(value, currencySymbol),
       },
-      splitLine: { lineStyle: { color: '#1F2533', width: 1 } },
+      splitLine: { lineStyle: { color: '#E8E2D9', width: 1 } },
     },
     yAxis: {
       type: 'category',
       data: years,
-      axisLine: { lineStyle: { color: '#1F2533' } },
+      axisLine: { lineStyle: { color: '#E8E2D9' } },
       axisTick: { show: false },
       axisLabel: axisLabelStyle,
       splitLine: { show: false },
@@ -139,7 +139,7 @@ export function ExpenseBreakdown({
         type: 'bar',
         stack: 'expenses',
         data: data.map((d) => d.program),
-        itemStyle: { color: '#22C55E', borderRadius: [0, 0, 0, 0] }, // --signal-healthy
+        itemStyle: { color: '#6BAF7B', borderRadius: [0, 0, 0, 0] }, // --signal-healthy
         barMaxWidth: 28,
       },
       {
@@ -147,7 +147,7 @@ export function ExpenseBreakdown({
         type: 'bar',
         stack: 'expenses',
         data: data.map((d) => d.admin),
-        itemStyle: { color: '#F59E0B' }, // --signal-caution
+        itemStyle: { color: '#E8B86D' }, // --signal-caution
         barMaxWidth: 28,
       },
       {
@@ -155,7 +155,7 @@ export function ExpenseBreakdown({
         type: 'bar',
         stack: 'expenses',
         data: data.map((d) => d.fundraising),
-        itemStyle: { color: '#8B5CF6', borderRadius: [0, 3, 3, 0] }, // --signal-neutral
+        itemStyle: { color: '#A88BC4', borderRadius: [0, 3, 3, 0] }, // --signal-neutral
         barMaxWidth: 28,
       },
     ],

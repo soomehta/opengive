@@ -34,14 +34,14 @@ interface SankeyFlowProps {
 // ---------------------------------------------------------------------------
 
 const VIZ_COLORS = [
-  '#3B82F6', // --viz-1
-  '#F59E0B', // --viz-2
-  '#22C55E', // --viz-3
-  '#EF4444', // --viz-4
-  '#8B5CF6', // --viz-5
-  '#EC4899', // --viz-6
-  '#06B6D4', // --viz-7
-  '#F97316', // --viz-8
+  '#6A7E5A', // --viz-1
+  '#E8B86D', // --viz-2
+  '#6BAF7B', // --viz-3
+  '#D4736E', // --viz-4
+  '#A88BC4', // --viz-5
+  '#C4A5D4', // --viz-6
+  '#7BA5AF', // --viz-7
+  '#B88F6B', // --viz-8
 ];
 
 // ---------------------------------------------------------------------------
@@ -90,12 +90,12 @@ export function SankeyFlow({
     tooltip: {
       trigger: 'item',
       triggerOn: 'mousemove',
-      backgroundColor: '#1A1E27',
-      borderColor: '#2C3240',
+      backgroundColor: '#FDFCF8',
+      borderColor: '#DDD5CA',
       textStyle: {
-        color: '#E8ECF1',
+        color: '#3A3A32',
         fontSize: 12,
-        fontFamily: "'IBM Plex Sans', system-ui, sans-serif",
+        fontFamily: "'Nunito', system-ui, sans-serif",
       },
     },
     series: [
@@ -112,9 +112,9 @@ export function SankeyFlow({
           curveness: 0.5,
         },
         label: {
-          color: '#E8ECF1',
+          color: '#3A3A32',
           fontSize: 12,
-          fontFamily: "'IBM Plex Sans', system-ui, sans-serif",
+          fontFamily: "'Nunito', system-ui, sans-serif",
         },
         nodeGap: 12,
         nodeWidth: 18,

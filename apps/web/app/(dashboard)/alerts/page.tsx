@@ -141,10 +141,10 @@ function SeverityStats({ alerts }: { alerts: AlertCardData[] }) {
     <div className="flex flex-wrap gap-3 mb-5" role="region" aria-label="Alert severity summary">
       {(
         [
-          { key: 'critical', label: 'Critical', color: '#EF4444' },
-          { key: 'high', label: 'High', color: '#EF4444' },
-          { key: 'medium', label: 'Medium', color: '#F59E0B' },
-          { key: 'low', label: 'Low', color: '#22C55E' },
+          { key: 'critical', label: 'Critical', color: '#D4736E' },
+          { key: 'high', label: 'High', color: '#D4736E' },
+          { key: 'medium', label: 'Medium', color: '#E8B86D' },
+          { key: 'low', label: 'Low', color: '#6BAF7B' },
         ] as const
       ).map(({ key, label, color }) => (
         <div

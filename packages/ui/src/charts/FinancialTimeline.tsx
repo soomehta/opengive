@@ -78,11 +78,11 @@ export function FinancialTimeline({
   const expenses = data.map((d) => d.expenses);
 
   const gridStyle = {
-    lineStyle: { color: '#1F2533', width: 1 },
+    lineStyle: { color: '#E8E2D9', width: 1 },
   };
 
   const axisLabelStyle = {
-    color: '#636D82',
+    color: '#9A9A8E',
     fontSize: 11,
     fontFamily: "'IBM Plex Mono', 'Fira Code', monospace",
   };
@@ -91,12 +91,12 @@ export function FinancialTimeline({
     backgroundColor: 'transparent',
     tooltip: {
       trigger: 'axis',
-      backgroundColor: '#1A1E27',
-      borderColor: '#2C3240',
+      backgroundColor: '#FDFCF8',
+      borderColor: '#DDD5CA',
       textStyle: {
-        color: '#E8ECF1',
+        color: '#3A3A32',
         fontSize: 12,
-        fontFamily: "'IBM Plex Sans', system-ui, sans-serif",
+        fontFamily: "'Nunito', system-ui, sans-serif",
       },
       formatter: (params: unknown) => {
         const items = params as Array<{
@@ -118,9 +118,9 @@ export function FinancialTimeline({
       data: ['Revenue', 'Expenses'],
       bottom: 0,
       textStyle: {
-        color: '#9BA3B5',
+        color: '#6B6B60',
         fontSize: 11,
-        fontFamily: "'IBM Plex Sans', system-ui, sans-serif",
+        fontFamily: "'Nunito', system-ui, sans-serif",
       },
       icon: 'roundRect',
       itemWidth: 12,
@@ -136,7 +136,7 @@ export function FinancialTimeline({
     xAxis: {
       type: 'category',
       data: years,
-      axisLine: { lineStyle: { color: '#1F2533' } },
+      axisLine: { lineStyle: { color: '#E8E2D9' } },
       axisTick: { show: false },
       axisLabel: axisLabelStyle,
       splitLine: { show: false },
@@ -159,8 +159,8 @@ export function FinancialTimeline({
         smooth: true,
         symbol: 'circle',
         symbolSize: 5,
-        lineStyle: { color: '#3B82F6', width: 2 }, // --accent-trust
-        itemStyle: { color: '#3B82F6' },
+        lineStyle: { color: '#6A7E5A', width: 2 }, // --accent-trust
+        itemStyle: { color: '#6A7E5A' },
         areaStyle: {
           color: {
             type: 'linear',
@@ -169,8 +169,8 @@ export function FinancialTimeline({
             x2: 0,
             y2: 1,
             colorStops: [
-              { offset: 0, color: 'rgba(59,130,246,0.18)' },
-              { offset: 1, color: 'rgba(59,130,246,0)' },
+              { offset: 0, color: 'rgba(106,126,90,0.18)' },
+              { offset: 1, color: 'rgba(106,126,90,0)' },
             ],
           },
         },
@@ -182,8 +182,8 @@ export function FinancialTimeline({
         smooth: true,
         symbol: 'circle',
         symbolSize: 5,
-        lineStyle: { color: '#F59E0B', width: 2 }, // --signal-caution
-        itemStyle: { color: '#F59E0B' },
+        lineStyle: { color: '#D4A574', width: 2 }, // --signal-caution
+        itemStyle: { color: '#D4A574' },
         areaStyle: {
           color: {
             type: 'linear',
@@ -192,8 +192,8 @@ export function FinancialTimeline({
             x2: 0,
             y2: 1,
             colorStops: [
-              { offset: 0, color: 'rgba(245,158,11,0.12)' },
-              { offset: 1, color: 'rgba(245,158,11,0)' },
+              { offset: 0, color: 'rgba(212,165,116,0.12)' },
+              { offset: 1, color: 'rgba(212,165,116,0)' },
             ],
           },
         },

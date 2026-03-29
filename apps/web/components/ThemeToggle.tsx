@@ -54,7 +54,7 @@ type Theme = 'dark' | 'light';
 const STORAGE_KEY = 'opengive-theme';
 
 function resolveInitialTheme(): Theme {
-  if (typeof window === 'undefined') return 'dark';
+  if (typeof window === 'undefined') return 'light';
   const stored = localStorage.getItem(STORAGE_KEY) as Theme | null;
   if (stored === 'light' || stored === 'dark') return stored;
   return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
@@ -62,8 +62,8 @@ function resolveInitialTheme(): Theme {
 
 function applyTheme(theme: Theme) {
   const root = document.documentElement;
-  if (theme === 'light') {
-    root.setAttribute('data-theme', 'light');
+  if (theme === 'dark') {
+    root.setAttribute('data-theme', 'dark');
   } else {
     root.removeAttribute('data-theme');
   }
@@ -78,7 +78,7 @@ interface ThemeToggleProps {
 }
 
 export function ThemeToggle({ className }: ThemeToggleProps) {
-  const [theme, setTheme] = React.useState<Theme>('dark');
+  const [theme, setTheme] = React.useState<Theme>('light');
   const [mounted, setMounted] = React.useState(false);
 
   // Resolve theme on mount (client only) to avoid hydration mismatch
@@ -118,7 +118,7 @@ export function ThemeToggle({ className }: ThemeToggleProps) {
       aria-label={isDark ? 'Switch to light mode' : 'Switch to dark mode'}
       aria-pressed={!isDark}
       className={cn(
-        'flex items-center justify-center h-9 w-9 rounded-md',
+        'flex items-center justify-center h-9 w-9 rounded-full',
         'text-[var(--text-tertiary)] hover:text-[var(--text-primary)]',
         'hover:bg-[var(--surface-elevated)]',
         'transition-colors duration-[var(--transition-fast)]',

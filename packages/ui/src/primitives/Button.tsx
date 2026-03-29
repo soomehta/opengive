@@ -4,14 +4,14 @@ import { Slot } from '@radix-ui/react-slot';
 import { cn } from '../lib/utils';
 
 const buttonVariants = cva(
-  'inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent-trust)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--surface-base)] disabled:pointer-events-none disabled:opacity-50',
+  'inline-flex items-center justify-center rounded-full text-sm font-medium transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent-trust)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--surface-base)] disabled:pointer-events-none disabled:opacity-50 motion-safe:hover:scale-[1.03] motion-safe:hover:-translate-y-0.5 motion-safe:active:scale-95',
   {
     variants: {
       variant: {
         primary:
-          'bg-[var(--accent-trust)] text-white hover:bg-[var(--accent-trust)]/90',
+          'bg-[var(--accent-trust)] text-white hover:bg-[var(--accent-trust)]/85 hover:shadow-[var(--shadow-md)]',
         secondary:
-          'bg-[var(--surface-elevated)] text-[var(--text-primary)] hover:bg-[var(--surface-overlay)]',
+          'bg-[var(--surface-elevated)] text-[var(--text-primary)] border border-[var(--border-default)] hover:bg-[var(--surface-elevated)]/80 hover:shadow-[var(--shadow-sm)]',
         ghost:
           'hover:bg-[var(--surface-elevated)] text-[var(--text-secondary)] hover:text-[var(--text-primary)]',
         danger:
@@ -21,7 +21,7 @@ const buttonVariants = cva(
       size: {
         sm: 'h-8 px-3 text-xs',
         md: 'h-10 px-4',
-        lg: 'h-12 px-6 text-base',
+        lg: 'h-12 px-8 text-base',
         icon: 'h-10 w-10',
       },
     },

@@ -445,10 +445,10 @@ export default function FlowsPage() {
           </p>
           <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
             {[
-              { color: '#3B82F6', label: 'Data Sources' },
-              { color: '#22C55E', label: 'Organizations' },
-              { color: '#F59E0B', label: 'Expense Categories' },
-              { color: '#8B5CF6', label: 'Regions' },
+              { color: '#6A7E5A', label: 'Data Sources' },
+              { color: '#6BAF7B', label: 'Organizations' },
+              { color: '#E8B86D', label: 'Expense Categories' },
+              { color: '#A88BC4', label: 'Regions' },
             ].map(({ color, label }) => (
               <span
                 key={label}

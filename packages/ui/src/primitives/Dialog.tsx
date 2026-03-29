@@ -22,7 +22,7 @@ const DialogOverlay = React.forwardRef<
   <RadixDialog.Overlay
     ref={ref}
     className={cn(
-      'fixed inset-0 z-50 bg-[var(--surface-ground)]/80 backdrop-blur-sm',
+      'fixed inset-0 z-50 bg-[var(--surface-ground)]/60 backdrop-blur-sm',
       'data-[state=open]:animate-in data-[state=closed]:animate-out',
       'data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0',
       className
@@ -52,7 +52,7 @@ export const DialogContent = React.forwardRef<
       ref={ref}
       className={cn(
         'fixed start-1/2 top-1/2 z-50 -translate-x-1/2 -translate-y-1/2',
-        'w-full max-w-lg rounded-lg bg-[var(--surface-overlay)] border border-[var(--border-default)]',
+        'w-full max-w-lg rounded-3xl bg-[var(--surface-overlay)] border border-[var(--border-default)]',
         'shadow-[var(--shadow-lg)] p-6',
         'focus:outline-none',
         'data-[state=open]:animate-in data-[state=closed]:animate-out',

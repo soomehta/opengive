@@ -30,9 +30,9 @@ export interface ScoreGaugeProps {
 // ---------------------------------------------------------------------------
 
 function scoreColor(score: number): { stroke: string; text: string } {
-  if (score >= 70) return { stroke: '#22C55E', text: '#22C55E' }; // --signal-healthy
-  if (score >= 40) return { stroke: '#F59E0B', text: '#F59E0B' }; // --signal-caution
-  return { stroke: '#EF4444', text: '#EF4444' };                   // --signal-danger
+  if (score >= 70) return { stroke: '#6BAF7B', text: '#6BAF7B' }; // --signal-healthy
+  if (score >= 40) return { stroke: '#E8B86D', text: '#E8B86D' }; // --signal-caution
+  return { stroke: '#D4736E', text: '#D4736E' };                   // --signal-danger
 }
 
 function scoreLabel(score: number): string {
@@ -117,7 +117,7 @@ export function ScoreGauge({
         <path
           d={describeArc(cx, cy, R, START_DEG, START_DEG + (40 / 100) * SWEEP)}
           fill="none"
-          stroke="#EF4444"
+          stroke="#D4736E"
           strokeWidth={STROKE_W}
           strokeOpacity={0.12}
           strokeLinecap="round"
@@ -127,7 +127,7 @@ export function ScoreGauge({
         <path
           d={describeArc(cx, cy, R, START_DEG + (40 / 100) * SWEEP, START_DEG + (70 / 100) * SWEEP)}
           fill="none"
-          stroke="#F59E0B"
+          stroke="#E8B86D"
           strokeWidth={STROKE_W}
           strokeOpacity={0.12}
           strokeLinecap="round"
@@ -137,7 +137,7 @@ export function ScoreGauge({
         <path
           d={describeArc(cx, cy, R, START_DEG + (70 / 100) * SWEEP, END_DEG)}
           fill="none"
-          stroke="#22C55E"
+          stroke="#6BAF7B"
           strokeWidth={STROKE_W}
           strokeOpacity={0.12}
           strokeLinecap="round"
@@ -176,9 +176,9 @@ export function ScoreGauge({
 
         {/* Zone labels */}
         {([
-          { deg: START_DEG + (20 / 100) * SWEEP, text: 'Danger', color: '#EF4444' },
-          { deg: START_DEG + (55 / 100) * SWEEP, text: 'Caution', color: '#F59E0B' },
-          { deg: START_DEG + (85 / 100) * SWEEP, text: 'Healthy', color: '#22C55E' },
+          { deg: START_DEG + (20 / 100) * SWEEP, text: 'Danger', color: '#D4736E' },
+          { deg: START_DEG + (55 / 100) * SWEEP, text: 'Caution', color: '#E8B86D' },
+          { deg: START_DEG + (85 / 100) * SWEEP, text: 'Healthy', color: '#6BAF7B' },
         ] as const).map(({ deg, text, color }) => {
           const pt = polarToCart(cx, cy, R + STROKE_W * 1.4, deg);
           return (
@@ -190,7 +190,7 @@ export function ScoreGauge({
               dominantBaseline="central"
               fill={color}
               fontSize={size * 0.055}
-              fontFamily="'IBM Plex Sans', system-ui, sans-serif"
+              fontFamily="'Nunito', system-ui, sans-serif"
               fontWeight="500"
               opacity={0.8}
             >
@@ -240,7 +240,7 @@ export function ScoreGauge({
                 textAnchor="middle"
                 fill="var(--text-tertiary)"
                 fontSize={size * 0.05}
-                fontFamily="'IBM Plex Sans', system-ui, sans-serif"
+                fontFamily="'Nunito', system-ui, sans-serif"
               >
                 {b.value}
               </text>
@@ -250,7 +250,7 @@ export function ScoreGauge({
                 textAnchor="middle"
                 fill="var(--text-tertiary)"
                 fontSize={size * 0.045}
-                fontFamily="'IBM Plex Sans', system-ui, sans-serif"
+                fontFamily="'Nunito', system-ui, sans-serif"
               >
                 {b.label}
               </text>
@@ -263,7 +263,7 @@ export function ScoreGauge({
       {label && (
         <p
           className="mt-1 text-xs font-medium text-[var(--text-secondary)] text-center"
-          style={{ fontFamily: "'IBM Plex Sans', system-ui, sans-serif" }}
+          style={{ fontFamily: "'Nunito', system-ui, sans-serif" }}
         >
           {label}
         </p>

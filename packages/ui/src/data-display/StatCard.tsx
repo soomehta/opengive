@@ -79,15 +79,15 @@ function Sparkline({ data }: { data: SparklineDataPoint[] }) {
     >
       <defs>
         <linearGradient id="spark-fill" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stopColor="#3B82F6" stopOpacity="0.25" />
-          <stop offset="100%" stopColor="#3B82F6" stopOpacity="0" />
+          <stop offset="0%" stopColor="#6A7E5A" stopOpacity="0.25" />
+          <stop offset="100%" stopColor="#6A7E5A" stopOpacity="0" />
         </linearGradient>
       </defs>
       <path d={areaD} fill="url(#spark-fill)" />
       <path
         d={pathD}
         fill="none"
-        stroke="#3B82F6"
+        stroke="#6A7E5A"
         strokeWidth="1.5"
         strokeLinecap="round"
         strokeLinejoin="round"
@@ -103,8 +103,8 @@ function Sparkline({ data }: { data: SparklineDataPoint[] }) {
 function TrendUp() {
   return (
     <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
-      <path d="M2 10L6 6L9 9L12 4" stroke="#22C55E" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" />
-      <path d="M9 4h3v3" stroke="#22C55E" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M2 10L6 6L9 9L12 4" stroke="#6BAF7B" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M9 4h3v3" stroke="#6BAF7B" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" />
     </svg>
   );
 }
@@ -112,8 +112,8 @@ function TrendUp() {
 function TrendDown() {
   return (
     <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
-      <path d="M2 4L6 8L9 5L12 10" stroke="#EF4444" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" />
-      <path d="M9 10h3v-3" stroke="#EF4444" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M2 4L6 8L9 5L12 10" stroke="#D4736E" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M9 10h3v-3" stroke="#D4736E" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" />
     </svg>
   );
 }
@@ -121,7 +121,7 @@ function TrendDown() {
 function TrendNeutral() {
   return (
     <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
-      <path d="M2 7h10" stroke="#9BA3B5" strokeWidth="1.75" strokeLinecap="round" />
+      <path d="M2 7h10" stroke="#9A9A8E" strokeWidth="1.75" strokeLinecap="round" />
     </svg>
   );
 }

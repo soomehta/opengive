@@ -1,19 +1,18 @@
 import type { Metadata } from 'next';
-import { DM_Sans, IBM_Plex_Sans, IBM_Plex_Mono } from 'next/font/google';
+import { Fraunces, Nunito, IBM_Plex_Mono } from 'next/font/google';
 import { NextIntlClientProvider } from 'next-intl';
 import { getMessages } from 'next-intl/server';
 import { Providers } from '../lib/providers';
 import './globals.css';
 
-const dmSans = DM_Sans({
+const fraunces = Fraunces({
   subsets: ['latin'],
   variable: '--font-display',
   display: 'swap',
 });
 
-const ibmPlexSans = IBM_Plex_Sans({
+const nunito = Nunito({
   subsets: ['latin'],
-  weight: ['400', '500', '600', '700'],
   variable: '--font-body',
   display: 'swap',
 });
@@ -44,11 +43,11 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   return (
     <html
       lang="en"
-      data-theme="dark"
+      data-theme="light"
       suppressHydrationWarning
     >
       <body
-        className={`${dmSans.variable} ${ibmPlexSans.variable} ${ibmPlexMono.variable} antialiased`}
+        className={`${fraunces.variable} ${nunito.variable} ${ibmPlexMono.variable} antialiased`}
       >
         <NextIntlClientProvider messages={messages}>
           <Providers>{children}</Providers>

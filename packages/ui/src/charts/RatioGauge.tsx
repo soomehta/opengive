@@ -37,19 +37,19 @@ function clamp(val: number, min: number, max: number) {
 
 function valueColor(value: number, benchmarkMin?: number, benchmarkMax?: number, higherIsBetter = true): string {
   if (benchmarkMin !== undefined && benchmarkMax !== undefined) {
-    if (value >= benchmarkMin && value <= benchmarkMax) return '#22C55E'; // in benchmark
+    if (value >= benchmarkMin && value <= benchmarkMax) return '#6BAF7B'; // in benchmark
     const distMin = benchmarkMin - value;
     const distMax = value - benchmarkMax;
     const dist = Math.max(distMin, distMax);
-    if (dist < 10) return '#F59E0B';
+    if (dist < 10) return '#E8B86D';
     return higherIsBetter
-      ? value < benchmarkMin ? '#EF4444' : '#22C55E'
-      : '#EF4444';
+      ? value < benchmarkMin ? '#D4736E' : '#6BAF7B'
+      : '#D4736E';
   }
   // No benchmark: color by value
-  if (value >= 70) return '#22C55E';
-  if (value >= 40) return '#F59E0B';
-  return '#EF4444';
+  if (value >= 70) return '#6BAF7B';
+  if (value >= 40) return '#E8B86D';
+  return '#D4736E';
 }
 
 // ---------------------------------------------------------------------------
@@ -112,7 +112,7 @@ export function RatioGauge({
               left: `${benchmarkMin}%`,
               width: `${benchmarkMax - benchmarkMin}%`,
               height: '100%',
-              backgroundColor: '#22C55E',
+              backgroundColor: '#6BAF7B',
               opacity: 0.18,
             }}
           />
@@ -122,13 +122,13 @@ export function RatioGauge({
         {benchmarkMin !== undefined && (
           <div
             className="absolute top-0 bottom-0 w-px"
-            style={{ left: `${benchmarkMin}%`, backgroundColor: '#22C55E', opacity: 0.5 }}
+            style={{ left: `${benchmarkMin}%`, backgroundColor: '#6BAF7B', opacity: 0.5 }}
           />
         )}
         {benchmarkMax !== undefined && (
           <div
             className="absolute top-0 bottom-0 w-px"
-            style={{ left: `${benchmarkMax}%`, backgroundColor: '#22C55E', opacity: 0.5 }}
+            style={{ left: `${benchmarkMax}%`, backgroundColor: '#6BAF7B', opacity: 0.5 }}
           />
         )}
 
@@ -169,7 +169,7 @@ export function RatioGauge({
           >
             <span
               className="inline-block w-2 h-2 rounded-sm"
-              style={{ backgroundColor: '#22C55E', opacity: 0.5 }}
+              style={{ backgroundColor: '#6BAF7B', opacity: 0.5 }}
             />
             {benchmarkLabel ?? `${benchmarkMin}–${benchmarkMax}% benchmark`}
           </span>

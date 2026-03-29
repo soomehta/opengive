@@ -79,7 +79,7 @@ export function SkeletonCard({ className, ...props }: React.HTMLAttributes<HTMLD
   return (
     <div
       className={cn(
-        'bg-[var(--surface-raised)] border border-[var(--border-subtle)] rounded-md overflow-hidden',
+        'bg-[var(--surface-raised)] border border-[var(--border-subtle)] rounded-2xl overflow-hidden',
         className
       )}
       {...props}

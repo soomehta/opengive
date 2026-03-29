@@ -14,7 +14,7 @@ export function Card({ noOverflowClip = false, className, children, ...props }: 
   return (
     <div
       className={cn(
-        'bg-[var(--surface-raised)] border border-[var(--border-subtle)] rounded-md shadow-[var(--shadow-sm)]',
+        'bg-[var(--surface-raised)] border border-[var(--border-subtle)] rounded-2xl shadow-[var(--shadow-sm)] transition-all duration-300',
         !noOverflowClip && 'overflow-hidden',
         className
       )}
@@ -38,7 +38,7 @@ export function CardHeader({ actions, className, children, ...props }: CardHeade
   return (
     <div
       className={cn(
-        'px-4 py-3 border-b border-[var(--border-subtle)] flex items-center justify-between gap-2',
+        'px-5 py-4 border-b border-[var(--border-subtle)] flex items-center justify-between gap-2',
         className
       )}
       {...props}
@@ -73,7 +73,7 @@ interface CardContentProps extends React.HTMLAttributes<HTMLDivElement> {
 
 export function CardContent({ noPadding = false, className, children, ...props }: CardContentProps) {
   return (
-    <div className={cn(!noPadding && 'p-4', className)} {...props}>
+    <div className={cn(!noPadding && 'p-5', className)} {...props}>
       {children}
     </div>
   );
@@ -89,7 +89,7 @@ export function CardFooter({ className, children, ...props }: CardFooterProps) {
   return (
     <div
       className={cn(
-        'px-4 py-3 border-t border-[var(--border-subtle)] flex items-center justify-between gap-2 text-xs text-[var(--text-tertiary)]',
+        'px-5 py-4 border-t border-[var(--border-subtle)] flex items-center justify-between gap-2 text-xs text-[var(--text-tertiary)]',
         className
       )}
       {...props}
