@@ -85,7 +85,7 @@ app.use(
   cors({
     origin: (origin) => {
       const allowed = process.env['ALLOWED_ORIGINS'];
-      if (!allowed) return origin ?? '*';
+      if (!allowed) return null; // Deny cross-origin if ALLOWED_ORIGINS not configured
       return allowed.split(',').includes(origin ?? '') ? origin : null;
     },
     allowMethods: ['GET', 'POST', 'OPTIONS'],
@@ -149,10 +149,14 @@ function getDb() {
 // ---------------------------------------------------------------------------
 
 function internalError(err: unknown) {
+  const isDev = process.env.NODE_ENV === 'development';
+  if (err instanceof Error) {
+    console.error('[API Error]', err.message, err.stack);
+  }
   return {
     error: {
       code: 'INTERNAL_ERROR' as const,
-      message: err instanceof Error ? err.message : 'Unexpected error',
+      message: isDev && err instanceof Error ? err.message : 'An unexpected error occurred',
     },
   };
 }
@@ -1450,7 +1454,7 @@ const exportRoute = createRoute({
       limit: z
         .string()
         .optional()
-        .transform((v) => (v !== undefined ? Math.min(Math.max(1, parseInt(v, 10) || 5000), 50_000) : 5000))
+        .transform((v) => (v !== undefined ? Math.min(Math.max(1, parseInt(v, 10) || 1000), 5_000) : 1000))
         .openapi({ description: 'Max rows to export (1–50 000, default 5 000)', example: '5000' }),
     }),
   },

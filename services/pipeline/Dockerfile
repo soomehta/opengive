@@ -14,6 +14,9 @@ RUN playwright install --with-deps chromium
 
 COPY . .
 
+RUN adduser --disabled-password --gecos '' appuser
+USER appuser
+
 EXPOSE 3000
 
-CMD ["dagster", "dev", "-h", "0.0.0.0", "-p", "3000"]
+CMD ["dagster-webserver", "-h", "0.0.0.0", "-p", "3000"]

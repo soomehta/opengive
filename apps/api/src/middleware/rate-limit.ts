@@ -79,14 +79,18 @@ function sha256(value: string): string {
  * Returns null when no IP can be determined.
  */
 function getClientIp(c: Context): string | null {
-  const xff = c.req.header('x-forwarded-for');
-  if (xff) {
-    const firstIp = xff.split(',')[0]?.trim();
-    if (firstIp) return firstIp;
-  }
+  // Prefer platform-verified headers (cannot be spoofed by the client)
   const cf = c.req.header('cf-connecting-ip');
   if (cf) return cf.trim();
-
+  // Vercel provides x-real-ip from the edge
+  const realIp = c.req.header('x-real-ip');
+  if (realIp) return realIp.trim();
+  // Fallback: take the LAST entry in x-forwarded-for (closest to the edge proxy)
+  const xff = c.req.header('x-forwarded-for');
+  if (xff) {
+    const parts = xff.split(',').map((s: string) => s.trim()).filter(Boolean);
+    if (parts.length > 0) return parts[parts.length - 1];
+  }
   return null;
 }
 
@@ -98,18 +102,12 @@ function getClientIp(c: Context): string | null {
  * used with the lower anonymous limit.
  */
 function resolveKey(c: Context): { key: string; limit: number } {
-  const apiKey = c.req.header('x-api-key');
-
-  if (apiKey && apiKey.trim().length > 0) {
-    return {
-      key: `auth:${sha256(apiKey.trim())}`,
-      limit: AUTH_LIMIT,
-    };
-  }
-
-  const ip = getClientIp(c) ?? 'anon';
+  // Do NOT grant elevated rate limits based on API key presence alone.
+  // The key must be validated by the requireApiKey middleware first.
+  // Rate limiting always uses the client IP to prevent bypass via fake keys.
+  const ip = getClientIp(c) ?? 'unknown';
   return {
-    key: `anon:${ip}`,
+    key: `ip:${ip}`,
     limit: ANON_LIMIT,
   };
 }

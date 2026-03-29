@@ -45,7 +45,7 @@ export interface StoredInvestigation {
 const INVESTIGATIONS_STORE = new Map<string, StoredInvestigation>();
 
 function generateId(): string {
-  return `inv_${Date.now()}_${Math.random().toString(36).slice(2, 9)}`;
+  return crypto.randomUUID();
 }
 
 function now(): string {
