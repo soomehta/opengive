@@ -67,7 +67,23 @@
       "status": "Status",
       "allCountries": "All countries",
       "allSectors": "All sectors",
-      "allStatuses": "All statuses"
+      "allStatuses": "All statuses",
+      "minRevenue": "Min Revenue",
+      "maxRevenue": "Max Revenue",
+      "anyRevenue": "Any",
+      "alertFilter": "Alerts",
+      "anyAlerts": "Any alerts",
+      "hasAlerts": "Has alerts",
+      "noAlerts": "No alerts",
+      "criticalOnly": "Critical only",
+      "sortBy": "Sort by",
+      "sortNameAsc": "Name A–Z",
+      "sortNameDesc": "Name Z–A",
+      "sortRevenueDesc": "Revenue high–low",
+      "sortRevenueAsc": "Revenue low–high",
+      "sortMostAlerts": "Most alerts",
+      "sortNewest": "Newest",
+      "resetFilters": "Reset filters"
     },
     "views": {
       "card": "Card view",
@@ -77,9 +93,13 @@
       "revenue": "Revenue",
       "alerts": "alerts",
       "noResults": "No organizations found. Try adjusting your filters.",
-      "loading": "Loading organizations…"
+      "loading": "Loading organizations…",
+      "showing": "Showing {visible} of {total} organizations"
     },
     "pagination": {
+      "previous": "Previous",
+      "next": "Next",
+      "pageLabel": "Page {page}",
       "loadMore": "Load more",
       "loading": "Loading…"
     },

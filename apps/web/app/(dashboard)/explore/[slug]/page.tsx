@@ -64,40 +64,49 @@ interface OrgDetail {
 // Placeholder data — replace with tRPC / server fetch in Sprint 3
 // ---------------------------------------------------------------------------
 
-const PLACEHOLDER_ORG: OrgDetail = {
-  id: '1',
-  name: 'American Red Cross',
-  slug: 'american-red-cross',
-  country: 'United States',
-  countryFlag: '🇺🇸',
-  status: 'active',
-  sector: 'Humanitarian',
-  registrationIds: { EIN: '53-0196605', 'NTEE Code': 'M20' },
-  mission:
-    'The American Red Cross prevents and alleviates human suffering in the face of emergencies by mobilizing the power of volunteers and the generosity of donors.',
-  totalRevenue: 2_900_000_000,
-  totalExpenses: 2_750_000_000,
-  netAssets: 1_200_000_000,
-  programExpenseRatio: 0.91,
-  officers: [
-    { id: 'o1', name: 'Gail J. McGovern', title: 'President & CEO', compensation: 699_000, hoursPerWeek: 50 },
-    { id: 'o2', name: 'Brian Rhoa', title: 'CFO', compensation: 420_000, hoursPerWeek: 45 },
-    { id: 'o3', name: 'Cliff Holtz', title: 'COO', compensation: 395_000, hoursPerWeek: 45 },
-  ],
-  filings: [
-    { id: 'f1', fiscalYear: 2023, revenue: 2_900_000_000, expenses: 2_750_000_000, netAssets: 1_200_000_000, form: '990' },
-    { id: 'f2', fiscalYear: 2022, revenue: 2_650_000_000, expenses: 2_500_000_000, netAssets: 1_100_000_000, form: '990' },
-    { id: 'f3', fiscalYear: 2021, revenue: 3_100_000_000, expenses: 2_900_000_000, netAssets: 950_000_000, form: '990' },
-  ],
-  grants: [
-    { id: 'g1', recipient: 'Local Chapter — Houston', purpose: 'Disaster relief operations', amount: 45_000_000, year: 2023 },
-    { id: 'g2', recipient: 'Blood Services Network', purpose: 'Blood supply chain', amount: 120_000_000, year: 2023 },
-    { id: 'g3', recipient: 'Armed Forces Emergency', purpose: 'Military family support', amount: 28_000_000, year: 2022 },
-  ],
-  alerts: [
-    { id: 'a1', severity: 'high', description: 'Revenue decline >15% year-over-year', flaggedValue: '-16.1%', detectedAt: '2024-03-01' },
-    { id: 'a2', severity: 'medium', description: 'Executive compensation ratio exceeds peer median', flaggedValue: '0.024%', detectedAt: '2024-02-15' },
-  ],
+function generateOrg(id: string, name: string, slug: string, country: string, flag: string, sector: string, revenue: number, status: OrgDetail['status'] = 'active'): OrgDetail {
+  const expenses = Math.round(revenue * 0.92);
+  const netAssets = Math.round(revenue * 0.4);
+  return {
+    id, name, slug, country, countryFlag: flag, status, sector,
+    registrationIds: { 'Registration': `REG-${id.padStart(6, '0')}` },
+    mission: `${name} is dedicated to advancing ${sector.toLowerCase()} initiatives ${country === 'United States' ? 'across the nation' : `in ${country}`} and around the world.`,
+    totalRevenue: revenue,
+    totalExpenses: expenses,
+    netAssets,
+    programExpenseRatio: 0.85 + Math.random() * 0.1,
+    officers: [
+      { id: `${id}-o1`, name: 'Executive Director', title: 'CEO', compensation: Math.round(revenue * 0.00008), hoursPerWeek: 50 },
+      { id: `${id}-o2`, name: 'Finance Director', title: 'CFO', compensation: Math.round(revenue * 0.00005), hoursPerWeek: 45 },
+    ],
+    filings: [
+      { id: `${id}-f1`, fiscalYear: 2023, revenue, expenses, netAssets, form: '990' },
+      { id: `${id}-f2`, fiscalYear: 2022, revenue: Math.round(revenue * 0.95), expenses: Math.round(expenses * 0.94), netAssets: Math.round(netAssets * 0.9), form: '990' },
+      { id: `${id}-f3`, fiscalYear: 2021, revenue: Math.round(revenue * 0.88), expenses: Math.round(expenses * 0.87), netAssets: Math.round(netAssets * 0.8), form: '990' },
+    ],
+    grants: [
+      { id: `${id}-g1`, recipient: `${sector} Program Fund`, purpose: `Core ${sector.toLowerCase()} operations`, amount: Math.round(revenue * 0.015), year: 2023 },
+      { id: `${id}-g2`, recipient: 'Regional Partners', purpose: 'Field operations support', amount: Math.round(revenue * 0.008), year: 2023 },
+    ],
+    alerts: revenue > 1_000_000_000 ? [
+      { id: `${id}-a1`, severity: 'medium' as const, description: 'Executive compensation ratio above sector median', flaggedValue: '0.02%', detectedAt: '2024-02-15' },
+    ] : [],
+  };
+}
+
+const PLACEHOLDER_ORGS: Record<string, OrgDetail> = {
+  'american-red-cross': generateOrg('1', 'American Red Cross', 'american-red-cross', 'United States', '🇺🇸', 'Humanitarian', 2_900_000_000),
+  'doctors-without-borders': generateOrg('2', 'Doctors Without Borders', 'doctors-without-borders', 'Switzerland', '🇨🇭', 'Healthcare', 1_600_000_000),
+  'oxfam-international': generateOrg('3', 'Oxfam International', 'oxfam-international', 'United Kingdom', '🇬🇧', 'Poverty Relief', 450_000_000),
+  'save-the-children': generateOrg('4', 'Save the Children', 'save-the-children', 'United Kingdom', '🇬🇧', 'Children', 1_100_000_000),
+  'world-wildlife-fund': generateOrg('5', 'World Wildlife Fund', 'world-wildlife-fund', 'Switzerland', '🇨🇭', 'Environment', 310_000_000),
+  'unicef-usa': generateOrg('6', 'UNICEF USA', 'unicef-usa', 'United States', '🇺🇸', 'Children', 700_000_000),
+  'gates-foundation': generateOrg('7', 'Gates Foundation', 'gates-foundation', 'United States', '🇺🇸', 'Global Health', 6_000_000_000),
+  'habitat-for-humanity': generateOrg('8', 'Habitat for Humanity', 'habitat-for-humanity', 'United States', '🇺🇸', 'Housing', 1_800_000_000),
+  'cancer-research-uk': generateOrg('9', 'Cancer Research UK', 'cancer-research-uk', 'United Kingdom', '🇬🇧', 'Medical Research', 680_000_000),
+  'caritas-germany': generateOrg('10', 'Caritas Germany', 'caritas-germany', 'Germany', '🇩🇪', 'Social Services', 4_200_000_000),
+  'feed-the-future': generateOrg('11', 'Feed the Future', 'feed-the-future', 'Kenya', '🇰🇪', 'Food Security', 55_000_000),
+  'clean-water-foundation': generateOrg('12', 'Clean Water Foundation', 'clean-water-foundation', 'Canada', '🇨🇦', 'Water & Sanitation', 28_000_000, 'inactive'),
 };
 
 // ---------------------------------------------------------------------------
@@ -171,8 +180,8 @@ export default async function OrgDetailPage({ params }: Props) {
   const { slug } = await params;
   const t = await getTranslations('orgDetail');
 
-  // In Sprint 3 this will be: const org = await serverTRPC.organizations.getBySlug({ slug });
-  const org = slug === PLACEHOLDER_ORG.slug ? PLACEHOLDER_ORG : null;
+  // In production this will be: const org = await serverTRPC.organizations.getBySlug({ slug });
+  const org = PLACEHOLDER_ORGS[slug] ?? null;
 
   if (!org) {
     return (
