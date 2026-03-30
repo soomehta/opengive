@@ -16,6 +16,7 @@ import {
 } from '@opengive/ui';
 import { useInvestigationStore } from '../../../lib/stores/investigation';
 import { trpc } from '../../../lib/trpc';
+import { createClient as createBrowserClient } from '../../../lib/supabase/client';
 
 // ---------------------------------------------------------------------------
 // Types
@@ -288,6 +289,17 @@ export default function InvestigatePage() {
   const store = useInvestigationStore();
   const trpcUtils = trpc.useUtils();
 
+  // Auth state — investigation is usable without sign-in, but save/load requires auth
+  const [isSignedIn, setIsSignedIn] = React.useState(false);
+  React.useEffect(() => {
+    const supabase = createBrowserClient();
+    supabase.auth.getUser().then(({ data }) => setIsSignedIn(!!data.user));
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      setIsSignedIn(!!session?.user);
+    });
+    return () => subscription.unsubscribe();
+  }, []);
+
   // tRPC mutations
   const createMutation = trpc.investigations.create.useMutation();
   const updateMutation = trpc.investigations.update.useMutation();
@@ -444,26 +456,37 @@ export default function InvestigatePage() {
 
         {/* Action buttons */}
         <div className="flex items-center gap-2">
-          {/* Save */}
-          <Button
-            variant="secondary"
-            size="sm"
-            onClick={handleSave}
-            isLoading={isSaving}
-            disabled={canvasOrgs.length === 0}
-          >
-            <IconSave />
-            <span className="ms-1.5">{saveSuccess ? 'Saved!' : 'Save'}</span>
-          </Button>
+          {isSignedIn ? (
+            <>
+              {/* Save */}
+              <Button
+                variant="secondary"
+                size="sm"
+                onClick={handleSave}
+                isLoading={isSaving}
+                disabled={canvasOrgs.length === 0}
+              >
+                <IconSave />
+                <span className="ms-1.5">{saveSuccess ? 'Saved!' : 'Save'}</span>
+              </Button>
 
-          {/* Load */}
-          <Button
-            variant="secondary"
-            size="sm"
-            onClick={() => setShowLoadInput((v) => !v)}
-          >
-            Load
-          </Button>
+              {/* Load */}
+              <Button
+                variant="secondary"
+                size="sm"
+                onClick={() => setShowLoadInput((v) => !v)}
+              >
+                Load
+              </Button>
+            </>
+          ) : (
+            <Link href={'/login?redirectTo=/investigate' as Route}>
+              <Button variant="secondary" size="sm">
+                <IconSave />
+                <span className="ms-1.5">Sign in to save</span>
+              </Button>
+            </Link>
+          )}
 
           {/* Export (placeholder) */}
           <Button
@@ -478,8 +501,8 @@ export default function InvestigatePage() {
         </div>
       </div>
 
-      {/* Load input */}
-      {showLoadInput && (
+      {/* Load input — only visible when signed in */}
+      {showLoadInput && isSignedIn && (
         <div className="flex items-center gap-2 mb-3 p-3 rounded-md border border-[var(--border-default)] bg-[var(--surface-raised)]">
           <input
             type="text"

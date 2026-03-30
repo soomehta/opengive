@@ -43,7 +43,6 @@ export async function middleware(request: NextRequest) {
   // All browsing is public — users can explore the full dashboard without signing in.
   // Only user-specific routes require authentication.
   const requiresAuth =
-    pathname.startsWith('/investigate') ||
     pathname.startsWith('/settings') ||
     pathname.startsWith('/bookmarks') ||
     pathname.startsWith('/watchlist');
