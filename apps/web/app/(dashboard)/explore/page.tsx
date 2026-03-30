@@ -10,6 +10,7 @@ import {
   CardContent,
   cn,
 } from '@opengive/ui';
+import { trpc } from '../../../lib/trpc';
 
 // ---------------------------------------------------------------------------
 // Types
@@ -378,6 +379,19 @@ function Pagination({ page, totalPages, onPageChange }: PaginationProps) {
 // Explore page
 // ---------------------------------------------------------------------------
 
+// Country code to flag emoji
+const FLAG_MAP: Record<string, string> = {
+  US: '🇺🇸', GB: '🇬🇧', CH: '🇨🇭', DE: '🇩🇪', CA: '🇨🇦', AU: '🇦🇺',
+  IN: '🇮🇳', FR: '🇫🇷', KE: '🇰🇪', JP: '🇯🇵', BR: '🇧🇷', NL: '🇳🇱',
+};
+
+// Country code to display name
+const COUNTRY_NAME: Record<string, string> = {
+  US: 'United States', GB: 'United Kingdom', CH: 'Switzerland', DE: 'Germany',
+  CA: 'Canada', AU: 'Australia', IN: 'India', FR: 'France', KE: 'Kenya',
+  JP: 'Japan', BR: 'Brazil', NL: 'Netherlands',
+};
+
 export default function ExplorePage() {
   const t = useTranslations('explore');
 
@@ -392,11 +406,37 @@ export default function ExplorePage() {
   const [view,       setView]       = React.useState<'card' | 'table'>('card');
   const [page,       setPage]       = React.useState(1);
 
-  // Client-side filter + sort (replace with tRPC query in Sprint 3)
+  // Fetch live data from Supabase via tRPC — falls back to placeholder if DB unavailable
+  const liveQuery = trpc.organizations.search.useQuery(
+    { query: query || undefined, limit: 100 },
+    { retry: 1, refetchOnWindowFocus: false }
+  );
+
+  // Map DB rows to the OrgResult shape the UI expects
+  const liveOrgs: OrgResult[] = React.useMemo(() => {
+    if (!liveQuery.data?.items?.length) return [];
+    return liveQuery.data.items.map((row: Record<string, unknown>) => ({
+      id: String(row.id ?? ''),
+      name: String(row.name ?? ''),
+      slug: String(row.slug ?? ''),
+      country: COUNTRY_NAME[String(row.countryCode ?? '')] ?? String(row.countryCode ?? ''),
+      countryFlag: FLAG_MAP[String(row.countryCode ?? '')] ?? '🌍',
+      sector: String(row.sector ?? row.orgType ?? ''),
+      latestRevenue: Number(row.totalRevenue ?? row.dataCompleteness ?? 0),
+      alertCount: 0,
+      status: (String(row.status ?? 'active')) as OrgResult['status'],
+    }));
+  }, [liveQuery.data]);
+
+  // Use live data if available, otherwise fall back to placeholder
+  const dataSource = liveOrgs.length > 0 ? liveOrgs : PLACEHOLDER_ORGS;
+  const dbTotal = liveOrgs.length > 0 ? liveOrgs.length : null;
+
+  // Client-side filter + sort over whichever data source is active
   const filtered = React.useMemo(() => {
     const q = query.trim().toLowerCase();
 
-    const result = PLACEHOLDER_ORGS.filter((org) => {
+    const result = dataSource.filter((org) => {
       if (q && !org.name.toLowerCase().includes(q) && !org.sector.toLowerCase().includes(q)) return false;
       if (country && org.country !== country) return false;
       if (sector && org.sector !== sector) return false;
@@ -636,9 +676,21 @@ export default function ExplorePage() {
       </div>
 
       {/* Results count */}
-      <p className="text-xs text-[var(--text-tertiary)] mb-4">
-        {t('results.showing', { visible: visibleEnd, total: filtered.length })}
-      </p>
+      <div className="flex items-center gap-3 text-xs text-[var(--text-tertiary)] mb-4">
+        <p>{t('results.showing', { visible: visibleEnd, total: filtered.length })}</p>
+        {dbTotal !== null && (
+          <span
+            className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full"
+            style={{ backgroundColor: 'var(--accent-trust-subtle)', color: 'var(--accent-trust)' }}
+          >
+            <span className="h-1.5 w-1.5 rounded-full bg-[var(--signal-healthy)] animate-pulse" />
+            {dbTotal} in database
+          </span>
+        )}
+        {liveQuery.isLoading && (
+          <span className="text-[var(--text-tertiary)]">Loading from database...</span>
+        )}
+      </div>
 
       {/* Results — Card view */}
       {view === 'card' && (
