@@ -47,31 +47,29 @@ const OSM_STYLE: maplibregl.StyleSpecification = {
   version: 8,
   name: 'OpenGive Organic',
   sources: {
-    osm: {
+    carto: {
       type: 'raster',
       tiles: [
-        'https://a.tile.openstreetmap.org/{z}/{x}/{y}.png',
-        'https://b.tile.openstreetmap.org/{z}/{x}/{y}.png',
-        'https://c.tile.openstreetmap.org/{z}/{x}/{y}.png',
+        'https://a.basemaps.cartocdn.com/light_all/{z}/{x}/{y}@2x.png',
+        'https://b.basemaps.cartocdn.com/light_all/{z}/{x}/{y}@2x.png',
+        'https://c.basemaps.cartocdn.com/light_all/{z}/{x}/{y}@2x.png',
       ],
       tileSize: 256,
       attribution:
-        '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-      maxzoom: 19,
+        '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/">CARTO</a>',
+      maxzoom: 20,
     },
   },
   layers: [
     {
-      id: 'osm-tiles',
+      id: 'carto-tiles',
       type: 'raster',
-      source: 'osm',
+      source: 'carto',
       minzoom: 0,
       maxzoom: 22,
       paint: {
-        // Slight desaturation + warmth to match organic palette
-        'raster-saturation': -0.3,
-        'raster-brightness-min': 0.05,
-        'raster-contrast': -0.1,
+        'raster-saturation': -0.15,
+        'raster-brightness-min': 0.02,
       },
     },
   ],
