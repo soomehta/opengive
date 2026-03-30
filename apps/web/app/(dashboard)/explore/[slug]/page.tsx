@@ -107,6 +107,56 @@ const PLACEHOLDER_ORGS: Record<string, OrgDetail> = {
   'caritas-germany': generateOrg('10', 'Caritas Germany', 'caritas-germany', 'Germany', '🇩🇪', 'Social Services', 4_200_000_000),
   'feed-the-future': generateOrg('11', 'Feed the Future', 'feed-the-future', 'Kenya', '🇰🇪', 'Food Security', 55_000_000),
   'clean-water-foundation': generateOrg('12', 'Clean Water Foundation', 'clean-water-foundation', 'Canada', '🇨🇦', 'Water & Sanitation', 28_000_000, 'inactive'),
+  // United States (additional)
+  'ford-foundation': generateOrg('13', 'Ford Foundation', 'ford-foundation', 'United States', '🇺🇸', 'Education', 730_000_000),
+  'care-usa': generateOrg('14', 'CARE USA', 'care-usa', 'United States', '🇺🇸', 'Humanitarian', 580_000_000),
+  'world-vision-usa': generateOrg('15', 'World Vision USA', 'world-vision-usa', 'United States', '🇺🇸', 'Children', 1_100_000_000),
+  'feeding-america': generateOrg('16', 'Feeding America', 'feeding-america', 'United States', '🇺🇸', 'Food Security', 3_400_000_000),
+  'st-jude-research-hospital': generateOrg('17', 'St. Jude Research Hospital', 'st-jude-research-hospital', 'United States', '🇺🇸', 'Medical Research', 2_000_000_000),
+  'nature-conservancy': generateOrg('18', 'Nature Conservancy', 'nature-conservancy', 'United States', '🇺🇸', 'Environment', 1_300_000_000),
+  'direct-relief': generateOrg('19', 'Direct Relief', 'direct-relief', 'United States', '🇺🇸', 'Humanitarian', 2_100_000_000),
+  'salvation-army-usa': generateOrg('20', 'Salvation Army USA', 'salvation-army-usa', 'United States', '🇺🇸', 'Social Services', 4_000_000_000),
+  'boys-girls-clubs': generateOrg('21', 'Boys & Girls Clubs', 'boys-girls-clubs', 'United States', '🇺🇸', 'Children', 620_000_000),
+  'march-of-dimes': generateOrg('22', 'March of Dimes', 'march-of-dimes', 'United States', '🇺🇸', 'Healthcare', 190_000_000, 'inactive'),
+  'planned-parenthood-federation': generateOrg('23', 'Planned Parenthood Federation', 'planned-parenthood-federation', 'United States', '🇺🇸', 'Healthcare', 2_000_000_000),
+  // United Kingdom (additional)
+  'british-red-cross': generateOrg('24', 'British Red Cross', 'british-red-cross', 'United Kingdom', '🇬🇧', 'Humanitarian', 350_000_000),
+  'barnardos': generateOrg('25', "Barnardo's", 'barnardos', 'United Kingdom', '🇬🇧', 'Children', 310_000_000),
+  'national-trust': generateOrg('26', 'National Trust', 'national-trust', 'United Kingdom', '🇬🇧', 'Environment', 620_000_000),
+  'age-uk': generateOrg('27', 'Age UK', 'age-uk', 'United Kingdom', '🇬🇧', 'Social Services', 170_000_000),
+  'rnli': generateOrg('28', 'RNLI', 'rnli', 'United Kingdom', '🇬🇧', 'Disaster Relief', 230_000_000),
+  'wellcome-trust': generateOrg('29', 'Wellcome Trust', 'wellcome-trust', 'United Kingdom', '🇬🇧', 'Medical Research', 1_400_000_000),
+  'cafod': generateOrg('30', 'CAFOD', 'cafod', 'United Kingdom', '🇬🇧', 'Poverty Relief', 92_000_000),
+  // Switzerland (additional)
+  'international-red-cross': generateOrg('31', 'International Red Cross', 'international-red-cross', 'Switzerland', '🇨🇭', 'Humanitarian', 2_500_000_000),
+  // Germany (additional)
+  'diakonie-germany': generateOrg('32', 'Diakonie Germany', 'diakonie-germany', 'Germany', '🇩🇪', 'Social Services', 3_800_000_000),
+  'giz-foundation': generateOrg('33', 'GIZ Foundation', 'giz-foundation', 'Germany', '🇩🇪', 'Global Health', 980_000_000),
+  // Canada (additional)
+  'canadian-red-cross': generateOrg('34', 'Canadian Red Cross', 'canadian-red-cross', 'Canada', '🇨🇦', 'Humanitarian', 520_000_000),
+  'unicef-canada': generateOrg('35', 'UNICEF Canada', 'unicef-canada', 'Canada', '🇨🇦', 'Children', 110_000_000),
+  // Australia
+  'australian-red-cross': generateOrg('36', 'Australian Red Cross', 'australian-red-cross', 'Australia', '🇦🇺', 'Humanitarian', 480_000_000),
+  'oxfam-australia': generateOrg('37', 'Oxfam Australia', 'oxfam-australia', 'Australia', '🇦🇺', 'Poverty Relief', 85_000_000),
+  'fred-hollows-foundation': generateOrg('38', 'Fred Hollows Foundation', 'fred-hollows-foundation', 'Australia', '🇦🇺', 'Healthcare', 120_000_000),
+  // India
+  'helpage-india': generateOrg('39', 'HelpAge India', 'helpage-india', 'India', '🇮🇳', 'Social Services', 42_000_000),
+  'cry-india': generateOrg('40', 'CRY India', 'cry-india', 'India', '🇮🇳', 'Children', 15_000_000),
+  'akshaya-patra-foundation': generateOrg('41', 'Akshaya Patra Foundation', 'akshaya-patra-foundation', 'India', '🇮🇳', 'Food Security', 78_000_000),
+  // France
+  'medecins-du-monde': generateOrg('42', 'Médecins du Monde', 'medecins-du-monde', 'France', '🇫🇷', 'Healthcare', 150_000_000),
+  'fondation-abbe-pierre': generateOrg('43', 'Fondation Abbé Pierre', 'fondation-abbe-pierre', 'France', '🇫🇷', 'Housing', 135_000_000),
+  'action-contre-la-faim': generateOrg('44', 'Action Contre la Faim', 'action-contre-la-faim', 'France', '🇫🇷', 'Food Security', 500_000_000),
+  // Kenya (additional)
+  'kenya-red-cross': generateOrg('45', 'Kenya Red Cross', 'kenya-red-cross', 'Kenya', '🇰🇪', 'Humanitarian', 38_000_000),
+  // Japan
+  'japan-heart-foundation': generateOrg('46', 'Japan Heart Foundation', 'japan-heart-foundation', 'Japan', '🇯🇵', 'Healthcare', 92_000_000),
+  'japan-platform': generateOrg('47', 'Japan Platform', 'japan-platform', 'Japan', '🇯🇵', 'Disaster Relief', 65_000_000),
+  // Brazil
+  'gerando-falcoes': generateOrg('48', 'Gerando Falcões', 'gerando-falcoes', 'Brazil', '🇧🇷', 'Education', 28_000_000),
+  'instituto-ayrton-senna': generateOrg('49', 'Instituto Ayrton Senna', 'instituto-ayrton-senna', 'Brazil', '🇧🇷', 'Education', 47_000_000),
+  // Netherlands
+  'icco-cooperation': generateOrg('50', 'ICCO Cooperation', 'icco-cooperation', 'Netherlands', '🇳🇱', 'Poverty Relief', 115_000_000),
 };
 
 // ---------------------------------------------------------------------------

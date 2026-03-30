@@ -30,7 +30,7 @@ const MOCK_WATCHLIST: WatchlistItem[] = [
 ];
 
 export default function WatchlistPage() {
-  const [items] = useState(MOCK_WATCHLIST);
+  const [items, setItems] = useState(MOCK_WATCHLIST);
 
   return (
     <div className="max-w-5xl mx-auto">
@@ -100,10 +100,10 @@ export default function WatchlistPage() {
                       </div>
                     </div>
                     <div className="flex items-center gap-2">
-                      <Button variant="ghost" size="sm">
+                      <Button variant="ghost" size="sm" onClick={() => alert('Edit watch preferences — coming soon')}>
                         Edit
                       </Button>
-                      <Button variant="ghost" size="sm">
+                      <Button variant="ghost" size="sm" onClick={() => setItems(prev => prev.filter(i => i.id !== item.id))}>
                         Remove
                       </Button>
                     </div>

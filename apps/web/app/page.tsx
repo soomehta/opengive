@@ -2,6 +2,7 @@ import { getTranslations } from 'next-intl/server';
 import Link from 'next/link';
 import { type Route } from 'next';
 import { Button } from '@opengive/ui';
+import { HeroSearch } from '../components/HeroSearch';
 
 // ---------------------------------------------------------------------------
 // Inline icons
@@ -40,15 +41,6 @@ function IconFlows() {
         strokeLinecap="round"
         strokeLinejoin="round"
       />
-    </svg>
-  );
-}
-
-function IconSearchInput() {
-  return (
-    <svg className="h-5 w-5" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-      <circle cx="11" cy="11" r="8" stroke="currentColor" strokeWidth="1.75" />
-      <path d="M21 21l-4.35-4.35" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" />
     </svg>
   );
 }
@@ -217,30 +209,11 @@ export default async function HomePage() {
               {t('subtitle')}
             </p>
 
-            {/* Search bar (UI only — wired in Sprint 3) */}
-            <div className="flex w-full max-w-lg mx-auto mb-10 rounded-full border border-[var(--border-default)] bg-[var(--surface-raised)] overflow-hidden">
-              <div className="relative flex-1">
-                <span
-                  className="absolute start-3 top-1/2 -translate-y-1/2 text-[var(--text-tertiary)]"
-                  aria-hidden="true"
-                >
-                  <IconSearchInput />
-                </span>
-                <input
-                  type="search"
-                  aria-label={t('searchAriaLabel')}
-                  placeholder={t('searchPlaceholder')}
-                  className="w-full h-12 ps-11 pe-4 rounded-s-full text-sm border-0 bg-transparent text-[var(--text-primary)] placeholder:text-[var(--text-tertiary)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent-trust)] focus-visible:ring-inset"
-                />
-              </div>
-              <Button
-                size="lg"
-                className="rounded-s-none rounded-e-full shrink-0 h-12"
-                aria-label="Search organizations"
-              >
-                Search
-              </Button>
-            </div>
+            {/* Search bar — navigates to /explore?q={query} */}
+            <HeroSearch
+              searchPlaceholder={t('searchPlaceholder')}
+              searchAriaLabel={t('searchAriaLabel')}
+            />
 
             {/* CTA buttons */}
             <div className="flex flex-col sm:flex-row items-center justify-center gap-3">

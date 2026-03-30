@@ -11,21 +11,21 @@ import { GeoMap, type MapMarker } from '@opengive/ui';
 // ---------------------------------------------------------------------------
 
 const SAMPLE_MARKERS: MapMarker[] = [
-  { id: '1', name: 'American Red Cross', lat: 38.9, lng: -77.04, country: 'United States', score: 82, alertCount: 0 },
-  { id: '2', name: 'Oxfam International', lat: 51.75, lng: -1.26, country: 'United Kingdom', score: 78, alertCount: 1 },
-  { id: '3', name: 'Doctors Without Borders', lat: 46.2, lng: 6.15, country: 'Switzerland', score: 91, alertCount: 0 },
-  { id: '4', name: 'UNICEF', lat: 40.75, lng: -73.97, country: 'United States', score: 88, alertCount: 0 },
-  { id: '5', name: 'Save the Children', lat: 51.5, lng: -0.12, country: 'United Kingdom', score: 75, alertCount: 2 },
-  { id: '6', name: 'World Vision', lat: -1.29, lng: 36.82, country: 'Kenya', score: 67, alertCount: 1 },
-  { id: '7', name: 'CARE International', lat: 46.05, lng: 14.51, country: 'Switzerland', score: 80, alertCount: 0 },
-  { id: '8', name: 'Habitat for Humanity', lat: 33.75, lng: -84.39, country: 'United States', score: 85, alertCount: 0 },
-  { id: '9', name: 'Plan International', lat: 51.5, lng: -0.09, country: 'United Kingdom', score: 72, alertCount: 0 },
-  { id: '10', name: 'ActionAid', lat: 28.61, lng: 77.23, country: 'India', score: 65, alertCount: 3 },
-  { id: '11', name: 'Médecins du Monde', lat: 48.86, lng: 2.35, country: 'France', score: 79, alertCount: 0 },
-  { id: '12', name: 'Caritas Australia', lat: -33.87, lng: 151.21, country: 'Australia', score: 83, alertCount: 0 },
-  { id: '13', name: 'Canadian Red Cross', lat: 45.42, lng: -75.7, country: 'Canada', score: 86, alertCount: 0 },
-  { id: '14', name: 'Aga Khan Foundation', lat: 46.2, lng: 6.14, country: 'Switzerland', score: 90, alertCount: 0 },
-  { id: '15', name: 'BRAC', lat: 23.81, lng: 90.41, country: 'Bangladesh', score: 58, alertCount: 2 },
+  { id: '1', slug: 'american-red-cross', name: 'American Red Cross', lat: 38.9, lng: -77.04, country: 'United States', score: 82, alertCount: 0 },
+  { id: '2', slug: 'oxfam-international', name: 'Oxfam International', lat: 51.75, lng: -1.26, country: 'United Kingdom', score: 78, alertCount: 1 },
+  { id: '3', slug: 'doctors-without-borders', name: 'Doctors Without Borders', lat: 46.2, lng: 6.15, country: 'Switzerland', score: 91, alertCount: 0 },
+  { id: '4', slug: 'unicef-usa', name: 'UNICEF', lat: 40.75, lng: -73.97, country: 'United States', score: 88, alertCount: 0 },
+  { id: '5', slug: 'save-the-children', name: 'Save the Children', lat: 51.5, lng: -0.12, country: 'United Kingdom', score: 75, alertCount: 2 },
+  { id: '6', slug: 'world-vision', name: 'World Vision', lat: -1.29, lng: 36.82, country: 'Kenya', score: 67, alertCount: 1 },
+  { id: '7', slug: 'care-international', name: 'CARE International', lat: 46.05, lng: 14.51, country: 'Switzerland', score: 80, alertCount: 0 },
+  { id: '8', slug: 'habitat-for-humanity', name: 'Habitat for Humanity', lat: 33.75, lng: -84.39, country: 'United States', score: 85, alertCount: 0 },
+  { id: '9', slug: 'plan-international', name: 'Plan International', lat: 51.5, lng: -0.09, country: 'United Kingdom', score: 72, alertCount: 0 },
+  { id: '10', slug: 'actionaid', name: 'ActionAid', lat: 28.61, lng: 77.23, country: 'India', score: 65, alertCount: 3 },
+  { id: '11', slug: 'medecins-du-monde', name: 'Médecins du Monde', lat: 48.86, lng: 2.35, country: 'France', score: 79, alertCount: 0 },
+  { id: '12', slug: 'caritas-australia', name: 'Caritas Australia', lat: -33.87, lng: 151.21, country: 'Australia', score: 83, alertCount: 0 },
+  { id: '13', slug: 'canadian-red-cross', name: 'Canadian Red Cross', lat: 45.42, lng: -75.7, country: 'Canada', score: 86, alertCount: 0 },
+  { id: '14', slug: 'aga-khan-foundation', name: 'Aga Khan Foundation', lat: 46.2, lng: 6.14, country: 'Switzerland', score: 90, alertCount: 0 },
+  { id: '15', slug: 'brac', name: 'BRAC', lat: 23.81, lng: 90.41, country: 'Bangladesh', score: 58, alertCount: 2 },
 ];
 
 // ---------------------------------------------------------------------------
@@ -326,7 +326,7 @@ export default function CommandCenterPage() {
               <GeoMap
                 markers={SAMPLE_MARKERS}
                 height="300px"
-                onMarkerClick={(m) => window.location.href = `/explore/${m.id}`}
+                onMarkerClick={(m) => window.location.href = `/explore/${m.slug ?? m.id}`}
               />
             </CardContent>
           </Card>

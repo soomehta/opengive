@@ -20,7 +20,7 @@ const MOCK_BOOKMARKS: BookmarkedOrg[] = [
 ];
 
 export default function BookmarksPage() {
-  const [bookmarks] = useState(MOCK_BOOKMARKS);
+  const [bookmarks, setBookmarks] = useState(MOCK_BOOKMARKS);
 
   return (
     <div className="max-w-5xl mx-auto">
@@ -77,7 +77,7 @@ export default function BookmarksPage() {
                       Bookmarked {new Date(org.bookmarkedAt).toLocaleDateString()}
                     </p>
                   </div>
-                  <Button variant="ghost" size="sm">
+                  <Button variant="ghost" size="sm" onClick={() => setBookmarks(prev => prev.filter(b => b.id !== org.id))}>
                     Remove
                   </Button>
                 </div>
