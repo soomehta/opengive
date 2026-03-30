@@ -104,7 +104,7 @@ function AlertFeed({ alerts }: { alerts: Alert[] }) {
           style={{
             display: 'flex',
             gap: '0.75rem',
-            padding: '0.625rem 0',
+            padding: '0.75rem 0',
             borderBottom: '1px solid var(--border-subtle)',
             alignItems: 'flex-start',
           }}

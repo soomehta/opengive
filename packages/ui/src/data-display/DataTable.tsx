@@ -134,7 +134,7 @@ export function DataTable<T extends Record<string, unknown>>({
                         : undefined
                     }
                     style={{
-                      padding: '0.625rem 0.875rem',
+                      padding: '0.75rem 1rem',
                       textAlign: col.align === 'end' ? 'right' : 'left',
                       fontWeight: 500,
                       color: 'var(--text-tertiary)',
@@ -248,7 +248,7 @@ export function DataTable<T extends Record<string, unknown>>({
                       <td
                         key={col.key}
                         style={{
-                          padding: '0.625rem 0.875rem',
+                          padding: '0.75rem 1rem',
                           textAlign: col.align === 'end' ? 'right' : 'left',
                           color: 'var(--text-primary)',
                           borderBottom: '1px solid var(--border-subtle)',

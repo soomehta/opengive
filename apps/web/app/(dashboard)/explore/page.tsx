@@ -131,7 +131,7 @@ const MAX_REVENUE_OPTIONS: { label: string; value: number }[] = [
 type AlertFilter = '' | 'has' | 'none' | 'critical';
 type SortKey = 'name-asc' | 'name-desc' | 'revenue-desc' | 'revenue-asc' | 'alerts-desc' | 'newest';
 
-const PAGE_SIZE = 12;
+const PAGE_SIZE = 50;
 
 // Inline SVG chevron background for select elements
 const SELECT_BG =
@@ -640,37 +640,9 @@ export default function ExplorePage() {
           )}
 
           {/* View toggle */}
-          <div className="ms-auto flex items-center gap-1" role="group" aria-label="View toggle">
-            <button
-              type="button"
-              onClick={() => setView('card')}
-              aria-pressed={view === 'card'}
-              aria-label={t('views.card')}
-              className={cn(
-                'flex items-center justify-center h-9 w-9 rounded-md border transition-colors',
-                'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent-trust)]',
-                view === 'card'
-                  ? 'bg-[var(--accent-trust-subtle)] text-[var(--accent-trust)] border-[var(--accent-trust)]/30'
-                  : 'bg-[var(--surface-raised)] text-[var(--text-tertiary)] border-[var(--border-default)] hover:text-[var(--text-primary)]',
-              )}
-            >
-              <IconGrid />
-            </button>
-            <button
-              type="button"
-              onClick={() => setView('table')}
-              aria-pressed={view === 'table'}
-              aria-label={t('views.table')}
-              className={cn(
-                'flex items-center justify-center h-9 w-9 rounded-md border transition-colors',
-                'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent-trust)]',
-                view === 'table'
-                  ? 'bg-[var(--accent-trust-subtle)] text-[var(--accent-trust)] border-[var(--accent-trust)]/30'
-                  : 'bg-[var(--surface-raised)] text-[var(--text-tertiary)] border-[var(--border-default)] hover:text-[var(--text-primary)]',
-              )}
-            >
-              <IconTable />
-            </button>
+          <div className="ms-auto flex items-center gap-1 text-[var(--text-tertiary)]">
+            <IconTable />
+            <span className="text-xs">{t('views.table')}</span>
           </div>
         </div>
       </div>
@@ -692,21 +664,8 @@ export default function ExplorePage() {
         )}
       </div>
 
-      {/* Results — Card view */}
-      {view === 'card' && (
-        <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4 mb-2">
-          {pageOrgs.length > 0 ? (
-            pageOrgs.map((org) => <OrgCard key={org.id} org={org} />)
-          ) : (
-            <div className="col-span-full py-16 text-center">
-              <p className="text-sm text-[var(--text-secondary)]">{t('results.noResults')}</p>
-            </div>
-          )}
-        </div>
-      )}
-
-      {/* Results — Table view */}
-      {view === 'table' && (
+      {/* Results — List view */}
+      {(
         <div className="mb-2 rounded-md border border-[var(--border-subtle)] overflow-hidden">
           <div className="overflow-x-auto">
             <table className="w-full text-sm">
@@ -723,7 +682,7 @@ export default function ExplorePage() {
                     <th
                       key={col}
                       scope="col"
-                      className="px-4 py-3 text-start text-xs font-medium uppercase tracking-wide text-[var(--text-tertiary)]"
+                      className="px-5 py-3.5 text-start text-xs font-medium uppercase tracking-wide text-[var(--text-tertiary)]"
                     >
                       {col}
                     </th>
@@ -741,7 +700,7 @@ export default function ExplorePage() {
                       }}
                       className="hover:bg-[var(--surface-elevated)] transition-colors"
                     >
-                      <td className="px-4 py-3 font-medium text-[var(--text-primary)]">
+                      <td className="px-5 py-3.5 font-medium text-[var(--text-primary)]">
                         <Link
                           href={`/explore/${org.slug}` as Route}
                           className="hover:text-[var(--accent-trust)] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent-trust)] rounded-sm"
@@ -749,17 +708,17 @@ export default function ExplorePage() {
                           {org.name}
                         </Link>
                       </td>
-                      <td className="px-4 py-3 text-[var(--text-secondary)]">
+                      <td className="px-5 py-3.5 text-[var(--text-secondary)]">
                         <span className="me-1.5" aria-hidden="true">{org.countryFlag}</span>
                         {org.country}
                       </td>
-                      <td className="px-4 py-3">
+                      <td className="px-5 py-3.5">
                         <Badge variant="default" size="sm" hideIcon>{org.sector}</Badge>
                       </td>
-                      <td className="px-4 py-3 text-[var(--text-secondary)] font-mono text-xs">
+                      <td className="px-5 py-3.5 text-[var(--text-secondary)] font-mono text-xs">
                         {formatRevenue(org.latestRevenue)}
                       </td>
-                      <td className="px-4 py-3">
+                      <td className="px-5 py-3.5">
                         {org.alertCount > 0 ? (
                           <Badge variant="danger" size="sm">
                             {org.alertCount}
@@ -768,7 +727,7 @@ export default function ExplorePage() {
                           <span className="text-[var(--text-tertiary)]">—</span>
                         )}
                       </td>
-                      <td className="px-4 py-3">
+                      <td className="px-5 py-3.5">
                         <Badge variant={statusVariant(org.status)} size="sm">
                           {org.status}
                         </Badge>

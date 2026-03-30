@@ -308,7 +308,7 @@ export default async function OrgDetailPage({ params }: Props) {
                       <th
                         key={col}
                         scope="col"
-                        className="px-4 py-3 text-start text-xs font-medium uppercase tracking-wide text-[var(--text-tertiary)]"
+                        className="px-5 py-3.5 text-start text-xs font-medium uppercase tracking-wide text-[var(--text-tertiary)]"
                       >
                         {col}
                       </th>
@@ -324,12 +324,12 @@ export default async function OrgDetailPage({ params }: Props) {
                       }}
                       className="hover:bg-[var(--surface-elevated)] transition-colors"
                     >
-                      <td className="px-4 py-3 font-medium text-[var(--text-primary)]">{officer.name}</td>
-                      <td className="px-4 py-3 text-[var(--text-secondary)]">{officer.title}</td>
-                      <td className="px-4 py-3 text-[var(--text-secondary)] font-mono text-xs">
+                      <td className="px-5 py-3.5 font-medium text-[var(--text-primary)]">{officer.name}</td>
+                      <td className="px-5 py-3.5 text-[var(--text-secondary)]">{officer.title}</td>
+                      <td className="px-5 py-3.5 text-[var(--text-secondary)] font-mono text-xs">
                         {officer.compensation != null ? formatCurrency(officer.compensation) : '—'}
                       </td>
-                      <td className="px-4 py-3 text-[var(--text-secondary)]">
+                      <td className="px-5 py-3.5 text-[var(--text-secondary)]">
                         {officer.hoursPerWeek != null ? `${officer.hoursPerWeek} hrs` : '—'}
                       </td>
                     </tr>
@@ -354,7 +354,7 @@ export default async function OrgDetailPage({ params }: Props) {
                       <th
                         key={col}
                         scope="col"
-                        className="px-4 py-3 text-start text-xs font-medium uppercase tracking-wide text-[var(--text-tertiary)]"
+                        className="px-5 py-3.5 text-start text-xs font-medium uppercase tracking-wide text-[var(--text-tertiary)]"
                       >
                         {col}
                       </th>
@@ -370,11 +370,11 @@ export default async function OrgDetailPage({ params }: Props) {
                       }}
                       className="hover:bg-[var(--surface-elevated)] transition-colors"
                     >
-                      <td className="px-4 py-3 font-medium text-[var(--text-primary)]">{filing.fiscalYear}</td>
-                      <td className="px-4 py-3 text-[var(--text-secondary)] font-mono text-xs">{formatCurrency(filing.revenue)}</td>
-                      <td className="px-4 py-3 text-[var(--text-secondary)] font-mono text-xs">{formatCurrency(filing.expenses)}</td>
-                      <td className="px-4 py-3 text-[var(--text-secondary)] font-mono text-xs">{formatCurrency(filing.netAssets)}</td>
-                      <td className="px-4 py-3">
+                      <td className="px-5 py-3.5 font-medium text-[var(--text-primary)]">{filing.fiscalYear}</td>
+                      <td className="px-5 py-3.5 text-[var(--text-secondary)] font-mono text-xs">{formatCurrency(filing.revenue)}</td>
+                      <td className="px-5 py-3.5 text-[var(--text-secondary)] font-mono text-xs">{formatCurrency(filing.expenses)}</td>
+                      <td className="px-5 py-3.5 text-[var(--text-secondary)] font-mono text-xs">{formatCurrency(filing.netAssets)}</td>
+                      <td className="px-5 py-3.5">
                         <Badge variant="default" size="sm" hideIcon>{filing.form}</Badge>
                       </td>
                     </tr>
@@ -399,7 +399,7 @@ export default async function OrgDetailPage({ params }: Props) {
                       <th
                         key={col}
                         scope="col"
-                        className="px-4 py-3 text-start text-xs font-medium uppercase tracking-wide text-[var(--text-tertiary)]"
+                        className="px-5 py-3.5 text-start text-xs font-medium uppercase tracking-wide text-[var(--text-tertiary)]"
                       >
                         {col}
                       </th>
@@ -415,10 +415,10 @@ export default async function OrgDetailPage({ params }: Props) {
                       }}
                       className="hover:bg-[var(--surface-elevated)] transition-colors"
                     >
-                      <td className="px-4 py-3 font-medium text-[var(--text-primary)]">{grant.recipient}</td>
-                      <td className="px-4 py-3 text-[var(--text-secondary)]">{grant.purpose}</td>
-                      <td className="px-4 py-3 text-[var(--text-secondary)] font-mono text-xs">{formatCurrency(grant.amount)}</td>
-                      <td className="px-4 py-3 text-[var(--text-secondary)]">{grant.year}</td>
+                      <td className="px-5 py-3.5 font-medium text-[var(--text-primary)]">{grant.recipient}</td>
+                      <td className="px-5 py-3.5 text-[var(--text-secondary)]">{grant.purpose}</td>
+                      <td className="px-5 py-3.5 text-[var(--text-secondary)] font-mono text-xs">{formatCurrency(grant.amount)}</td>
+                      <td className="px-5 py-3.5 text-[var(--text-secondary)]">{grant.year}</td>
                     </tr>
                   ))}
                 </tbody>
