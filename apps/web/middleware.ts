@@ -4,7 +4,9 @@ import { createServerClient } from '@supabase/ssr';
 /**
  * Middleware that:
  * 1. Refreshes the Supabase Auth session on every request (required by @supabase/ssr).
- * 2. Protects all (dashboard) routes — unauthenticated users are redirected to /login.
+ * 2. All browsing is public — users can explore, search, and view data without signing in.
+ * 3. Only user-specific features require authentication: bookmarks, watchlists, investigations,
+ *    settings, and API key management.
  */
 export async function middleware(request: NextRequest) {
   let supabaseResponse = NextResponse.next({ request });
@@ -38,19 +40,15 @@ export async function middleware(request: NextRequest) {
 
   const { pathname } = request.nextUrl;
 
-  // Deny-by-default: only these routes are publicly accessible.
-  // Everything else requires authentication.
-  const isPublicRoute =
-    pathname === '/' ||
-    pathname === '/login' ||
-    pathname.startsWith('/about') ||
-    pathname.startsWith('/org/') ||
-    pathname.startsWith('/api-docs') ||
-    pathname.startsWith('/privacy') ||
-    pathname.startsWith('/docs') ||
-    pathname.startsWith('/api/');
+  // All browsing is public — users can explore the full dashboard without signing in.
+  // Only user-specific routes require authentication.
+  const requiresAuth =
+    pathname.startsWith('/investigate') ||
+    pathname.startsWith('/settings') ||
+    pathname.startsWith('/bookmarks') ||
+    pathname.startsWith('/watchlist');
 
-  if (!isPublicRoute && !user) {
+  if (requiresAuth && !user) {
     const loginUrl = request.nextUrl.clone();
     loginUrl.pathname = '/login';
     loginUrl.searchParams.set('redirectTo', pathname);

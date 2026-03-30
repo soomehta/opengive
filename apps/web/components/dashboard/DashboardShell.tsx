@@ -118,12 +118,31 @@ function IconSearch({ className }: { className?: string }) {
 // Nav item definition
 // ---------------------------------------------------------------------------
 
+function IconBookmark({ className }: { className?: string }) {
+  return (
+    <svg className={cn('h-5 w-5', className)} viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <path d="M19 21l-7-5-7 5V5a2 2 0 012-2h10a2 2 0 012 2z" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  );
+}
+
+function IconEye({ className }: { className?: string }) {
+  return (
+    <svg className={cn('h-5 w-5', className)} viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" />
+      <circle cx="12" cy="12" r="3" stroke="currentColor" strokeWidth="1.75" />
+    </svg>
+  );
+}
+
 type NavLabelKey =
   | 'commandCenter'
   | 'explore'
   | 'flows'
   | 'investigate'
   | 'alerts'
+  | 'bookmarks'
+  | 'watchlist'
   | 'settings';
 
 interface NavItem {
@@ -154,6 +173,8 @@ export function DashboardShell({ children, onOpenSearch }: DashboardShellProps) 
     { href: '/flows' as Route, labelKey: 'flows', icon: <IconArrowsRightLeft /> },
     { href: '/investigate' as Route, labelKey: 'investigate', icon: <IconMagnifyingGlass /> },
     { href: '/alerts' as Route, labelKey: 'alerts', icon: <IconBell /> },
+    { href: '/bookmarks' as Route, labelKey: 'bookmarks', icon: <IconBookmark /> },
+    { href: '/watchlist' as Route, labelKey: 'watchlist', icon: <IconEye /> },
     { href: '/settings' as Route, labelKey: 'settings', icon: <IconCog /> },
   ];
 

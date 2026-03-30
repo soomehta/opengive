@@ -205,7 +205,8 @@ export default async function HomePage() {
                 color: 'var(--text-primary)',
               }}
             >
-              {t('headline')}{' '}
+              {t('headline')}
+              <br />
               <span style={{ color: 'var(--accent-trust)' }}>{t('headlineAccent')}</span>
             </h1>
 
