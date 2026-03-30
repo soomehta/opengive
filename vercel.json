@@ -1,6 +1,6 @@
 {
   "framework": "nextjs",
-  "installCommand": "pnpm install",
+  "installCommand": "npm i -g pnpm@9 && pnpm install",
   "buildCommand": "pnpm turbo build --filter=@opengive/web",
   "outputDirectory": "apps/web/.next",
   "regions": ["iad1"],
