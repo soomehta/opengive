@@ -1,8 +1,9 @@
 import type { Metadata } from 'next';
 import { Fraunces, Nunito, IBM_Plex_Mono } from 'next/font/google';
 import { NextIntlClientProvider } from 'next-intl';
-import { getMessages } from 'next-intl/server';
+import { getLocale, getMessages } from 'next-intl/server';
 import { Providers } from '../lib/providers';
+import { RTL_LOCALES } from '../i18n/locales';
 import './globals.css';
 
 const fraunces = Fraunces({
@@ -37,12 +38,15 @@ export const metadata: Metadata = {
 };
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
-  // Provide all messages to client components via NextIntlClientProvider.
+  // Locale is resolved by next-intl/server via i18n/request.ts (cookie-based).
+  const locale = await getLocale();
   const messages = await getMessages();
+  const dir = RTL_LOCALES.includes(locale as 'ar') ? 'rtl' : 'ltr';
 
   return (
     <html
-      lang="en"
+      lang={locale}
+      dir={dir}
       data-theme="light"
       suppressHydrationWarning
     >

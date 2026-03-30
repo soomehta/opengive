@@ -1,0 +1,211 @@
+{
+  "nav": {
+    "commandCenter": "Centre de commande",
+    "explore": "Explorer",
+    "flows": "Flux",
+    "investigate": "Enquêter",
+    "alerts": "Alertes",
+    "bookmarks": "Favoris",
+    "watchlist": "Liste de suivi",
+    "compare": "Comparer",
+    "settings": "Paramètres",
+    "toggleSidebar": "Basculer le panneau latéral",
+    "collapseMenu": "Réduire le menu"
+  },
+  "header": {
+    "logoAlt": "OpenGive",
+    "searchPlaceholder": "Rechercher des organisations…",
+    "searchTrigger": "Rechercher",
+    "searchShortcut": "⌘K",
+    "toggleTheme": "Changer de thème",
+    "userMenu": "Menu utilisateur",
+    "signIn": "Se connecter",
+    "signOut": "Se déconnecter"
+  },
+  "landing": {
+    "headline": "Suivez l'argent.",
+    "headlineAccent": "Exigez la transparence.",
+    "subtitle": "Tableau de bord open-source de responsabilité caritative. Suivez les dons, détectez les anomalies et visualisez les flux d'argent dans plus de 30 registres nationaux.",
+    "searchPlaceholder": "Rechercher des associations, fondations ou ONG…",
+    "searchAriaLabel": "Rechercher des organisations",
+    "exploreDashboard": "Explorer le tableau de bord",
+    "getApiAccess": "Accès API",
+    "stats": {
+      "orgs": "2M+ organisations suivies",
+      "countries": "30+ pays",
+      "flows": "500 milliards $ en flux",
+      "analysis": "Analyse par IA"
+    },
+    "features": {
+      "search": {
+        "title": "Transparence de la recherche",
+        "description": "Recherchez instantanément parmi plus de 2M+ d'organisations caritatives issues de 30+ registres nationaux. Filtrez par pays, secteur et santé financière."
+      },
+      "anomaly": {
+        "title": "Détecter les anomalies",
+        "description": "L'analyse forensique par IA signale les schémas inhabituels dans les déclarations financières. Vérifications de la loi de Benford, analyse des ratios et comparaison entre pairs."
+      },
+      "flows": {
+        "title": "Suivre les flux",
+        "description": "Visualisez comment l'argent circule dans le secteur caritatif. Suivez les subventions des donateurs aux bénéficiaires à travers les frontières."
+      }
+    },
+    "footer": {
+      "copyright": "© 2026 OpenGive. Licence Apache 2.0.",
+      "github": "GitHub",
+      "docs": "Documentation",
+      "api": "API",
+      "privacy": "Confidentialité"
+    }
+  },
+  "explore": {
+    "title": "Explorer les organisations",
+    "searchPlaceholder": "Rechercher par nom, EIN ou identifiant…",
+    "searchAriaLabel": "Rechercher des organisations",
+    "filters": {
+      "country": "Pays",
+      "sector": "Secteur",
+      "status": "Statut",
+      "allCountries": "Tous les pays",
+      "allSectors": "Tous les secteurs",
+      "allStatuses": "Tous les statuts",
+      "minRevenue": "Revenus min.",
+      "maxRevenue": "Revenus max.",
+      "anyRevenue": "Tout",
+      "alertFilter": "Alertes",
+      "anyAlerts": "Toutes les alertes",
+      "hasAlerts": "Avec alertes",
+      "noAlerts": "Sans alertes",
+      "criticalOnly": "Critiques uniquement",
+      "sortBy": "Trier par",
+      "sortNameAsc": "Nom A–Z",
+      "sortNameDesc": "Nom Z–A",
+      "sortRevenueDesc": "Revenus élevés–bas",
+      "sortRevenueAsc": "Revenus bas–élevés",
+      "sortMostAlerts": "Plus d'alertes",
+      "sortNewest": "Plus récent",
+      "resetFilters": "Réinitialiser les filtres"
+    },
+    "views": {
+      "card": "Vue carte",
+      "table": "Vue tableau"
+    },
+    "results": {
+      "revenue": "Revenus",
+      "alerts": "alertes",
+      "noResults": "Aucune organisation trouvée. Essayez d'ajuster vos filtres.",
+      "loading": "Chargement des organisations…",
+      "showing": "Affichage de {visible} sur {total} organisations"
+    },
+    "pagination": {
+      "previous": "Précédent",
+      "next": "Suivant",
+      "pageLabel": "Page {page}",
+      "loadMore": "Charger plus",
+      "loading": "Chargement…"
+    },
+    "table": {
+      "name": "Nom",
+      "country": "Pays",
+      "sector": "Secteur",
+      "revenue": "Revenus",
+      "alerts": "Alertes",
+      "status": "Statut"
+    }
+  },
+  "orgDetail": {
+    "backToExplore": "Retour à Explorer",
+    "investigate": "Enquêter",
+    "sections": {
+      "overview": "Aperçu",
+      "officers": "Dirigeants & Administrateurs",
+      "filings": "Déclarations financières",
+      "grants": "Subventions",
+      "alerts": "Alertes d'anomalies"
+    },
+    "stats": {
+      "revenue": "Revenus totaux",
+      "expenses": "Dépenses totales",
+      "netAssets": "Actif net",
+      "programRatio": "Ratio de dépenses de programme"
+    },
+    "officers": {
+      "name": "Nom",
+      "title": "Titre",
+      "compensation": "Rémunération",
+      "hoursPerWeek": "Heures/semaine"
+    },
+    "filings": {
+      "fiscalYear": "Exercice fiscal",
+      "revenue": "Revenus",
+      "expenses": "Dépenses",
+      "netAssets": "Actif net",
+      "form": "Formulaire"
+    },
+    "grants": {
+      "recipient": "Bénéficiaire",
+      "purpose": "Objet",
+      "amount": "Montant",
+      "year": "Année"
+    },
+    "alerts": {
+      "severity": "Gravité",
+      "description": "Description",
+      "flaggedValue": "Valeur signalée",
+      "detected": "Détecté"
+    },
+    "status": {
+      "active": "Actif",
+      "inactive": "Inactif",
+      "revoked": "Révoqué",
+      "pending": "En attente"
+    },
+    "loading": "Chargement des détails de l'organisation…",
+    "notFound": "Organisation introuvable"
+  },
+  "commandPalette": {
+    "trigger": "Tout rechercher",
+    "placeholder": "Rechercher des organisations, déclarations ou rapports…",
+    "noResults": "Aucun résultat pour",
+    "hint": "Tapez pour rechercher dans toutes les organisations",
+    "ariaLabel": "Palette de commandes",
+    "categories": {
+      "organizations": "Organisations",
+      "recent": "Récent"
+    }
+  },
+  "auth": {
+    "login": {
+      "title": "Se connecter à OpenGive",
+      "subtitle": "Entrez votre e-mail pour recevoir un lien magique",
+      "emailLabel": "Adresse e-mail",
+      "emailPlaceholder": "vous@exemple.com",
+      "submitButton": "Envoyer le lien magique",
+      "submitting": "Envoi…",
+      "successTitle": "Vérifiez votre e-mail",
+      "successMessage": "Nous avons envoyé un lien magique à {email}. Cliquez dessus pour vous connecter.",
+      "errorTitle": "Une erreur est survenue",
+      "backToHome": "Retour à l'accueil",
+      "termsNotice": "En vous connectant, vous acceptez nos conditions d'utilisation et notre politique de confidentialité.",
+      "continueWithGoogle": "Continuer avec Google",
+      "continueWithGitHub": "Continuer avec GitHub",
+      "orDivider": "ou",
+      "oauthError": "La connexion OAuth a échoué. Veuillez réessayer."
+    }
+  },
+  "common": {
+    "loading": "Chargement…",
+    "error": "Une erreur est survenue",
+    "retry": "Réessayer",
+    "close": "Fermer",
+    "cancel": "Annuler",
+    "save": "Enregistrer",
+    "delete": "Supprimer",
+    "edit": "Modifier",
+    "view": "Afficher",
+    "back": "Retour",
+    "next": "Suivant",
+    "previous": "Précédent",
+    "openGive": "OpenGive"
+  }
+}

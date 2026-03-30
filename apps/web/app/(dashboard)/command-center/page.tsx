@@ -5,6 +5,7 @@ import { Card, CardHeader, CardContent } from '@opengive/ui';
 import { StatCard } from '@opengive/ui';
 import { DataTable, type Column } from '@opengive/ui';
 import { GeoMap, type MapMarker } from '@opengive/ui';
+import { trpc } from '../../../lib/trpc';
 
 // ---------------------------------------------------------------------------
 // Sample map markers — in production these come from tRPC geo.getMarkers
@@ -220,55 +221,111 @@ const MOCK_ACTIVITY: ActivityRow[] = [
 ];
 
 // ---------------------------------------------------------------------------
-// Stat data
+// Mock stat fallbacks (shown while the query loads or if it fails)
 // ---------------------------------------------------------------------------
 
-const STATS = [
-  {
-    label: 'Total Organizations',
-    value: 248_419,
-    currencySymbol: undefined,
-    trend: 'up' as const,
-    trendValue: 3.2,
-    sparklineData: [
-      { value: 220000 }, { value: 228000 }, { value: 232000 }, { value: 237000 },
-      { value: 240000 }, { value: 244000 }, { value: 248419 },
-    ],
-  },
-  {
-    label: 'Total Assets Tracked',
-    value: 4_820_000_000,
-    currencySymbol: '$',
-    trend: 'up' as const,
-    trendValue: 7.1,
-    sparklineData: [
-      { value: 4.1e9 }, { value: 4.3e9 }, { value: 4.5e9 }, { value: 4.6e9 },
-      { value: 4.7e9 }, { value: 4.75e9 }, { value: 4.82e9 },
-    ],
-  },
-  {
-    label: 'Active Alerts',
-    value: 143,
-    currencySymbol: undefined,
-    trend: 'down' as const,
-    trendValue: 12.4,
-    sparklineData: [
-      { value: 180 }, { value: 172 }, { value: 165 }, { value: 158 },
-      { value: 152 }, { value: 148 }, { value: 143 },
-    ],
-  },
-  {
-    label: 'Countries Covered',
-    value: 47,
-    currencySymbol: undefined,
-    trend: 'up' as const,
-    trendValue: 4.4,
-    sparklineData: [
-      { value: 38 }, { value: 40 }, { value: 42 }, { value: 43 },
-      { value: 44 }, { value: 45 }, { value: 47 },
-    ],
-  },
-];
+const FALLBACK_STATS = {
+  totalOrgs: 248_419,
+  totalAmount: 4_820_000_000,
+  alertsCount: 143,
+  countriesCovered: 47,
+};
+
+// Sparkline shapes are static visual hints — they don't change with live data.
+const SPARKLINES = {
+  totalOrgs: [
+    { value: 220000 }, { value: 228000 }, { value: 232000 }, { value: 237000 },
+    { value: 240000 }, { value: 244000 }, { value: 248419 },
+  ],
+  totalAmount: [
+    { value: 4.1e9 }, { value: 4.3e9 }, { value: 4.5e9 }, { value: 4.6e9 },
+    { value: 4.7e9 }, { value: 4.75e9 }, { value: 4.82e9 },
+  ],
+  alertsCount: [
+    { value: 180 }, { value: 172 }, { value: 165 }, { value: 158 },
+    { value: 152 }, { value: 148 }, { value: 143 },
+  ],
+  countriesCovered: [
+    { value: 38 }, { value: 40 }, { value: 42 }, { value: 43 },
+    { value: 44 }, { value: 45 }, { value: 47 },
+  ],
+};
+
+// ---------------------------------------------------------------------------
+// Stats grid — reads live data from tRPC, falls back to mock on error
+// ---------------------------------------------------------------------------
+
+function GlobalStatsGrid() {
+  const { data, isError } = trpc.stats.getGlobalStats.useQuery(undefined, {
+    // Refresh every 5 minutes; stale data is fine for this dashboard.
+    staleTime: 5 * 60 * 1000,
+    // Don't retry aggressively — if Supabase is down we want fallback fast.
+    retry: 1,
+  });
+
+  // Use live data when available, fall back to mock values otherwise.
+  const totalOrgs = (!isError && data?.totalOrgs != null) ? data.totalOrgs : FALLBACK_STATS.totalOrgs;
+  const totalAmount = (!isError && data?.totalAmount != null) ? data.totalAmount : FALLBACK_STATS.totalAmount;
+  const alertsCount = (!isError && data?.alertsCount != null) ? data.alertsCount : FALLBACK_STATS.alertsCount;
+  const countriesCovered = (!isError && data?.countriesCovered != null) ? data.countriesCovered : FALLBACK_STATS.countriesCovered;
+
+  const stats = [
+    {
+      label: 'Total Organizations',
+      value: totalOrgs,
+      currencySymbol: undefined,
+      trend: 'up' as const,
+      trendValue: 3.2,
+      sparklineData: SPARKLINES.totalOrgs,
+    },
+    {
+      label: 'Total Assets Tracked',
+      value: totalAmount,
+      currencySymbol: '$',
+      trend: 'up' as const,
+      trendValue: 7.1,
+      sparklineData: SPARKLINES.totalAmount,
+    },
+    {
+      label: 'Active Alerts',
+      value: alertsCount,
+      currencySymbol: undefined,
+      trend: 'down' as const,
+      trendValue: 12.4,
+      sparklineData: SPARKLINES.alertsCount,
+    },
+    {
+      label: 'Countries Covered',
+      value: countriesCovered,
+      currencySymbol: undefined,
+      trend: 'up' as const,
+      trendValue: 4.4,
+      sparklineData: SPARKLINES.countriesCovered,
+    },
+  ];
+
+  return (
+    <div
+      style={{
+        display: 'grid',
+        gridTemplateColumns: '1fr 1fr',
+        gap: '0.75rem',
+      }}
+    >
+      {stats.map((stat) => (
+        <StatCard
+          key={stat.label}
+          label={stat.label}
+          value={stat.value}
+          currencySymbol={stat.currencySymbol}
+          trend={stat.trend}
+          trendValue={stat.trendValue}
+          sparklineData={stat.sparklineData}
+        />
+      ))}
+    </div>
+  );
+}
 
 // ---------------------------------------------------------------------------
 // Page
@@ -380,27 +437,9 @@ export default function CommandCenterPage() {
           </Card>
         </div>
 
-        {/* Stats 2x2 grid */}
+        {/* Stats 2x2 grid — wired to live tRPC data */}
         <div>
-          <div
-            style={{
-              display: 'grid',
-              gridTemplateColumns: '1fr 1fr',
-              gap: '0.75rem',
-            }}
-          >
-            {STATS.map((stat) => (
-              <StatCard
-                key={stat.label}
-                label={stat.label}
-                value={stat.value}
-                currencySymbol={stat.currencySymbol}
-                trend={stat.trend}
-                trendValue={stat.trendValue}
-                sparklineData={stat.sparklineData}
-              />
-            ))}
-          </div>
+          <GlobalStatsGrid />
         </div>
       </div>
 

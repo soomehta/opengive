@@ -1,0 +1,211 @@
+{
+  "nav": {
+    "commandCenter": "Centro de mando",
+    "explore": "Explorar",
+    "flows": "Flujos",
+    "investigate": "Investigar",
+    "alerts": "Alertas",
+    "bookmarks": "Marcadores",
+    "watchlist": "Lista de seguimiento",
+    "compare": "Comparar",
+    "settings": "Configuración",
+    "toggleSidebar": "Alternar barra lateral",
+    "collapseMenu": "Contraer menú"
+  },
+  "header": {
+    "logoAlt": "OpenGive",
+    "searchPlaceholder": "Buscar organizaciones…",
+    "searchTrigger": "Buscar",
+    "searchShortcut": "⌘K",
+    "toggleTheme": "Cambiar tema",
+    "userMenu": "Menú de usuario",
+    "signIn": "Iniciar sesión",
+    "signOut": "Cerrar sesión"
+  },
+  "landing": {
+    "headline": "Sigue el dinero.",
+    "headlineAccent": "Exige transparencia.",
+    "subtitle": "Panel de responsabilidad caritativa de código abierto. Rastrea donaciones, detecta anomalías y visualiza flujos de dinero en más de 30 registros nacionales.",
+    "searchPlaceholder": "Buscar organizaciones benéficas, fundaciones u ONG…",
+    "searchAriaLabel": "Buscar organizaciones",
+    "exploreDashboard": "Explorar el panel",
+    "getApiAccess": "Acceso a la API",
+    "stats": {
+      "orgs": "2M+ organizaciones rastreadas",
+      "countries": "30+ países",
+      "flows": "$500 mil millones en flujos",
+      "analysis": "Análisis con IA"
+    },
+    "features": {
+      "search": {
+        "title": "Transparencia en la búsqueda",
+        "description": "Busca al instante entre más de 2M+ organizaciones benéficas de 30+ registros nacionales. Filtra por país, sector y salud financiera."
+      },
+      "anomaly": {
+        "title": "Detectar anomalías",
+        "description": "El análisis forense con IA señala patrones inusuales en las declaraciones financieras. Comprobaciones de la ley de Benford, análisis de ratios y comparación entre pares."
+      },
+      "flows": {
+        "title": "Rastrear flujos",
+        "description": "Visualiza cómo se mueve el dinero en el sector benéfico. Sigue las subvenciones de donantes a beneficiarios a través de fronteras y entidades."
+      }
+    },
+    "footer": {
+      "copyright": "© 2026 OpenGive. Licencia Apache 2.0.",
+      "github": "GitHub",
+      "docs": "Documentación",
+      "api": "API",
+      "privacy": "Privacidad"
+    }
+  },
+  "explore": {
+    "title": "Explorar organizaciones",
+    "searchPlaceholder": "Buscar por nombre, EIN o ID de registro…",
+    "searchAriaLabel": "Buscar organizaciones",
+    "filters": {
+      "country": "País",
+      "sector": "Sector",
+      "status": "Estado",
+      "allCountries": "Todos los países",
+      "allSectors": "Todos los sectores",
+      "allStatuses": "Todos los estados",
+      "minRevenue": "Ingresos mín.",
+      "maxRevenue": "Ingresos máx.",
+      "anyRevenue": "Cualquiera",
+      "alertFilter": "Alertas",
+      "anyAlerts": "Cualquier alerta",
+      "hasAlerts": "Con alertas",
+      "noAlerts": "Sin alertas",
+      "criticalOnly": "Solo críticas",
+      "sortBy": "Ordenar por",
+      "sortNameAsc": "Nombre A–Z",
+      "sortNameDesc": "Nombre Z–A",
+      "sortRevenueDesc": "Ingresos alto–bajo",
+      "sortRevenueAsc": "Ingresos bajo–alto",
+      "sortMostAlerts": "Más alertas",
+      "sortNewest": "Más reciente",
+      "resetFilters": "Restablecer filtros"
+    },
+    "views": {
+      "card": "Vista de tarjeta",
+      "table": "Vista de tabla"
+    },
+    "results": {
+      "revenue": "Ingresos",
+      "alerts": "alertas",
+      "noResults": "No se encontraron organizaciones. Intenta ajustar los filtros.",
+      "loading": "Cargando organizaciones…",
+      "showing": "Mostrando {visible} de {total} organizaciones"
+    },
+    "pagination": {
+      "previous": "Anterior",
+      "next": "Siguiente",
+      "pageLabel": "Página {page}",
+      "loadMore": "Cargar más",
+      "loading": "Cargando…"
+    },
+    "table": {
+      "name": "Nombre",
+      "country": "País",
+      "sector": "Sector",
+      "revenue": "Ingresos",
+      "alerts": "Alertas",
+      "status": "Estado"
+    }
+  },
+  "orgDetail": {
+    "backToExplore": "Volver a Explorar",
+    "investigate": "Investigar",
+    "sections": {
+      "overview": "Resumen",
+      "officers": "Directivos y Administradores",
+      "filings": "Declaraciones financieras",
+      "grants": "Subvenciones",
+      "alerts": "Alertas de anomalías"
+    },
+    "stats": {
+      "revenue": "Ingresos totales",
+      "expenses": "Gastos totales",
+      "netAssets": "Activos netos",
+      "programRatio": "Ratio de gastos de programa"
+    },
+    "officers": {
+      "name": "Nombre",
+      "title": "Título",
+      "compensation": "Remuneración",
+      "hoursPerWeek": "Horas/semana"
+    },
+    "filings": {
+      "fiscalYear": "Año fiscal",
+      "revenue": "Ingresos",
+      "expenses": "Gastos",
+      "netAssets": "Activos netos",
+      "form": "Formulario"
+    },
+    "grants": {
+      "recipient": "Beneficiario",
+      "purpose": "Propósito",
+      "amount": "Importe",
+      "year": "Año"
+    },
+    "alerts": {
+      "severity": "Gravedad",
+      "description": "Descripción",
+      "flaggedValue": "Valor marcado",
+      "detected": "Detectado"
+    },
+    "status": {
+      "active": "Activo",
+      "inactive": "Inactivo",
+      "revoked": "Revocado",
+      "pending": "Pendiente"
+    },
+    "loading": "Cargando detalles de la organización…",
+    "notFound": "Organización no encontrada"
+  },
+  "commandPalette": {
+    "trigger": "Buscar todo",
+    "placeholder": "Buscar organizaciones, declaraciones o informes…",
+    "noResults": "Sin resultados para",
+    "hint": "Escribe para buscar en todas las organizaciones",
+    "ariaLabel": "Paleta de comandos",
+    "categories": {
+      "organizations": "Organizaciones",
+      "recent": "Reciente"
+    }
+  },
+  "auth": {
+    "login": {
+      "title": "Iniciar sesión en OpenGive",
+      "subtitle": "Introduce tu e-mail para recibir un enlace mágico",
+      "emailLabel": "Dirección de e-mail",
+      "emailPlaceholder": "tu@ejemplo.com",
+      "submitButton": "Enviar enlace mágico",
+      "submitting": "Enviando…",
+      "successTitle": "Revisa tu e-mail",
+      "successMessage": "Enviamos un enlace mágico a {email}. Haz clic para iniciar sesión.",
+      "errorTitle": "Algo salió mal",
+      "backToHome": "Volver al inicio",
+      "termsNotice": "Al iniciar sesión, aceptas nuestros términos de servicio y política de privacidad.",
+      "continueWithGoogle": "Continuar con Google",
+      "continueWithGitHub": "Continuar con GitHub",
+      "orDivider": "o",
+      "oauthError": "El inicio de sesión OAuth falló. Por favor, inténtalo de nuevo."
+    }
+  },
+  "common": {
+    "loading": "Cargando…",
+    "error": "Algo salió mal",
+    "retry": "Reintentar",
+    "close": "Cerrar",
+    "cancel": "Cancelar",
+    "save": "Guardar",
+    "delete": "Eliminar",
+    "edit": "Editar",
+    "view": "Ver",
+    "back": "Atrás",
+    "next": "Siguiente",
+    "previous": "Anterior",
+    "openGive": "OpenGive"
+  }
+}

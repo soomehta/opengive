@@ -107,3 +107,5 @@ playwright/.cache/
 .husky/_/
 
 .vercel
+
+.vercel

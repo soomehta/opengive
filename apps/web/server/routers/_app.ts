@@ -8,6 +8,10 @@
  *   analysis       — anomaly alerts feed, scores, entity resolution matches
  *   geo            — geospatial organization markers (PostGIS-backed)
  *   stats          — Command Center aggregations (global stats, activity, top alerts)
+ *   investigations — saved investigations (protected)
+ *   bookmarks      — user bookmarks with notes (protected)
+ *   watchlist      — user watchlist with watch types (protected)
+ *   settings       — user profile and API key management (protected)
  */
 
 import { router } from '../trpc';
@@ -18,6 +22,9 @@ import { analysisRouter } from './analysis';
 import { geoRouter } from './geo';
 import { statsRouter } from './stats';
 import { investigationsRouter } from './investigations';
+import { bookmarksRouter } from './bookmarks';
+import { watchlistRouter } from './watchlist';
+import { settingsRouter } from './settings';
 
 export const appRouter = router({
   organizations: organizationRouter,
@@ -27,6 +34,9 @@ export const appRouter = router({
   geo: geoRouter,
   stats: statsRouter,
   investigations: investigationsRouter,
+  bookmarks: bookmarksRouter,
+  watchlist: watchlistRouter,
+  settings: settingsRouter,
 });
 
 /**

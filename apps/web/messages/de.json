@@ -1,0 +1,211 @@
+{
+  "nav": {
+    "commandCenter": "Befehlszentrale",
+    "explore": "Erkunden",
+    "flows": "Geldflüsse",
+    "investigate": "Untersuchen",
+    "alerts": "Warnungen",
+    "bookmarks": "Lesezeichen",
+    "watchlist": "Beobachtungsliste",
+    "compare": "Vergleichen",
+    "settings": "Einstellungen",
+    "toggleSidebar": "Seitenleiste umschalten",
+    "collapseMenu": "Menü einklappen"
+  },
+  "header": {
+    "logoAlt": "OpenGive",
+    "searchPlaceholder": "Organisationen suchen…",
+    "searchTrigger": "Suchen",
+    "searchShortcut": "⌘K",
+    "toggleTheme": "Design wechseln",
+    "userMenu": "Benutzermenü",
+    "signIn": "Anmelden",
+    "signOut": "Abmelden"
+  },
+  "landing": {
+    "headline": "Folge dem Geld.",
+    "headlineAccent": "Verlange Transparenz.",
+    "subtitle": "Open-Source-Dashboard für gemeinnützige Rechenschaftspflicht. Spenden verfolgen, Anomalien erkennen und Geldflüsse in über 30 nationalen Registern visualisieren.",
+    "searchPlaceholder": "Wohltätigkeitsorganisationen, Stiftungen oder NGOs suchen…",
+    "searchAriaLabel": "Organisationen suchen",
+    "exploreDashboard": "Dashboard erkunden",
+    "getApiAccess": "API-Zugang",
+    "stats": {
+      "orgs": "2M+ Organisationen verfolgt",
+      "countries": "30+ Länder",
+      "flows": "500 Mrd. $ an Geldflüssen",
+      "analysis": "KI-gestützte Analyse"
+    },
+    "features": {
+      "search": {
+        "title": "Such-Transparenz",
+        "description": "Sofortige Suche über 2M+ Wohltätigkeitsorganisationen aus 30+ nationalen Registern. Filtern nach Land, Sektor und finanzieller Gesundheit."
+      },
+      "anomaly": {
+        "title": "Anomalien erkennen",
+        "description": "KI-gestützte forensische Analyse markiert ungewöhnliche Muster in Finanzberichten. Benford-Gesetz-Prüfungen, Verhältnisanalyse und Peer-Vergleich."
+      },
+      "flows": {
+        "title": "Geldflüsse verfolgen",
+        "description": "Visualisiere, wie Geld durch den gemeinnützigen Sektor fließt. Verfolge Zuschüsse von Spendern zu Empfängern über Grenzen hinweg."
+      }
+    },
+    "footer": {
+      "copyright": "© 2026 OpenGive. Apache 2.0 Lizenz.",
+      "github": "GitHub",
+      "docs": "Dokumentation",
+      "api": "API",
+      "privacy": "Datenschutz"
+    }
+  },
+  "explore": {
+    "title": "Organisationen erkunden",
+    "searchPlaceholder": "Nach Name, EIN oder Registrierungs-ID suchen…",
+    "searchAriaLabel": "Organisationen suchen",
+    "filters": {
+      "country": "Land",
+      "sector": "Sektor",
+      "status": "Status",
+      "allCountries": "Alle Länder",
+      "allSectors": "Alle Sektoren",
+      "allStatuses": "Alle Status",
+      "minRevenue": "Min. Einnahmen",
+      "maxRevenue": "Max. Einnahmen",
+      "anyRevenue": "Beliebig",
+      "alertFilter": "Warnungen",
+      "anyAlerts": "Alle Warnungen",
+      "hasAlerts": "Mit Warnungen",
+      "noAlerts": "Ohne Warnungen",
+      "criticalOnly": "Nur kritische",
+      "sortBy": "Sortieren nach",
+      "sortNameAsc": "Name A–Z",
+      "sortNameDesc": "Name Z–A",
+      "sortRevenueDesc": "Einnahmen hoch–niedrig",
+      "sortRevenueAsc": "Einnahmen niedrig–hoch",
+      "sortMostAlerts": "Meiste Warnungen",
+      "sortNewest": "Neueste",
+      "resetFilters": "Filter zurücksetzen"
+    },
+    "views": {
+      "card": "Kartenansicht",
+      "table": "Tabellenansicht"
+    },
+    "results": {
+      "revenue": "Einnahmen",
+      "alerts": "Warnungen",
+      "noResults": "Keine Organisationen gefunden. Versuche, die Filter anzupassen.",
+      "loading": "Organisationen laden…",
+      "showing": "{visible} von {total} Organisationen werden angezeigt"
+    },
+    "pagination": {
+      "previous": "Zurück",
+      "next": "Weiter",
+      "pageLabel": "Seite {page}",
+      "loadMore": "Mehr laden",
+      "loading": "Laden…"
+    },
+    "table": {
+      "name": "Name",
+      "country": "Land",
+      "sector": "Sektor",
+      "revenue": "Einnahmen",
+      "alerts": "Warnungen",
+      "status": "Status"
+    }
+  },
+  "orgDetail": {
+    "backToExplore": "Zurück zu Erkunden",
+    "investigate": "Untersuchen",
+    "sections": {
+      "overview": "Übersicht",
+      "officers": "Vorstand & Direktoren",
+      "filings": "Finanzberichte",
+      "grants": "Zuschüsse",
+      "alerts": "Anomalie-Warnungen"
+    },
+    "stats": {
+      "revenue": "Gesamteinnahmen",
+      "expenses": "Gesamtausgaben",
+      "netAssets": "Nettovermögen",
+      "programRatio": "Programmkostenquote"
+    },
+    "officers": {
+      "name": "Name",
+      "title": "Titel",
+      "compensation": "Vergütung",
+      "hoursPerWeek": "Stunden/Woche"
+    },
+    "filings": {
+      "fiscalYear": "Geschäftsjahr",
+      "revenue": "Einnahmen",
+      "expenses": "Ausgaben",
+      "netAssets": "Nettovermögen",
+      "form": "Formular"
+    },
+    "grants": {
+      "recipient": "Empfänger",
+      "purpose": "Zweck",
+      "amount": "Betrag",
+      "year": "Jahr"
+    },
+    "alerts": {
+      "severity": "Schweregrad",
+      "description": "Beschreibung",
+      "flaggedValue": "Markierter Wert",
+      "detected": "Erkannt"
+    },
+    "status": {
+      "active": "Aktiv",
+      "inactive": "Inaktiv",
+      "revoked": "Widerrufen",
+      "pending": "Ausstehend"
+    },
+    "loading": "Organisationsdetails laden…",
+    "notFound": "Organisation nicht gefunden"
+  },
+  "commandPalette": {
+    "trigger": "Alles suchen",
+    "placeholder": "Organisationen, Berichte oder Meldungen suchen…",
+    "noResults": "Keine Ergebnisse für",
+    "hint": "Eingabe zur Suche in allen Organisationen",
+    "ariaLabel": "Befehlspalette",
+    "categories": {
+      "organizations": "Organisationen",
+      "recent": "Zuletzt angesehen"
+    }
+  },
+  "auth": {
+    "login": {
+      "title": "Bei OpenGive anmelden",
+      "subtitle": "Gib deine E-Mail-Adresse ein, um einen Magic-Link zu erhalten",
+      "emailLabel": "E-Mail-Adresse",
+      "emailPlaceholder": "du@beispiel.de",
+      "submitButton": "Magic-Link senden",
+      "submitting": "Senden…",
+      "successTitle": "Überprüfe deine E-Mail",
+      "successMessage": "Wir haben einen Magic-Link an {email} gesendet. Klicke darauf, um dich anzumelden.",
+      "errorTitle": "Etwas ist schiefgelaufen",
+      "backToHome": "Zurück zur Startseite",
+      "termsNotice": "Durch das Anmelden stimmst du unseren Nutzungsbedingungen und Datenschutzrichtlinien zu.",
+      "continueWithGoogle": "Mit Google fortfahren",
+      "continueWithGitHub": "Mit GitHub fortfahren",
+      "orDivider": "oder",
+      "oauthError": "OAuth-Anmeldung fehlgeschlagen. Bitte versuche es erneut."
+    }
+  },
+  "common": {
+    "loading": "Laden…",
+    "error": "Etwas ist schiefgelaufen",
+    "retry": "Erneut versuchen",
+    "close": "Schließen",
+    "cancel": "Abbrechen",
+    "save": "Speichern",
+    "delete": "Löschen",
+    "edit": "Bearbeiten",
+    "view": "Anzeigen",
+    "back": "Zurück",
+    "next": "Weiter",
+    "previous": "Zurück",
+    "openGive": "OpenGive"
+  }
+}

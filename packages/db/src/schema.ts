@@ -520,3 +520,61 @@ export const savedInvestigations = pgTable(
     index('idx_saved_investigations_public').on(table.isPublic),
   ],
 );
+
+// ---------------------------------------------------------------------------
+// Table: bookmarks (migration 00009)
+// ---------------------------------------------------------------------------
+
+export const bookmarks = pgTable(
+  'bookmarks',
+  {
+    id: uuid('id').primaryKey().defaultRandom(),
+    userId: uuid('user_id')
+      .notNull()
+      .references(() => userProfiles.id, { onDelete: 'cascade' }),
+    organizationId: uuid('organization_id')
+      .notNull()
+      .references(() => organizations.id, { onDelete: 'cascade' }),
+    notes: text('notes'),
+    createdAt: timestamp('created_at', { withTimezone: true }).defaultNow(),
+  },
+  (table) => [
+    index('idx_bookmarks_user_id').on(table.userId),
+    index('idx_bookmarks_org_id').on(table.organizationId),
+    uniqueIndex('bookmarks_user_id_organization_id_key').on(
+      table.userId,
+      table.organizationId,
+    ),
+  ],
+);
+
+// ---------------------------------------------------------------------------
+// Table: watchlist (migration 00010)
+// ---------------------------------------------------------------------------
+
+export const watchlist = pgTable(
+  'watchlist',
+  {
+    id: uuid('id').primaryKey().defaultRandom(),
+    userId: uuid('user_id')
+      .notNull()
+      .references(() => userProfiles.id, { onDelete: 'cascade' }),
+    organizationId: uuid('organization_id')
+      .notNull()
+      .references(() => organizations.id, { onDelete: 'cascade' }),
+    watchType: text('watch_type', {
+      enum: ['all', 'score_change', 'new_filing', 'anomaly_alert', 'grant_activity'],
+    })
+      .notNull()
+      .default('all'),
+    createdAt: timestamp('created_at', { withTimezone: true }).defaultNow(),
+  },
+  (table) => [
+    index('idx_watchlist_user_id').on(table.userId),
+    index('idx_watchlist_org_id').on(table.organizationId),
+    uniqueIndex('watchlist_user_id_organization_id_key').on(
+      table.userId,
+      table.organizationId,
+    ),
+  ],
+);

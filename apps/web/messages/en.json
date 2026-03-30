@@ -7,6 +7,7 @@
     "alerts": "Alerts",
     "bookmarks": "Bookmarks",
     "watchlist": "Watchlist",
+    "compare": "Compare",
     "settings": "Settings",
     "toggleSidebar": "Toggle sidebar",
     "collapseMenu": "Collapse menu"
@@ -185,7 +186,11 @@
       "successMessage": "We sent a magic link to {email}. Click it to sign in.",
       "errorTitle": "Something went wrong",
       "backToHome": "Back to home",
-      "termsNotice": "By signing in, you agree to our terms of service and privacy policy."
+      "termsNotice": "By signing in, you agree to our terms of service and privacy policy.",
+      "continueWithGoogle": "Continue with Google",
+      "continueWithGitHub": "Continue with GitHub",
+      "orDivider": "or",
+      "oauthError": "OAuth sign-in failed. Please try again."
     }
   },
   "common": {

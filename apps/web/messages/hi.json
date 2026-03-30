@@ -1,0 +1,211 @@
+{
+  "nav": {
+    "commandCenter": "कमांड सेंटर",
+    "explore": "एक्सप्लोर",
+    "flows": "प्रवाह",
+    "investigate": "जांच",
+    "alerts": "अलर्ट",
+    "bookmarks": "बुकमार्क",
+    "watchlist": "वॉचलिस्ट",
+    "compare": "तुलना करें",
+    "settings": "सेटिंग्स",
+    "toggleSidebar": "साइडबार टॉगल करें",
+    "collapseMenu": "मेनू संकुचित करें"
+  },
+  "header": {
+    "logoAlt": "OpenGive",
+    "searchPlaceholder": "संगठन खोजें…",
+    "searchTrigger": "खोजें",
+    "searchShortcut": "⌘K",
+    "toggleTheme": "थीम बदलें",
+    "userMenu": "उपयोगकर्ता मेनू",
+    "signIn": "साइन इन",
+    "signOut": "साइन आउट"
+  },
+  "landing": {
+    "headline": "पैसे का पीछा करें।",
+    "headlineAccent": "पारदर्शिता की मांग करें।",
+    "subtitle": "ओपन-सोर्स चैरिटी जवाबदेही डैशबोर्ड। 30+ राष्ट्रीय रजिस्ट्री में दान ट्रैक करें, विसंगतियाँ खोजें और धन प्रवाह की कल्पना करें।",
+    "searchPlaceholder": "चैरिटी, फाउंडेशन या NGO खोजें…",
+    "searchAriaLabel": "संगठन खोजें",
+    "exploreDashboard": "डैशबोर्ड एक्सप्लोर करें",
+    "getApiAccess": "API एक्सेस",
+    "stats": {
+      "orgs": "2M+ संगठन ट्रैक",
+      "countries": "30+ देश",
+      "flows": "$500B+ प्रवाह",
+      "analysis": "AI-संचालित विश्लेषण"
+    },
+    "features": {
+      "search": {
+        "title": "खोज पारदर्शिता",
+        "description": "30+ राष्ट्रीय रजिस्ट्री से 2M+ चैरिटी संगठनों में तुरंत खोजें। देश, क्षेत्र और वित्तीय स्वास्थ्य के अनुसार फ़िल्टर करें।"
+      },
+      "anomaly": {
+        "title": "विसंगतियाँ पहचानें",
+        "description": "AI-संचालित फोरेंसिक विश्लेषण वित्तीय फाइलिंग में असामान्य पैटर्न का पता लगाता है। बेनफोर्ड के नियम की जाँच, अनुपात विश्लेषण और पीयर तुलना।"
+      },
+      "flows": {
+        "title": "प्रवाह ट्रैक करें",
+        "description": "देखें कि धर्मार्थ क्षेत्र में पैसा कैसे चलता है। सीमाओं और संस्थाओं के पार दाताओं से प्राप्तकर्ताओं तक अनुदान का पालन करें।"
+      }
+    },
+    "footer": {
+      "copyright": "© 2026 OpenGive. Apache 2.0 लाइसेंस।",
+      "github": "GitHub",
+      "docs": "दस्तावेज़ीकरण",
+      "api": "API",
+      "privacy": "गोपनीयता"
+    }
+  },
+  "explore": {
+    "title": "संगठन एक्सप्लोर करें",
+    "searchPlaceholder": "नाम, EIN या पंजीकरण ID से खोजें…",
+    "searchAriaLabel": "संगठन खोजें",
+    "filters": {
+      "country": "देश",
+      "sector": "क्षेत्र",
+      "status": "स्थिति",
+      "allCountries": "सभी देश",
+      "allSectors": "सभी क्षेत्र",
+      "allStatuses": "सभी स्थितियाँ",
+      "minRevenue": "न्यूनतम राजस्व",
+      "maxRevenue": "अधिकतम राजस्व",
+      "anyRevenue": "कोई भी",
+      "alertFilter": "अलर्ट",
+      "anyAlerts": "कोई भी अलर्ट",
+      "hasAlerts": "अलर्ट के साथ",
+      "noAlerts": "कोई अलर्ट नहीं",
+      "criticalOnly": "केवल गंभीर",
+      "sortBy": "इससे क्रमबद्ध करें",
+      "sortNameAsc": "नाम अ–ज",
+      "sortNameDesc": "नाम ज–अ",
+      "sortRevenueDesc": "राजस्व उच्च–निम्न",
+      "sortRevenueAsc": "राजस्व निम्न–उच्च",
+      "sortMostAlerts": "सबसे अधिक अलर्ट",
+      "sortNewest": "सबसे नए",
+      "resetFilters": "फ़िल्टर रीसेट करें"
+    },
+    "views": {
+      "card": "कार्ड व्यू",
+      "table": "टेबल व्यू"
+    },
+    "results": {
+      "revenue": "राजस्व",
+      "alerts": "अलर्ट",
+      "noResults": "कोई संगठन नहीं मिला। अपने फ़िल्टर समायोजित करें।",
+      "loading": "संगठन लोड हो रहे हैं…",
+      "showing": "{total} में से {visible} संगठन दिखाए जा रहे हैं"
+    },
+    "pagination": {
+      "previous": "पिछला",
+      "next": "अगला",
+      "pageLabel": "पृष्ठ {page}",
+      "loadMore": "और लोड करें",
+      "loading": "लोड हो रहा है…"
+    },
+    "table": {
+      "name": "नाम",
+      "country": "देश",
+      "sector": "क्षेत्र",
+      "revenue": "राजस्व",
+      "alerts": "अलर्ट",
+      "status": "स्थिति"
+    }
+  },
+  "orgDetail": {
+    "backToExplore": "एक्सप्लोर पर वापस जाएं",
+    "investigate": "जांच",
+    "sections": {
+      "overview": "अवलोकन",
+      "officers": "अधिकारी और निदेशक",
+      "filings": "वित्तीय फाइलिंग",
+      "grants": "अनुदान",
+      "alerts": "विसंगति अलर्ट"
+    },
+    "stats": {
+      "revenue": "कुल राजस्व",
+      "expenses": "कुल व्यय",
+      "netAssets": "शुद्ध संपत्ति",
+      "programRatio": "कार्यक्रम व्यय अनुपात"
+    },
+    "officers": {
+      "name": "नाम",
+      "title": "पदनाम",
+      "compensation": "मुआवजा",
+      "hoursPerWeek": "घंटे/सप्ताह"
+    },
+    "filings": {
+      "fiscalYear": "वित्तीय वर्ष",
+      "revenue": "राजस्व",
+      "expenses": "व्यय",
+      "netAssets": "शुद्ध संपत्ति",
+      "form": "फॉर्म"
+    },
+    "grants": {
+      "recipient": "प्राप्तकर्ता",
+      "purpose": "उद्देश्य",
+      "amount": "राशि",
+      "year": "वर्ष"
+    },
+    "alerts": {
+      "severity": "गंभीरता",
+      "description": "विवरण",
+      "flaggedValue": "फ्लैग किया गया मान",
+      "detected": "पहचाना गया"
+    },
+    "status": {
+      "active": "सक्रिय",
+      "inactive": "निष्क्रिय",
+      "revoked": "निरस्त",
+      "pending": "लंबित"
+    },
+    "loading": "संगठन विवरण लोड हो रहा है…",
+    "notFound": "संगठन नहीं मिला"
+  },
+  "commandPalette": {
+    "trigger": "सब कुछ खोजें",
+    "placeholder": "संगठन, फाइलिंग या रिपोर्ट खोजें…",
+    "noResults": "कोई परिणाम नहीं",
+    "hint": "सभी संगठनों में खोजने के लिए टाइप करें",
+    "ariaLabel": "कमांड पैलेट",
+    "categories": {
+      "organizations": "संगठन",
+      "recent": "हाल का"
+    }
+  },
+  "auth": {
+    "login": {
+      "title": "OpenGive में साइन इन करें",
+      "subtitle": "मैजिक लिंक प्राप्त करने के लिए अपना ईमेल दर्ज करें",
+      "emailLabel": "ईमेल पता",
+      "emailPlaceholder": "you@example.com",
+      "submitButton": "मैजिक लिंक भेजें",
+      "submitting": "भेजा जा रहा है…",
+      "successTitle": "अपना ईमेल जांचें",
+      "successMessage": "हमने {email} पर एक मैजिक लिंक भेजा है। साइन इन करने के लिए उस पर क्लिक करें।",
+      "errorTitle": "कुछ गलत हो गया",
+      "backToHome": "होम पर वापस जाएं",
+      "termsNotice": "साइन इन करके, आप हमारी सेवा की शर्तों और गोपनीयता नीति से सहमत होते हैं।",
+      "continueWithGoogle": "Google के साथ जारी रखें",
+      "continueWithGitHub": "GitHub के साथ जारी रखें",
+      "orDivider": "या",
+      "oauthError": "OAuth साइन-इन विफल हुआ। कृपया पुनः प्रयास करें।"
+    }
+  },
+  "common": {
+    "loading": "लोड हो रहा है…",
+    "error": "कुछ गलत हो गया",
+    "retry": "पुनः प्रयास करें",
+    "close": "बंद करें",
+    "cancel": "रद्द करें",
+    "save": "सहेजें",
+    "delete": "हटाएं",
+    "edit": "संपादित करें",
+    "view": "देखें",
+    "back": "वापस",
+    "next": "अगला",
+    "previous": "पिछला",
+    "openGive": "OpenGive"
+  }
+}

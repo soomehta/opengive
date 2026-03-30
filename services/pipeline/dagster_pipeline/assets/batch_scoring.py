@@ -31,7 +31,7 @@ def _ml_api_headers() -> dict[str, str]:
     """
     headers: dict[str, str] = {"Content-Type": "application/json"}
     if _ML_API_SECRET:
-        headers["Authorization"] = f"Bearer {_ML_API_SECRET}"
+        headers["X-Service-Secret"] = _ML_API_SECRET
     return headers
 
 

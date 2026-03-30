@@ -4,6 +4,9 @@ from dagster import Definitions, load_assets_from_modules
 
 from dagster_pipeline.assets import (
     australia_acnc,
+    batch_anomaly_detection,
+    batch_embeddings,
+    batch_entity_resolution,
     batch_scoring,
     canada_cra,
     france_rna,
@@ -38,6 +41,12 @@ _all_assets = load_assets_from_modules(
         oecd_dac,
         # Sprint 5 — scoring
         batch_scoring,
+        # Sprint 5 — anomaly detection
+        batch_anomaly_detection,
+        # Sprint 5 — embeddings
+        batch_embeddings,
+        # Sprint 5 — entity resolution
+        batch_entity_resolution,
         # Sprint 7 — India and GCC sources
         india_scrapers,
     ]

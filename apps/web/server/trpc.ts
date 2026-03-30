@@ -124,6 +124,14 @@ export const router = t.router;
 export const publicProcedure = t.procedure;
 
 /**
+ * Factory for creating server-side callers without going through the HTTP
+ * layer.  Use this in Server Components and Route Handlers.
+ *
+ * @see https://trpc.io/docs/v11/server/server-side-calls
+ */
+export const createCallerFactory = t.createCallerFactory;
+
+/**
  * Requires an authenticated Supabase session.
  * Throws UNAUTHORIZED when `ctx.userId` is null.
  */

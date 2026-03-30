@@ -1,0 +1,211 @@
+{
+  "nav": {
+    "commandCenter": "مركز القيادة",
+    "explore": "استكشاف",
+    "flows": "التدفقات",
+    "investigate": "تحقيق",
+    "alerts": "التنبيهات",
+    "bookmarks": "الإشارات المرجعية",
+    "watchlist": "قائمة المتابعة",
+    "compare": "مقارنة",
+    "settings": "الإعدادات",
+    "toggleSidebar": "تبديل الشريط الجانبي",
+    "collapseMenu": "طي القائمة"
+  },
+  "header": {
+    "logoAlt": "OpenGive",
+    "searchPlaceholder": "البحث عن المنظمات…",
+    "searchTrigger": "بحث",
+    "searchShortcut": "⌘K",
+    "toggleTheme": "تبديل السمة",
+    "userMenu": "قائمة المستخدم",
+    "signIn": "تسجيل الدخول",
+    "signOut": "تسجيل الخروج"
+  },
+  "landing": {
+    "headline": "تتبع المال.",
+    "headlineAccent": "اطلب الشفافية.",
+    "subtitle": "لوحة تحكم مفتوحة المصدر للمساءلة الخيرية. تتبع التبرعات واكتشف الشذوذات وقم بتصور تدفقات الأموال عبر أكثر من 30 سجلاً وطنياً.",
+    "searchPlaceholder": "البحث عن الجمعيات الخيرية أو المؤسسات أو المنظمات غير الحكومية…",
+    "searchAriaLabel": "البحث عن المنظمات",
+    "exploreDashboard": "استكشاف لوحة التحكم",
+    "getApiAccess": "الوصول إلى API",
+    "stats": {
+      "orgs": "أكثر من 2 مليون منظمة مُتتبَّعة",
+      "countries": "أكثر من 30 دولة",
+      "flows": "أكثر من 500 مليار دولار في التدفقات",
+      "analysis": "تحليل بالذكاء الاصطناعي"
+    },
+    "features": {
+      "search": {
+        "title": "شفافية البحث",
+        "description": "ابحث فوراً بين أكثر من 2 مليون منظمة خيرية من أكثر من 30 سجلاً وطنياً. تصفية حسب الدولة والقطاع والصحة المالية."
+      },
+      "anomaly": {
+        "title": "اكتشاف الشذوذات",
+        "description": "يعمل التحليل الجنائي بالذكاء الاصطناعي على تحديد الأنماط غير المعتادة في الإيداعات المالية. فحوصات قانون بنفورد وتحليل النسب ومقارنة الأقران."
+      },
+      "flows": {
+        "title": "تتبع التدفقات",
+        "description": "قم بتصور كيفية تدفق الأموال عبر القطاع الخيري. تتبع المنح من المانحين إلى المستفيدين عبر الحدود والكيانات."
+      }
+    },
+    "footer": {
+      "copyright": "© 2026 OpenGive. مرخص بموجب Apache 2.0.",
+      "github": "GitHub",
+      "docs": "التوثيق",
+      "api": "API",
+      "privacy": "الخصوصية"
+    }
+  },
+  "explore": {
+    "title": "استكشاف المنظمات",
+    "searchPlaceholder": "البحث بالاسم أو EIN أو معرف التسجيل…",
+    "searchAriaLabel": "البحث عن المنظمات",
+    "filters": {
+      "country": "الدولة",
+      "sector": "القطاع",
+      "status": "الحالة",
+      "allCountries": "جميع الدول",
+      "allSectors": "جميع القطاعات",
+      "allStatuses": "جميع الحالات",
+      "minRevenue": "أدنى إيراد",
+      "maxRevenue": "أقصى إيراد",
+      "anyRevenue": "أي مبلغ",
+      "alertFilter": "التنبيهات",
+      "anyAlerts": "أي تنبيهات",
+      "hasAlerts": "بها تنبيهات",
+      "noAlerts": "لا تنبيهات",
+      "criticalOnly": "الحرجة فقط",
+      "sortBy": "الترتيب حسب",
+      "sortNameAsc": "الاسم أ–ي",
+      "sortNameDesc": "الاسم ي–أ",
+      "sortRevenueDesc": "الإيراد من الأعلى",
+      "sortRevenueAsc": "الإيراد من الأدنى",
+      "sortMostAlerts": "أكثر التنبيهات",
+      "sortNewest": "الأحدث",
+      "resetFilters": "إعادة تعيين الفلاتر"
+    },
+    "views": {
+      "card": "عرض البطاقات",
+      "table": "عرض الجدول"
+    },
+    "results": {
+      "revenue": "الإيراد",
+      "alerts": "تنبيهات",
+      "noResults": "لم يتم العثور على منظمات. حاول تعديل الفلاتر.",
+      "loading": "جارٍ تحميل المنظمات…",
+      "showing": "عرض {visible} من أصل {total} منظمة"
+    },
+    "pagination": {
+      "previous": "السابق",
+      "next": "التالي",
+      "pageLabel": "صفحة {page}",
+      "loadMore": "تحميل المزيد",
+      "loading": "جارٍ التحميل…"
+    },
+    "table": {
+      "name": "الاسم",
+      "country": "الدولة",
+      "sector": "القطاع",
+      "revenue": "الإيراد",
+      "alerts": "التنبيهات",
+      "status": "الحالة"
+    }
+  },
+  "orgDetail": {
+    "backToExplore": "العودة إلى الاستكشاف",
+    "investigate": "تحقيق",
+    "sections": {
+      "overview": "نظرة عامة",
+      "officers": "المسؤولون والمديرون",
+      "filings": "الإيداعات المالية",
+      "grants": "المنح",
+      "alerts": "تنبيهات الشذوذات"
+    },
+    "stats": {
+      "revenue": "إجمالي الإيراد",
+      "expenses": "إجمالي المصروفات",
+      "netAssets": "صافي الأصول",
+      "programRatio": "نسبة مصروفات البرنامج"
+    },
+    "officers": {
+      "name": "الاسم",
+      "title": "اللقب",
+      "compensation": "التعويض",
+      "hoursPerWeek": "ساعات/أسبوع"
+    },
+    "filings": {
+      "fiscalYear": "السنة المالية",
+      "revenue": "الإيراد",
+      "expenses": "المصروفات",
+      "netAssets": "صافي الأصول",
+      "form": "النموذج"
+    },
+    "grants": {
+      "recipient": "المستفيد",
+      "purpose": "الغرض",
+      "amount": "المبلغ",
+      "year": "السنة"
+    },
+    "alerts": {
+      "severity": "الخطورة",
+      "description": "الوصف",
+      "flaggedValue": "القيمة المُعلَّمة",
+      "detected": "تم الكشف"
+    },
+    "status": {
+      "active": "نشط",
+      "inactive": "غير نشط",
+      "revoked": "ملغى",
+      "pending": "معلق"
+    },
+    "loading": "جارٍ تحميل تفاصيل المنظمة…",
+    "notFound": "لم يتم العثور على المنظمة"
+  },
+  "commandPalette": {
+    "trigger": "البحث في كل شيء",
+    "placeholder": "البحث عن المنظمات أو الإيداعات أو التقارير…",
+    "noResults": "لا نتائج لـ",
+    "hint": "اكتب للبحث في جميع المنظمات",
+    "ariaLabel": "لوحة الأوامر",
+    "categories": {
+      "organizations": "المنظمات",
+      "recent": "الأحدث"
+    }
+  },
+  "auth": {
+    "login": {
+      "title": "تسجيل الدخول إلى OpenGive",
+      "subtitle": "أدخل بريدك الإلكتروني لاستلام رابط سحري",
+      "emailLabel": "عنوان البريد الإلكتروني",
+      "emailPlaceholder": "you@example.com",
+      "submitButton": "إرسال الرابط السحري",
+      "submitting": "جارٍ الإرسال…",
+      "successTitle": "تحقق من بريدك الإلكتروني",
+      "successMessage": "أرسلنا رابطاً سحرياً إلى {email}. انقر عليه لتسجيل الدخول.",
+      "errorTitle": "حدث خطأ ما",
+      "backToHome": "العودة إلى الرئيسية",
+      "termsNotice": "بتسجيل الدخول، أنت توافق على شروط الخدمة وسياسة الخصوصية.",
+      "continueWithGoogle": "المتابعة مع Google",
+      "continueWithGitHub": "المتابعة مع GitHub",
+      "orDivider": "أو",
+      "oauthError": "فشل تسجيل الدخول عبر OAuth. يرجى المحاولة مرة أخرى."
+    }
+  },
+  "common": {
+    "loading": "جارٍ التحميل…",
+    "error": "حدث خطأ ما",
+    "retry": "حاول مرة أخرى",
+    "close": "إغلاق",
+    "cancel": "إلغاء",
+    "save": "حفظ",
+    "delete": "حذف",
+    "edit": "تعديل",
+    "view": "عرض",
+    "back": "رجوع",
+    "next": "التالي",
+    "previous": "السابق",
+    "openGive": "OpenGive"
+  }
+}

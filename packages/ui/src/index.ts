@@ -23,6 +23,8 @@ export { ScoreGauge } from './charts/ScoreGauge';
 export type { ScoreGaugeProps, ScoreBreakdownLabel } from './charts/ScoreGauge';
 export { RatioGauge } from './charts/RatioGauge';
 export type { RatioGaugeProps } from './charts/RatioGauge';
+export { ScoreBreakdown } from './charts/ScoreBreakdown';
+export type { ScoreBreakdownProps } from './charts/ScoreBreakdown';
 
 // Maps
 export { GeoMap } from './maps/GeoMap';
@@ -42,6 +44,10 @@ export type {
   AlertSeverity,
   AlertType,
 } from './feedback/AlertCard';
+export { FreshnessBadge } from './feedback/FreshnessBadge';
+export type { FreshnessBadgeProps } from './feedback/FreshnessBadge';
+export { SourceCitation } from './feedback/SourceCitation';
+export type { SourceCitationProps } from './feedback/SourceCitation';
 
 // Utilities
 export { cn } from './lib/utils';

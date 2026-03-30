@@ -2,6 +2,9 @@ import Link from 'next/link';
 import { type Route } from 'next';
 import { getTranslations } from 'next-intl/server';
 import { Badge, Button, Card, CardContent, CardHeader } from '@opengive/ui';
+import { createServerCaller } from '../../../../lib/trpc-server';
+import { countryCodeToFlag, countryCodeToName } from '../../../../lib/countries';
+import { normalizeOrgStatus } from '../../../../lib/status';
 
 // ---------------------------------------------------------------------------
 // Types
@@ -61,7 +64,7 @@ interface OrgDetail {
 }
 
 // ---------------------------------------------------------------------------
-// Placeholder data — replace with tRPC / server fetch in Sprint 3
+// Placeholder data — fallback when Supabase is unreachable
 // ---------------------------------------------------------------------------
 
 function generateOrg(id: string, name: string, slug: string, country: string, flag: string, sector: string, revenue: number, status: OrgDetail['status'] = 'active'): OrgDetail {
@@ -107,7 +110,6 @@ const PLACEHOLDER_ORGS: Record<string, OrgDetail> = {
   'caritas-germany': generateOrg('10', 'Caritas Germany', 'caritas-germany', 'Germany', '🇩🇪', 'Social Services', 4_200_000_000),
   'feed-the-future': generateOrg('11', 'Feed the Future', 'feed-the-future', 'Kenya', '🇰🇪', 'Food Security', 55_000_000),
   'clean-water-foundation': generateOrg('12', 'Clean Water Foundation', 'clean-water-foundation', 'Canada', '🇨🇦', 'Water & Sanitation', 28_000_000, 'inactive'),
-  // United States (additional)
   'ford-foundation': generateOrg('13', 'Ford Foundation', 'ford-foundation', 'United States', '🇺🇸', 'Education', 730_000_000),
   'care-usa': generateOrg('14', 'CARE USA', 'care-usa', 'United States', '🇺🇸', 'Humanitarian', 580_000_000),
   'world-vision-usa': generateOrg('15', 'World Vision USA', 'world-vision-usa', 'United States', '🇺🇸', 'Children', 1_100_000_000),
@@ -119,7 +121,6 @@ const PLACEHOLDER_ORGS: Record<string, OrgDetail> = {
   'boys-girls-clubs': generateOrg('21', 'Boys & Girls Clubs', 'boys-girls-clubs', 'United States', '🇺🇸', 'Children', 620_000_000),
   'march-of-dimes': generateOrg('22', 'March of Dimes', 'march-of-dimes', 'United States', '🇺🇸', 'Healthcare', 190_000_000, 'inactive'),
   'planned-parenthood-federation': generateOrg('23', 'Planned Parenthood Federation', 'planned-parenthood-federation', 'United States', '🇺🇸', 'Healthcare', 2_000_000_000),
-  // United Kingdom (additional)
   'british-red-cross': generateOrg('24', 'British Red Cross', 'british-red-cross', 'United Kingdom', '🇬🇧', 'Humanitarian', 350_000_000),
   'barnardos': generateOrg('25', "Barnardo's", 'barnardos', 'United Kingdom', '🇬🇧', 'Children', 310_000_000),
   'national-trust': generateOrg('26', 'National Trust', 'national-trust', 'United Kingdom', '🇬🇧', 'Environment', 620_000_000),
@@ -127,37 +128,34 @@ const PLACEHOLDER_ORGS: Record<string, OrgDetail> = {
   'rnli': generateOrg('28', 'RNLI', 'rnli', 'United Kingdom', '🇬🇧', 'Disaster Relief', 230_000_000),
   'wellcome-trust': generateOrg('29', 'Wellcome Trust', 'wellcome-trust', 'United Kingdom', '🇬🇧', 'Medical Research', 1_400_000_000),
   'cafod': generateOrg('30', 'CAFOD', 'cafod', 'United Kingdom', '🇬🇧', 'Poverty Relief', 92_000_000),
-  // Switzerland (additional)
   'international-red-cross': generateOrg('31', 'International Red Cross', 'international-red-cross', 'Switzerland', '🇨🇭', 'Humanitarian', 2_500_000_000),
-  // Germany (additional)
   'diakonie-germany': generateOrg('32', 'Diakonie Germany', 'diakonie-germany', 'Germany', '🇩🇪', 'Social Services', 3_800_000_000),
   'giz-foundation': generateOrg('33', 'GIZ Foundation', 'giz-foundation', 'Germany', '🇩🇪', 'Global Health', 980_000_000),
-  // Canada (additional)
   'canadian-red-cross': generateOrg('34', 'Canadian Red Cross', 'canadian-red-cross', 'Canada', '🇨🇦', 'Humanitarian', 520_000_000),
   'unicef-canada': generateOrg('35', 'UNICEF Canada', 'unicef-canada', 'Canada', '🇨🇦', 'Children', 110_000_000),
-  // Australia
   'australian-red-cross': generateOrg('36', 'Australian Red Cross', 'australian-red-cross', 'Australia', '🇦🇺', 'Humanitarian', 480_000_000),
   'oxfam-australia': generateOrg('37', 'Oxfam Australia', 'oxfam-australia', 'Australia', '🇦🇺', 'Poverty Relief', 85_000_000),
   'fred-hollows-foundation': generateOrg('38', 'Fred Hollows Foundation', 'fred-hollows-foundation', 'Australia', '🇦🇺', 'Healthcare', 120_000_000),
-  // India
   'helpage-india': generateOrg('39', 'HelpAge India', 'helpage-india', 'India', '🇮🇳', 'Social Services', 42_000_000),
   'cry-india': generateOrg('40', 'CRY India', 'cry-india', 'India', '🇮🇳', 'Children', 15_000_000),
   'akshaya-patra-foundation': generateOrg('41', 'Akshaya Patra Foundation', 'akshaya-patra-foundation', 'India', '🇮🇳', 'Food Security', 78_000_000),
-  // France
   'medecins-du-monde': generateOrg('42', 'Médecins du Monde', 'medecins-du-monde', 'France', '🇫🇷', 'Healthcare', 150_000_000),
   'fondation-abbe-pierre': generateOrg('43', 'Fondation Abbé Pierre', 'fondation-abbe-pierre', 'France', '🇫🇷', 'Housing', 135_000_000),
   'action-contre-la-faim': generateOrg('44', 'Action Contre la Faim', 'action-contre-la-faim', 'France', '🇫🇷', 'Food Security', 500_000_000),
-  // Kenya (additional)
   'kenya-red-cross': generateOrg('45', 'Kenya Red Cross', 'kenya-red-cross', 'Kenya', '🇰🇪', 'Humanitarian', 38_000_000),
-  // Japan
   'japan-heart-foundation': generateOrg('46', 'Japan Heart Foundation', 'japan-heart-foundation', 'Japan', '🇯🇵', 'Healthcare', 92_000_000),
   'japan-platform': generateOrg('47', 'Japan Platform', 'japan-platform', 'Japan', '🇯🇵', 'Disaster Relief', 65_000_000),
-  // Brazil
   'gerando-falcoes': generateOrg('48', 'Gerando Falcões', 'gerando-falcoes', 'Brazil', '🇧🇷', 'Education', 28_000_000),
   'instituto-ayrton-senna': generateOrg('49', 'Instituto Ayrton Senna', 'instituto-ayrton-senna', 'Brazil', '🇧🇷', 'Education', 47_000_000),
-  // Netherlands
   'icco-cooperation': generateOrg('50', 'ICCO Cooperation', 'icco-cooperation', 'Netherlands', '🇳🇱', 'Poverty Relief', 115_000_000),
 };
+
+// ---------------------------------------------------------------------------
+// DB row to OrgDetail mapping helpers
+// ---------------------------------------------------------------------------
+
+// countryCodeToFlag, countryCodeToName, and normalizeOrgStatus are imported
+// from shared lib utilities above — no inline duplicates needed here.
 
 // ---------------------------------------------------------------------------
 // Helpers
@@ -192,6 +190,13 @@ function alertVariant(severity: AnomalyAlert['severity']): 'danger' | 'warning' 
   }
 }
 
+/** Safely parses a Drizzle numeric string (or null) into a JS number. */
+function parseNum(v: string | null | undefined): number {
+  if (v == null) return 0;
+  const n = Number(v);
+  return Number.isFinite(n) ? n : 0;
+}
+
 // ---------------------------------------------------------------------------
 // StatCard sub-component (Server Component)
 // ---------------------------------------------------------------------------
@@ -219,6 +224,89 @@ function StatCard({ label, value, sub }: { label: string; value: string; sub?: s
 }
 
 // ---------------------------------------------------------------------------
+// Live data fetcher — returns OrgDetail or null (never throws)
+// ---------------------------------------------------------------------------
+
+async function fetchOrgFromDb(slug: string): Promise<OrgDetail | null> {
+  try {
+    const trpc = await createServerCaller();
+
+    // Fetch org, financials, people, and alerts in parallel.
+    const dbOrg = await trpc.organizations.getBySlug({ slug });
+
+    const [filingRows, peopleRows, alertResult] = await Promise.all([
+      trpc.organizations.getFinancials({ orgId: dbOrg.id, years: 5 }),
+      trpc.organizations.getPeople({ orgId: dbOrg.id }),
+      trpc.organizations.getAlerts({ orgId: dbOrg.id, limit: 20 }),
+    ]);
+
+    // Map financial filings
+    const latestFiling = filingRows[filingRows.length - 1];
+    const totalRevenue = parseNum(latestFiling?.totalRevenue);
+    const totalExpenses = parseNum(latestFiling?.totalExpenses);
+    const netAssets = parseNum(latestFiling?.netAssets);
+    const programExpenseRatio = latestFiling?.programExpenseRatio ?? 0;
+
+    const filings: Filing[] = filingRows.map((f) => ({
+      id: f.id,
+      fiscalYear: f.fiscalYear,
+      revenue: parseNum(f.totalRevenue),
+      expenses: parseNum(f.totalExpenses),
+      netAssets: parseNum(f.netAssets),
+      form: f.filingType ?? '990',
+    }));
+
+    // Map people to officers
+    const officers: Officer[] = peopleRows.map((p) => ({
+      id: p.id,
+      name: p.personName,
+      title: p.title ?? p.role,
+      compensation: p.compensation != null ? parseNum(p.compensation as unknown as string) : null,
+      hoursPerWeek: null,
+    }));
+
+    // Map anomaly alerts
+    const alerts: AnomalyAlert[] = alertResult.items.map((a) => ({
+      id: a.id,
+      severity: a.severity as AnomalyAlert['severity'],
+      description: a.description,
+      flaggedValue: String((a.evidence as Record<string, unknown>)?.flaggedValue ?? '—'),
+      detectedAt: a.createdAt
+        ? new Date(a.createdAt as unknown as string).toISOString().slice(0, 10)
+        : '—',
+    }));
+
+    const countryCode = dbOrg.countryCode ?? '';
+
+    return {
+      id: dbOrg.id,
+      name: dbOrg.name,
+      slug: dbOrg.slug,
+      country: countryCodeToName(countryCode),
+      countryFlag: countryCodeToFlag(countryCode),
+      status: normalizeOrgStatus(dbOrg.status),
+      sector: dbOrg.sector ?? dbOrg.orgType ?? 'Other',
+      registrationIds: {
+        [dbOrg.registrySource]: dbOrg.registryId,
+      },
+      mission: dbOrg.mission ?? dbOrg.description ?? '',
+      totalRevenue,
+      totalExpenses,
+      netAssets,
+      programExpenseRatio,
+      officers,
+      filings,
+      // Grants are not yet fetched at org-detail level — leave empty for now
+      grants: [],
+      alerts,
+    };
+  } catch {
+    // Any error (NOT_FOUND, network, schema mismatch) — fall through to placeholder
+    return null;
+  }
+}
+
+// ---------------------------------------------------------------------------
 // Page
 // ---------------------------------------------------------------------------
 
@@ -230,8 +318,9 @@ export default async function OrgDetailPage({ params }: Props) {
   const { slug } = await params;
   const t = await getTranslations('orgDetail');
 
-  // In production this will be: const org = await serverTRPC.organizations.getBySlug({ slug });
-  const org = PLACEHOLDER_ORGS[slug] ?? null;
+  // Attempt live DB fetch; fall back to placeholder on any failure.
+  const dbOrg = await fetchOrgFromDb(slug);
+  const org: OrgDetail | null = dbOrg ?? PLACEHOLDER_ORGS[slug] ?? null;
 
   if (!org) {
     return (
@@ -437,46 +526,48 @@ export default async function OrgDetailPage({ params }: Props) {
       </section>
 
       {/* Grants */}
-      <section aria-labelledby="grants-heading" className="mb-8">
-        <Card>
-          <CardHeader>{t('sections.grants')}</CardHeader>
-          <CardContent noPadding>
-            <div className="overflow-x-auto">
-              <table className="w-full text-sm">
-                <thead>
-                  <tr style={{ borderBottom: '1px solid var(--border-subtle)' }}>
-                    {[t('grants.recipient'), t('grants.purpose'), t('grants.amount'), t('grants.year')].map((col) => (
-                      <th
-                        key={col}
-                        scope="col"
-                        className="px-5 py-3.5 text-start text-xs font-medium uppercase tracking-wide text-[var(--text-tertiary)]"
-                      >
-                        {col}
-                      </th>
-                    ))}
-                  </tr>
-                </thead>
-                <tbody>
-                  {org.grants.map((grant, i) => (
-                    <tr
-                      key={grant.id}
-                      style={{
-                        borderBottom: i < org.grants.length - 1 ? '1px solid var(--border-subtle)' : undefined,
-                      }}
-                      className="hover:bg-[var(--surface-elevated)] transition-colors"
-                    >
-                      <td className="px-5 py-3.5 font-medium text-[var(--text-primary)]">{grant.recipient}</td>
-                      <td className="px-5 py-3.5 text-[var(--text-secondary)]">{grant.purpose}</td>
-                      <td className="px-5 py-3.5 text-[var(--text-secondary)] font-mono text-xs">{formatCurrency(grant.amount)}</td>
-                      <td className="px-5 py-3.5 text-[var(--text-secondary)]">{grant.year}</td>
+      {org.grants.length > 0 && (
+        <section aria-labelledby="grants-heading" className="mb-8">
+          <Card>
+            <CardHeader>{t('sections.grants')}</CardHeader>
+            <CardContent noPadding>
+              <div className="overflow-x-auto">
+                <table className="w-full text-sm">
+                  <thead>
+                    <tr style={{ borderBottom: '1px solid var(--border-subtle)' }}>
+                      {[t('grants.recipient'), t('grants.purpose'), t('grants.amount'), t('grants.year')].map((col) => (
+                        <th
+                          key={col}
+                          scope="col"
+                          className="px-5 py-3.5 text-start text-xs font-medium uppercase tracking-wide text-[var(--text-tertiary)]"
+                        >
+                          {col}
+                        </th>
+                      ))}
                     </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          </CardContent>
-        </Card>
-      </section>
+                  </thead>
+                  <tbody>
+                    {org.grants.map((grant, i) => (
+                      <tr
+                        key={grant.id}
+                        style={{
+                          borderBottom: i < org.grants.length - 1 ? '1px solid var(--border-subtle)' : undefined,
+                        }}
+                        className="hover:bg-[var(--surface-elevated)] transition-colors"
+                      >
+                        <td className="px-5 py-3.5 font-medium text-[var(--text-primary)]">{grant.recipient}</td>
+                        <td className="px-5 py-3.5 text-[var(--text-secondary)]">{grant.purpose}</td>
+                        <td className="px-5 py-3.5 text-[var(--text-secondary)] font-mono text-xs">{formatCurrency(grant.amount)}</td>
+                        <td className="px-5 py-3.5 text-[var(--text-secondary)]">{grant.year}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </CardContent>
+          </Card>
+        </section>
+      )}
 
       {/* Anomaly Alerts */}
       {org.alerts.length > 0 && (

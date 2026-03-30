@@ -7,6 +7,8 @@ import { useTranslations } from 'next-intl';
 import { type Route } from 'next';
 import { cn } from '@opengive/ui';
 import { ThemeToggle } from '../ThemeToggle';
+import { LanguageSwitcher } from '../LanguageSwitcher';
+import { DEFAULT_LOCALE, SUPPORTED_LOCALES, type SupportedLocale } from '../../i18n/locales';
 
 // ---------------------------------------------------------------------------
 // Inline SVG icons — lightweight, no external icon dep required in Phase 1
@@ -135,6 +137,20 @@ function IconEye({ className }: { className?: string }) {
   );
 }
 
+function IconColumns({ className }: { className?: string }) {
+  return (
+    <svg className={cn('h-5 w-5', className)} viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <path
+        d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"
+        stroke="currentColor"
+        strokeWidth="1.75"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
 type NavLabelKey =
   | 'commandCenter'
   | 'explore'
@@ -143,6 +159,7 @@ type NavLabelKey =
   | 'alerts'
   | 'bookmarks'
   | 'watchlist'
+  | 'compare'
   | 'settings';
 
 interface NavItem {
@@ -167,6 +184,16 @@ export function DashboardShell({ children, onOpenSearch }: DashboardShellProps) 
   const pathname = usePathname();
   const [collapsed, setCollapsed] = React.useState(false);
 
+  // Resolve current locale from cookie (client-side, matches server-side request.ts logic)
+  const currentLocale = React.useMemo<SupportedLocale>(() => {
+    if (typeof document === 'undefined') return DEFAULT_LOCALE;
+    const match = document.cookie.match(/(?:^|;\s*)locale=([^;]+)/);
+    const raw = match?.[1];
+    return raw != null && SUPPORTED_LOCALES.includes(raw as SupportedLocale)
+      ? (raw as SupportedLocale)
+      : DEFAULT_LOCALE;
+  }, []);
+
   const navItems: NavItem[] = [
     { href: '/command-center' as Route, labelKey: 'commandCenter', icon: <IconGrid /> },
     { href: '/explore' as Route, labelKey: 'explore', icon: <IconCompass /> },
@@ -175,6 +202,7 @@ export function DashboardShell({ children, onOpenSearch }: DashboardShellProps) 
     { href: '/alerts' as Route, labelKey: 'alerts', icon: <IconBell /> },
     { href: '/bookmarks' as Route, labelKey: 'bookmarks', icon: <IconBookmark /> },
     { href: '/watchlist' as Route, labelKey: 'watchlist', icon: <IconEye /> },
+    { href: '/compare' as Route, labelKey: 'compare', icon: <IconColumns /> },
     { href: '/settings' as Route, labelKey: 'settings', icon: <IconCog /> },
   ];
 
@@ -345,6 +373,9 @@ export function DashboardShell({ children, onOpenSearch }: DashboardShellProps) 
                 {tHeader('searchShortcut')}
               </kbd>
             </button>
+
+            {/* Language switcher */}
+            <LanguageSwitcher currentLocale={currentLocale} />
 
             {/* Theme toggle */}
             <ThemeToggle />

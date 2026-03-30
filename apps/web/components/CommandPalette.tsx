@@ -12,9 +12,12 @@ import {
   Badge,
   cn,
 } from '@opengive/ui';
+import { keepPreviousData } from '@tanstack/react-query';
+import { trpc } from '../lib/trpc';
+import { countryCodeToFlag } from '../lib/countries';
 
 // ---------------------------------------------------------------------------
-// Placeholder data — replace with tRPC query in Sprint 3
+// Placeholder data — fallback when tRPC query is unavailable
 // ---------------------------------------------------------------------------
 
 interface OrgResult {
@@ -36,6 +39,21 @@ const PLACEHOLDER_RESULTS: OrgResult[] = [
   { id: '7', name: 'Gates Foundation', slug: 'gates-foundation', country: 'US', countryFlag: '🇺🇸', sector: 'Global Health' },
   { id: '8', name: 'Habitat for Humanity', slug: 'habitat-for-humanity', country: 'US', countryFlag: '🇺🇸', sector: 'Housing' },
 ];
+
+// countryCodeToFlag is imported from ../lib/countries — no local duplicate needed.
+
+// ---------------------------------------------------------------------------
+// Debounce hook
+// ---------------------------------------------------------------------------
+
+function useDebounce<T>(value: T, delayMs: number): T {
+  const [debounced, setDebounced] = React.useState<T>(value);
+  React.useEffect(() => {
+    const id = setTimeout(() => setDebounced(value), delayMs);
+    return () => clearTimeout(id);
+  }, [value, delayMs]);
+  return debounced;
+}
 
 // ---------------------------------------------------------------------------
 // SearchIcon
@@ -67,17 +85,60 @@ export function CommandPalette({ open, onOpenChange }: CommandPaletteProps) {
   const inputRef = React.useRef<HTMLInputElement>(null);
   const listRef = React.useRef<HTMLUListElement>(null);
 
-  // Filter results based on query
-  const results = React.useMemo(() => {
-    const q = query.trim().toLowerCase();
-    if (!q) return PLACEHOLDER_RESULTS.slice(0, 6);
+  // Debounce the search query to avoid firing a request on every keystroke.
+  const debouncedQuery = useDebounce(query.trim(), 300);
+
+  // Live search via tRPC — only fires when the palette is open and the user
+  // has typed something.  Falls back gracefully on error.
+  const { data: searchData, isError: searchError } = trpc.organizations.search.useQuery(
+    { query: debouncedQuery, limit: 8 },
+    {
+      // Only run the query when the palette is open and there is actual input.
+      enabled: open && debouncedQuery.length > 0,
+      // Keep previous results visible while a new fetch is in-flight.
+      placeholderData: keepPreviousData,
+      // Don't hammer the server on transient failures.
+      retry: 1,
+      staleTime: 30_000,
+    },
+  );
+
+  // Map DB rows (OrganizationRow) to the local OrgResult shape.
+  const liveResults: OrgResult[] = React.useMemo(() => {
+    if (searchError || !searchData?.items?.length) return [];
+    return searchData.items.map((org) => ({
+      id: org.id,
+      name: org.name,
+      slug: org.slug,
+      country: org.countryCode ?? '',
+      countryFlag: countryCodeToFlag(org.countryCode ?? ''),
+      sector: org.sector ?? org.orgType ?? 'Other',
+    }));
+  }, [searchData, searchError]);
+
+  // Derive final result list:
+  //   - No query typed       → show first 6 placeholder suggestions
+  //   - Query + live results → show live results
+  //   - Query + live failed  → fall back to client-side filter of placeholders
+  const results: OrgResult[] = React.useMemo(() => {
+    const q = debouncedQuery.toLowerCase();
+
+    if (!q) {
+      return PLACEHOLDER_RESULTS.slice(0, 6);
+    }
+
+    if (liveResults.length > 0) {
+      return liveResults;
+    }
+
+    // Fallback: filter placeholders client-side when live search is unavailable
     return PLACEHOLDER_RESULTS.filter(
       (org) =>
         org.name.toLowerCase().includes(q) ||
         org.country.toLowerCase().includes(q) ||
         org.sector.toLowerCase().includes(q),
     ).slice(0, 8);
-  }, [query]);
+  }, [debouncedQuery, liveResults]);
 
   // Reset state when dialog opens
   React.useEffect(() => {
@@ -220,7 +281,7 @@ export function CommandPalette({ open, onOpenChange }: CommandPaletteProps) {
                     </Badge>
                   </li>
                 ))}
-              </ul>
+            </ul>
             </>
           ) : (
             <div className="flex flex-col items-center justify-center py-10 text-center">
