@@ -4,84 +4,29 @@ import * as React from 'react';
 import { Card, CardHeader, CardContent } from '@opengive/ui';
 import { StatCard } from '@opengive/ui';
 import { DataTable, type Column } from '@opengive/ui';
+import { GeoMap, type MapMarker } from '@opengive/ui';
 
 // ---------------------------------------------------------------------------
-// Placeholder map component — replaced by GeoMap in a later sprint
+// Sample map markers — in production these come from tRPC geo.getMarkers
 // ---------------------------------------------------------------------------
 
-function GlobalMapPlaceholder() {
-  return (
-    <div
-      role="img"
-      aria-label="Global charity activity map — loading"
-      style={{
-        width: '100%',
-        height: '100%',
-        minHeight: '240px',
-        backgroundColor: 'var(--surface-overlay)',
-        borderRadius: 'var(--radius-sm)',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        position: 'relative',
-        overflow: 'hidden',
-      }}
-    >
-      {/* Grid lines to suggest a map */}
-      <svg
-        style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', opacity: 0.12 }}
-        aria-hidden="true"
-        preserveAspectRatio="none"
-      >
-        {Array.from({ length: 8 }).map((_, i) => (
-          <line
-            key={`h${i}`}
-            x1="0"
-            y1={`${(i + 1) * 12.5}%`}
-            x2="100%"
-            y2={`${(i + 1) * 12.5}%`}
-            stroke="#6A7E5A"
-            strokeWidth="0.5"
-          />
-        ))}
-        {Array.from({ length: 12 }).map((_, i) => (
-          <line
-            key={`v${i}`}
-            x1={`${(i + 1) * (100 / 13)}%`}
-            y1="0"
-            x2={`${(i + 1) * (100 / 13)}%`}
-            y2="100%"
-            stroke="#6A7E5A"
-            strokeWidth="0.5"
-          />
-        ))}
-        {[
-          [25, 40], [35, 35], [50, 45], [55, 30], [65, 40],
-          [75, 50], [30, 60], [45, 65], [60, 55],
-        ].map(([cx, cy], i) => (
-          <circle
-            key={i}
-            cx={`${cx}%`}
-            cy={`${cy}%`}
-            r="3"
-            fill="#6A7E5A"
-            opacity="0.6"
-          />
-        ))}
-      </svg>
-      <span
-        style={{
-          position: 'relative',
-          fontSize: 'var(--text-xs)',
-          color: 'var(--text-tertiary)',
-          fontFamily: 'var(--font-body)',
-        }}
-      >
-        Global Map — Sprint 4 GeoMap integration
-      </span>
-    </div>
-  );
-}
+const SAMPLE_MARKERS: MapMarker[] = [
+  { id: '1', name: 'American Red Cross', lat: 38.9, lng: -77.04, country: 'United States', score: 82, alertCount: 0 },
+  { id: '2', name: 'Oxfam International', lat: 51.75, lng: -1.26, country: 'United Kingdom', score: 78, alertCount: 1 },
+  { id: '3', name: 'Doctors Without Borders', lat: 46.2, lng: 6.15, country: 'Switzerland', score: 91, alertCount: 0 },
+  { id: '4', name: 'UNICEF', lat: 40.75, lng: -73.97, country: 'United States', score: 88, alertCount: 0 },
+  { id: '5', name: 'Save the Children', lat: 51.5, lng: -0.12, country: 'United Kingdom', score: 75, alertCount: 2 },
+  { id: '6', name: 'World Vision', lat: -1.29, lng: 36.82, country: 'Kenya', score: 67, alertCount: 1 },
+  { id: '7', name: 'CARE International', lat: 46.05, lng: 14.51, country: 'Switzerland', score: 80, alertCount: 0 },
+  { id: '8', name: 'Habitat for Humanity', lat: 33.75, lng: -84.39, country: 'United States', score: 85, alertCount: 0 },
+  { id: '9', name: 'Plan International', lat: 51.5, lng: -0.09, country: 'United Kingdom', score: 72, alertCount: 0 },
+  { id: '10', name: 'ActionAid', lat: 28.61, lng: 77.23, country: 'India', score: 65, alertCount: 3 },
+  { id: '11', name: 'Médecins du Monde', lat: 48.86, lng: 2.35, country: 'France', score: 79, alertCount: 0 },
+  { id: '12', name: 'Caritas Australia', lat: -33.87, lng: 151.21, country: 'Australia', score: 83, alertCount: 0 },
+  { id: '13', name: 'Canadian Red Cross', lat: 45.42, lng: -75.7, country: 'Canada', score: 86, alertCount: 0 },
+  { id: '14', name: 'Aga Khan Foundation', lat: 46.2, lng: 6.14, country: 'Switzerland', score: 90, alertCount: 0 },
+  { id: '15', name: 'BRAC', lat: 23.81, lng: 90.41, country: 'Bangladesh', score: 58, alertCount: 2 },
+];
 
 // ---------------------------------------------------------------------------
 // Placeholder Sankey
@@ -377,8 +322,12 @@ export default function CommandCenterPage() {
             >
               Global Activity Map
             </CardHeader>
-            <CardContent className="p-3">
-              <GlobalMapPlaceholder />
+            <CardContent noPadding>
+              <GeoMap
+                markers={SAMPLE_MARKERS}
+                height="300px"
+                onMarkerClick={(m) => window.location.href = `/explore/${m.id}`}
+              />
             </CardContent>
           </Card>
         </div>

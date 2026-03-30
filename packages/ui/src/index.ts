@@ -24,6 +24,10 @@ export type { ScoreGaugeProps, ScoreBreakdownLabel } from './charts/ScoreGauge';
 export { RatioGauge } from './charts/RatioGauge';
 export type { RatioGaugeProps } from './charts/RatioGauge';
 
+// Maps
+export { GeoMap } from './maps/GeoMap';
+export type { MapMarker } from './maps/GeoMap';
+
 // Data Display
 export { StatCard } from './data-display/StatCard';
 export { DataTable } from './data-display/DataTable';
