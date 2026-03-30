@@ -377,7 +377,7 @@ export default function CommandCenterPage() {
             >
               Global Activity Map
             </CardHeader>
-            <CardContent noPadding style={{ padding: '0.75rem' }}>
+            <CardContent className="p-3">
               <GlobalMapPlaceholder />
             </CardContent>
           </Card>
@@ -425,7 +425,7 @@ export default function CommandCenterPage() {
         <div style={{ gridColumn: 'span 2' }}>
           <Card style={{ minHeight: '260px' }}>
             <CardHeader>Money Flows</CardHeader>
-            <CardContent noPadding style={{ padding: '0.75rem' }}>
+            <CardContent className="p-3">
               <SankeyPlaceholder />
             </CardContent>
           </Card>

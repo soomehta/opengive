@@ -399,7 +399,7 @@ export default function FlowsPage() {
         >
           {filters.aggregation === 'organization' ? 'By Organization' : 'By Country'}
         </CardHeader>
-        <CardContent noPadding style={{ padding: '1rem', height: 'calc(100% - 45px)' }}>
+        <CardContent className="p-4" style={{ height: 'calc(100% - 45px)' }}>
           {flowData.links.length === 0 ? (
             <div
               style={{
