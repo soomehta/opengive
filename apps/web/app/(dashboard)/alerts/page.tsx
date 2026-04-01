@@ -235,10 +235,10 @@ export default function AlertsPage() {
     }, 400);
   }
 
+  const [expandedId, setExpandedId] = React.useState<string | null>(null);
+
   function handleAlertClick(alert: AlertCardData) {
-    if (alert.organizationSlug) {
-      router.push(`/explore/${alert.organizationSlug}?alertId=${alert.id}` as Parameters<typeof router.push>[0]);
-    }
+    setExpandedId((prev) => (prev === alert.id ? null : alert.id));
   }
 
   return (
@@ -342,12 +342,117 @@ export default function AlertsPage() {
       {visible.length > 0 ? (
         <div className="flex flex-col gap-3 mb-6" role="feed" aria-label="Anomaly alerts">
           {visible.map((alert) => (
-            <AlertCard
-              key={alert.id}
-              alert={alert}
-              onClick={handleAlertClick}
-              highlighted={alert.id === highlightedId}
-            />
+            <div key={alert.id}>
+              <AlertCard
+                alert={alert}
+                onClick={handleAlertClick}
+                highlighted={alert.id === highlightedId || alert.id === expandedId}
+              />
+              {/* Expanded detail panel */}
+              {expandedId === alert.id && (
+                <div
+                  className="mx-2 -mt-1 rounded-b-2xl border border-t-0 p-5 transition-all duration-300"
+                  style={{
+                    borderColor: 'var(--border-default)',
+                    backgroundColor: 'var(--surface-raised)',
+                  }}
+                  role="region"
+                  aria-label={`Details for alert: ${alert.description}`}
+                >
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
+                    <div>
+                      <p className="text-xs font-medium uppercase tracking-wide mb-1" style={{ color: 'var(--text-tertiary)' }}>Organization</p>
+                      <a
+                        href={`/explore/${alert.organizationSlug}`}
+                        className="text-sm font-semibold hover:underline"
+                        style={{ color: 'var(--accent-trust)' }}
+                      >
+                        {alert.organizationName}
+                      </a>
+                    </div>
+                    <div>
+                      <p className="text-xs font-medium uppercase tracking-wide mb-1" style={{ color: 'var(--text-tertiary)' }}>Alert Type</p>
+                      <p className="text-sm" style={{ color: 'var(--text-primary)' }}>
+                        {alert.type.replace(/_/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase())}
+                      </p>
+                    </div>
+                    <div>
+                      <p className="text-xs font-medium uppercase tracking-wide mb-1" style={{ color: 'var(--text-tertiary)' }}>Confidence</p>
+                      <div className="flex items-center gap-2">
+                        <div className="flex-1 h-2 rounded-full overflow-hidden" style={{ backgroundColor: 'var(--surface-elevated)' }}>
+                          <div
+                            className="h-full rounded-full transition-all duration-500"
+                            style={{
+                              width: `${alert.confidence}%`,
+                              backgroundColor: alert.confidence >= 80 ? 'var(--signal-danger)' : alert.confidence >= 60 ? 'var(--signal-caution)' : 'var(--signal-neutral)',
+                            }}
+                          />
+                        </div>
+                        <span className="text-xs font-mono" style={{ color: 'var(--text-secondary)' }}>{alert.confidence}%</span>
+                      </div>
+                    </div>
+                    <div>
+                      <p className="text-xs font-medium uppercase tracking-wide mb-1" style={{ color: 'var(--text-tertiary)' }}>Detected</p>
+                      <p className="text-sm" style={{ color: 'var(--text-secondary)' }}>
+                        {new Date(alert.createdAt).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="mb-4">
+                    <p className="text-xs font-medium uppercase tracking-wide mb-1" style={{ color: 'var(--text-tertiary)' }}>Description</p>
+                    <p className="text-sm leading-relaxed" style={{ color: 'var(--text-primary)' }}>
+                      {alert.description}
+                    </p>
+                  </div>
+
+                  <div className="mb-4">
+                    <p className="text-xs font-medium uppercase tracking-wide mb-1" style={{ color: 'var(--text-tertiary)' }}>What This Means</p>
+                    <p className="text-sm leading-relaxed" style={{ color: 'var(--text-secondary)' }}>
+                      {alert.severity === 'critical'
+                        ? 'This is a critical finding that requires immediate attention. The pattern detected suggests a significant risk that should be investigated by regulators or watchdog organizations.'
+                        : alert.severity === 'high'
+                        ? 'This is a high-severity finding. While not immediately critical, it indicates a notable anomaly that warrants further investigation and monitoring.'
+                        : alert.severity === 'medium'
+                        ? 'This is a moderate finding. The anomaly is notable but may have legitimate explanations. Further context from the organization would help clarify.'
+                        : 'This is a low-severity observation. It may indicate a minor irregularity or simply be a statistical outlier. Monitor for patterns over time.'}
+                    </p>
+                  </div>
+
+                  <div className="flex items-center gap-3 pt-3" style={{ borderTop: '1px solid var(--border-subtle)' }}>
+                    <a
+                      href={`/explore/${alert.organizationSlug}`}
+                      className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full text-xs font-medium transition-all duration-200"
+                      style={{
+                        backgroundColor: 'var(--accent-trust)',
+                        color: 'white',
+                      }}
+                    >
+                      View Organization Profile
+                    </a>
+                    <a
+                      href={`/investigate?org=${alert.organizationSlug}`}
+                      className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full text-xs font-medium border transition-all duration-200"
+                      style={{
+                        borderColor: 'var(--border-default)',
+                        color: 'var(--text-secondary)',
+                        backgroundColor: 'var(--surface-overlay)',
+                      }}
+                    >
+                      Open in Investigation
+                    </a>
+                    <button
+                      type="button"
+                      onClick={() => setExpandedId(null)}
+                      className="ms-auto text-xs hover:underline"
+                      style={{ color: 'var(--text-tertiary)' }}
+                    >
+                      Collapse
+                    </button>
+                  </div>
+                </div>
+              )}
+            </div>
           ))}
         </div>
       ) : (
